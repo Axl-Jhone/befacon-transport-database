@@ -8,13 +8,13 @@
 body {
     display: flex;
     height: 100vh; /* make the body fill the entire screen */
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 }
 
 .sidebar {
-    background-color: #183A59;
-    width: 272px;
-    color: #FFFFFF;
+    background-color: #183a59;
+    width: 250px;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -23,14 +23,15 @@ body {
 .logo-header {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 10px;
     padding: 1rem;
     font-weight: bold;
+    margin-bottom: 0.1rem;
 }
 
 .logo-icon {
-    background-color: #A60000;
-    color: #FFFFFF;
+    background-color: #a60000;
+    color: #ffffff;
     height: 35px;
     width: 35px;
     display: flex;
@@ -42,5 +43,62 @@ body {
     margin-left: auto;
     cursor: pointer;
     font-size: 1.25rem;
+}
+
+/* Search box */
+.search-box {
+    background-color: #0e2940;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.1rem;
+}
+
+.search-box i {
+    margin-right: 10px;
+}
+
+.search-box input {
+    background-color: transparent;
+    color: #ffffff;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+/* Menu Section */
+.section-title {
+    font-size: 0.8rem;
+    color: #9fb1c1;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+
+}
+.menu-section {
+    padding: 1rem;
+}
+
+.menu-section.bottom {
+    margin-top: auto;
+}
+
+.menu-section ul{
+    list-style: none;
+}
+
+.menu-section ul li {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    gap: 10px;
+    color: #e2eaf3;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.menu-section ul li:hover {
+    background-color: #28547a;
 }
 
