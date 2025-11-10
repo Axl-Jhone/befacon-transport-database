@@ -102,3 +102,32 @@ body {
     background-color: #28547a;
 }
 
+/* Main Content Area */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    background-color: #183a59;
+    height: 60px;
+}
+
+.user-profile {
+    color: white;
+    margin-left: auto;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.content-area {
+    background-color: gray;
+}
+
+.content {
+    color: black;
+}
+
