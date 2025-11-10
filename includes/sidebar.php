@@ -13,19 +13,19 @@
     <div class="menu-section">
         <p class="section-title">DASHBOARD</p>
         <ul>
-            <li><i class="fa-solid fa-chart-pie"></i>Dashboard</li>
-            <li><i class="fa-solid fa-route"></i>Trips</li>
-            <li><i class="fa-solid fa-users"></i>Drivers</li>
-            <li><i class="fa-solid fa-bus"></i>Vehicles</li>
+            <li><a href="index.php?page=dashboard"><i class="fa-solid fa-chart-pie"></i>Dashboard</a></li>
+            <li><a href="index.php?page=trips"><i class="fa-solid fa-route"></i>Trips</a></li>
+            <li><a href="index.php?page=drivers"><i class="fa-solid fa-users"></i>Drivers</a></li>
+            <li><a href="index.php?page=vehicles"><i class="fa-solid fa-bus"></i>Vehicles</a></li>
         </ul>
     </div>
     
     <div class="menu-section bottom">
         <p class="section-title">OTHERS</p>
         <ul>
-            <li><i class="fa-solid fa-gear"></i>Settings</li>
-            <li><i class="fa-solid fa-circle-question"></i>Help</li>
-            <li><i class="fa-solid fa-right-from-bracket"></i>Log out</li>
+            <li><a href="index.php?page=settings"><i class="fa-solid fa-gear"></i>Settings</a></li>
+            <li><a href="index.php?page=help"><i class="fa-solid fa-circle-question"></i>Help</a></li>
+            <li><a href="index.php?page=logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>
         </ul>
     </div>
 </div>

@@ -84,11 +84,11 @@ body {
     margin-top: auto;
 }
 
-.menu-section ul{
+.menu-section ul {
     list-style: none;
 }
 
-.menu-section ul li {
+.menu-section ul li a {
     display: flex;
     align-items: center;
     padding: 0.6rem 0.8rem;
@@ -96,6 +96,7 @@ body {
     color: #e2eaf3;
     cursor: pointer;
     border-radius: 6px;
+    text-decoration: none;
 }
 
 .menu-section ul li:hover {

@@ -15,7 +15,15 @@
     <div class="main-content">
         <?php include 'includes/topbar.php' ?>
         <div class="content-area">
-            <div class="content">Under Construction</div>
+            <?php
+                $page = $_GET['page'] ?? 'dashboard'; // show dashboard.php as the home (default) page
+                $file = "partials/{$page}.php";
+                if (file_exists($file)) {
+                    include $file;
+                } else {
+                    echo "<div class='content'><p>Page not found.</p></div>";
+                }
+            ?>
         </div>
     </div>
 </body>
