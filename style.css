@@ -17,7 +17,7 @@ body {
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .logo-header {
@@ -108,6 +108,7 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1;
+    height: 100vh;
 }
 
 .topbar {
@@ -124,11 +125,46 @@ body {
     cursor: pointer;
 }
 
-.content-area {
-    background-color: gray;
-}
-
 .content {
     color: black;
 }
 
+.content-area {
+    display: flex;
+    background-color: rgb(231, 231, 231);
+    flex: 1;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* Table display */
+.table-content {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 1600px; /* prevent it from stretching too far */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.table-wrapper {
+  overflow-x: auto; /* horizontal scroll only for the table */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+
+th, td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    padding: 1rem;
+    white-space: nowrap;
+}

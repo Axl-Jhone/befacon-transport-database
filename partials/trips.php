@@ -1,14 +1,13 @@
-<div class="trips-content">
-    <div class="content-title">Trips</div>
-    <div class="table-display">
+<div class="table-content">
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th colspan="11" id="table-title"><h1>Trips</h1></th>
+                    <th colspan="10" id="table-title"><h1>Trips</h1></th>
                     <th>Add Trip</th>
                 </tr>
                 <tr>
-                    <th>Trip Name</th>
+                    <th>Trip ID</th>
                     <th>Driver</th>
                     <th>Vehicle</th>
                     <th>Purpose</th>
@@ -27,7 +26,15 @@
         $sql = "
             SELECT
                 t.trip_ID AS trip_id,
-                CONCAT(d.driver_fname, ' ', d.driver_middleinitial, '. ', d.driver_lname) AS driver_name,
+                CONCAT_WS(' ', 
+                    d.driver_fname,
+                    CASE 
+                        WHEN d.driver_middleinitial IS NULL OR d.driver_middleinitial = '' 
+                        THEN NULL
+                        ELSE CONCAT(d.driver_middleinitial, '.')
+                    END,
+                    d.driver_lname
+                ) AS driver_name,
                 CONCAT(vt.vehicle_type, ' - ', v.plate_no) AS vehicle_name,
                 p.purpose AS purpose_name,
                 ts.origin,
@@ -44,6 +51,7 @@
             JOIN trip_schedule_info ts ON t.trip_id = ts.trip_id
             JOIN trip_status_data tsd ON t.trip_status_id = tsd.trip_status_id
             JOIN trip_cost_info tc ON t.trip_id = tc.trip_id
+            ORDER BY t.trip_ID ASC
         ";
 
         $result = $connection->query($sql);
