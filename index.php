@@ -38,6 +38,7 @@ if (!isset($_SESSION['user'])) {
                 } else {
                     echo "<div class='content'><p>Page not found.</p></div>";
                 }
+                include 'partials/modal-add-trip.php';
             ?>
         </div>
     </div>
