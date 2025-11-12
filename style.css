@@ -148,13 +148,10 @@ body {
     border-radius: 10px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
+    overflow-x: auto;
 }
 
-.table-wrapper {
-  overflow-x: auto; /* horizontal scroll only for the table */
-}
-
-table {
+/* table {
     width: 100%;
     border-collapse: collapse;
     table-layout: auto;
@@ -167,4 +164,4 @@ th, td {
     vertical-align: middle;
     padding: 1rem;
     white-space: nowrap;
-}
+} */
