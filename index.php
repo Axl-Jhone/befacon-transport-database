@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFaCon Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="main.js"></script>
-    <script src="https://kit.fontawesome.com/da8e65aaa6.js" crossorigin="anonymous"></script> 
+    <script src="https://kit.fontawesome.com/da8e65aaa6.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <?php require("db_connect.php"); ?>
@@ -26,5 +29,7 @@
             ?>
         </div>
     </div>
+</div>
+    <script src="main.js"></script>
 </body>
 </html>
