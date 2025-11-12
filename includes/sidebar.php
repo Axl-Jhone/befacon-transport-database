@@ -25,7 +25,7 @@
         <ul>
             <li><a href="index.php?page=settings"><i class="fa-solid fa-gear"></i>Settings</a></li>
             <li><a href="index.php?page=help"><i class="fa-solid fa-circle-question"></i>Help</a></li>
-            <li><a href="index.php?page=logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>
+            <li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>
         </ul>
     </div>
 </div>
