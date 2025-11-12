@@ -168,3 +168,69 @@ th, td {
     padding: 1rem;
     white-space: nowrap;
 }
+/* Only affects login.php */
+body.login-page, html.login-page {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* ensures all text inside body is centered */
+}
+
+/* Login screen container */
+body.login-page #login-screen {
+    width: 100%;
+}
+
+/* Login box styling */
+body.login-page .login-box {
+    background-color: #ccc;
+    padding: 30px 40px;
+    width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 0 auto; /* center horizontally */
+}
+
+/* Ensure labels and headings are centered */
+body.login-page h1,
+body.login-page label {
+    text-align: center;
+}
+
+/* Input styling */
+body.login-page input[type="text"],
+body.login-page input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border-radius: 4px;
+    border: 1px solid #999;
+    box-sizing: border-box;
+}
+
+/* Button styling */
+body.login-page button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+body.login-page button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive for smaller screens */
+@media screen and (max-width: 450px) {
+    body.login-page .login-box {
+        width: 90%;
+        padding: 20px;
+    }
+}
