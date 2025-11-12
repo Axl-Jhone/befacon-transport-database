@@ -79,5 +79,4 @@
     ?>
         </tbody>
     </table>
-    <?php include 'partials/add-trip.php'; ?>
 </div>
