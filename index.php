@@ -9,7 +9,9 @@
     <script src="https://kit.fontawesome.com/da8e65aaa6.js" crossorigin="anonymous"></script> 
 
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
-    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script> 
+    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script> 
 </head>
 <body>
     <?php require("db_connect.php"); ?>
