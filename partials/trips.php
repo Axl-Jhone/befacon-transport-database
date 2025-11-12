@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th colspan="10" id="table-title"><h1>Trips</h1></th>
-                <th>Add Trip</th>
+                <th><button class="add-button">Add Trip</button></th>
             </tr>
             <tr>
                 <th>Trip ID</th>

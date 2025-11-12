@@ -151,6 +151,27 @@ body {
     overflow-x: auto;
 }
 
+/* Add button */
+.add-button {
+    background-color: #183a59;
+    color: #ffffff;
+    width: 100px;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #a60000;
+  color: white;
+}
+
 /* table {
     width: 100%;
     border-collapse: collapse;
