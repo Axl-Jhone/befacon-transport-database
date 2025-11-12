@@ -204,6 +204,56 @@ body {
     text-align: center;
 }
 
+.trip-form label {
+    display: block;
+    margin-top: 1rem;
+}
+
+.trip-form select, 
+.trip-form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.modal-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.action-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: #2e86de;
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+#close { background: gray; }
+
+.trip-form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trip-form-table th {
+  text-align: left;
+  width: 30%;
+  padding: 8px;
+}
+
+.trip-form-table td {
+  padding: 8px;
+}
+
+.trip-form-table select,
+.trip-form-table input {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
 /* table {
     width: 100%;
     border-collapse: collapse;
