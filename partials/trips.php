@@ -39,8 +39,8 @@
                 p.purpose AS purpose_name,
                 ts.origin,
                 ts.destination,
-                ts.sched_depart_time AS departure_datetime,
-                ts.sched_arrival_time AS arrival_datetime, 
+                ts.sched_depart_datetime AS departure_datetime,
+                ts.sched_arrival_datetime AS arrival_datetime, 
                 tsd.trip_status,
                 tc.total_cost
             FROM trip_info t
