@@ -152,6 +152,10 @@ body {
     overflow-x: auto;
 }
 
+.dashboard-welcome {
+    margin: auto;
+}
+
 /* Add button */
 .action-button {
     background-color: #183a59;
@@ -169,8 +173,8 @@ body {
 }
 
 .action-button:hover {
-  background-color: #a60000;
-  color: white;
+    background-color: #a60000;
+    color: white;
 }
 
 /* Modal */
@@ -233,38 +237,23 @@ body {
 #close { background: gray; }
 
 .trip-form-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .trip-form-table th {
-  text-align: left;
-  width: 30%;
-  padding: 8px;
+    text-align: left;
+    width: 30%;
+    padding: 8px;
 }
 
 .trip-form-table td {
-  padding: 8px;
+    padding: 8px;
 }
 
 .trip-form-table select,
 .trip-form-table input {
-  width: 100%;
-  padding: 6px;
-  box-sizing: border-box;
-}
-
-/* table {
     width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;
+    padding: 6px;
+    box-sizing: border-box;
 }
-
-
-th, td {
-    border: 1px solid black;
-    text-align: center;
-    vertical-align: middle;
-    padding: 1rem;
-    white-space: nowrap;
-} */
