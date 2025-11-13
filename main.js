@@ -2,6 +2,12 @@ $(document).ready( function () {
     $('#trips').DataTable({
         "ordering": false,
     });
+    $('#drivers').DataTable({
+        "ordering": false,
+    });
+    $('#vehicles').DataTable({
+        "ordering": false,
+    });
 } );
 
 const open = document.getElementById('open')
