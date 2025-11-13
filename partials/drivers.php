@@ -1,7 +1,9 @@
 <div class="table-content">
-    <div class="table-wrapper">
-        <table>
+        <table id="drivers" class="display">
             <thead>
+                <tr>
+                    <th colspan="8" id="table-title"><h1>Drivers</h1></th>
+                </tr>
                 <tr>
                     <th> Driver Id </th>
                     <th> Last Name </th>
@@ -44,5 +46,4 @@
     ?>
 </tbody>
         </table>
-    </div>
 </div>
