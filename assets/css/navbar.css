@@ -1,0 +1,98 @@
+.navbar {
+    background-color: #183a59;
+    color: white;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-bottom: #10263a;
+    padding: 0 30px;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid #12293d;
+    padding-right: 15px;
+    padding-left: 10px;
+}
+
+.brand-text {
+    font-size: 1.35rem;
+    line-height: 1;
+    letter-spacing: 0.5px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-icon {
+    margin: 0 -5px;
+}
+
+.menu-icon, .user-profile, .settings-icon {
+    cursor: pointer;
+}
+
+
+
+
+/* 
+
+.topbar {
+    background-color: #183a59;
+    color: #ffffff;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 1.25rem;
+    position: fixed;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.left-menu, .right-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.topbar-title, .user-name {
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1;
+    position: relative;
+    top: -1px;
+}
+
+.topbar-title {
+    font-size: 1.5rem;
+}
+
+.hamburger, .kebab {
+    display: block;
+    cursor: pointer;
+}
+
+.kebab {
+    margin-right: -10px;
+    margin-left: -10px;
+} */
