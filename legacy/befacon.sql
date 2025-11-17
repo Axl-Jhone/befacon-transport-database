@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2025 at 01:12 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Nov 17, 2025 at 05:19 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,26 +61,26 @@ CREATE TABLE `costing_rules` (
 --
 
 INSERT INTO `costing_rules` (`cost_rule_id`, `vehicle_type_id`, `access_id`, `purpose_id`, `base_price`, `fee_per_km`, `until_year_validity`) VALUES
-(1, 1, 1, 1, '50.00', '5.00', 2027),
-(2, 1, 2, 2, '60.00', '4.50', 2025),
-(3, 1, 2, 3, '65.00', '4.00', 2026),
-(4, 1, 1, 4, '55.00', '5.50', 2027),
-(5, 2, 1, 1, '30.00', '3.50', 2028),
-(6, 2, 2, 2, '35.00', '3.25', 2025),
-(7, 2, 2, 3, '40.00', '3.00', 2026),
-(8, 2, 1, 4, '32.00', '3.75', 2029),
-(9, 3, 1, 1, '45.00', '4.50', 2028),
-(10, 3, 2, 2, '50.00', '4.00', 2027),
-(11, 3, 2, 3, '55.00', '3.75', 2025),
-(12, 3, 1, 4, '48.00', '4.25', 2025),
-(13, 4, 1, 1, '40.00', '4.00', 2026),
-(14, 4, 2, 2, '45.00', '3.75', 2026),
-(15, 4, 2, 3, '50.00', '3.50', 2027),
-(16, 4, 1, 4, '42.00', '4.25', 2025),
-(17, 1, 1, 2, '58.00', '5.00', 2025),
-(18, 2, 2, 4, '38.00', '3.25', 2029),
-(19, 3, 1, 2, '52.00', '4.25', 2028),
-(20, 4, 2, 1, '48.00', '3.75', 2025);
+(1, 1, 1, 1, 50.00, 5.00, '2027'),
+(2, 1, 2, 2, 60.00, 4.50, '2025'),
+(3, 1, 2, 3, 65.00, 4.00, '2026'),
+(4, 1, 1, 4, 55.00, 5.50, '2027'),
+(5, 2, 1, 1, 30.00, 3.50, '2028'),
+(6, 2, 2, 2, 35.00, 3.25, '2025'),
+(7, 2, 2, 3, 40.00, 3.00, '2026'),
+(8, 2, 1, 4, 32.00, 3.75, '2029'),
+(9, 3, 1, 1, 45.00, 4.50, '2028'),
+(10, 3, 2, 2, 50.00, 4.00, '2027'),
+(11, 3, 2, 3, 55.00, 3.75, '2025'),
+(12, 3, 1, 4, 48.00, 4.25, '2025'),
+(13, 4, 1, 1, 40.00, 4.00, '2026'),
+(14, 4, 2, 2, 45.00, 3.75, '2026'),
+(15, 4, 2, 3, 50.00, 3.50, '2027'),
+(16, 4, 1, 4, 42.00, 4.25, '2025'),
+(17, 1, 1, 2, 58.00, 5.00, '2025'),
+(18, 2, 2, 4, 38.00, 3.25, '2029'),
+(19, 3, 1, 2, 52.00, 4.25, '2028'),
+(20, 4, 2, 1, 48.00, 3.75, '2025');
 
 -- --------------------------------------------------------
 
@@ -186,26 +186,26 @@ CREATE TABLE `trip_cost_info` (
 --
 
 INSERT INTO `trip_cost_info` (`trip_id`, `cost_rule_id`, `distance_km`, `total_cost`) VALUES
-(1, 1, '300.00', '1550.00'),
-(2, 2, '350.00', '1627.50'),
-(3, 3, '180.00', '1370.00'),
-(4, 4, '90.00', '550.00'),
-(5, 5, '60.00', '240.00'),
-(6, 6, '300.00', '1275.00'),
-(7, 7, '120.00', '400.00'),
-(8, 8, '450.00', '1768.75'),
-(9, 9, '220.00', '1050.00'),
-(10, 10, '300.00', '1250.00'),
-(11, 11, '200.00', '830.00'),
-(12, 12, '250.00', '1113.75'),
-(13, 13, '350.00', '1460.00'),
-(14, 14, '100.00', '420.00'),
-(15, 15, '80.00', '330.00'),
-(16, 16, '120.00', '510.00'),
-(17, 17, '400.00', '2580.00'),
-(18, 18, '220.00', '715.00'),
-(19, 19, '180.00', '1020.00'),
-(20, 20, '300.00', '1575.00');
+(1, 1, 300.00, 1550.00),
+(2, 2, 350.00, 1627.50),
+(3, 3, 180.00, 1370.00),
+(4, 4, 90.00, 550.00),
+(5, 5, 60.00, 240.00),
+(6, 6, 300.00, 1275.00),
+(7, 7, 120.00, 400.00),
+(8, 8, 450.00, 1768.75),
+(9, 9, 220.00, 1050.00),
+(10, 10, 300.00, 1250.00),
+(11, 11, 200.00, 830.00),
+(12, 12, 250.00, 1113.75),
+(13, 13, 350.00, 1460.00),
+(14, 14, 100.00, 420.00),
+(15, 15, 80.00, 330.00),
+(16, 16, 120.00, 510.00),
+(17, 17, 400.00, 2580.00),
+(18, 18, 220.00, 715.00),
+(19, 19, 180.00, 1020.00),
+(20, 20, 300.00, 1575.00);
 
 -- --------------------------------------------------------
 
@@ -309,6 +309,47 @@ INSERT INTO `trip_status_data` (`trip_status_id`, `trip_status`) VALUES
 (4, 'Cancelled'),
 (2, 'In Transit'),
 (3, 'Waiting');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_login`
+--
+
+CREATE TABLE `user_login` (
+  `User_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `passcode` varchar(50) DEFAULT NULL,
+  `role` enum('admin','driver') NOT NULL,
+  `driver_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_login`
+--
+
+INSERT INTO `user_login` (`User_id`, `username`, `passcode`, `role`, `driver_id`) VALUES
+(3, 'Admin1', 'AdMin1', 'admin', NULL),
+(4, 'joandelacruz1', 'driver123', 'driver', 1),
+(5, 'joserizal2', 'driver123', 'driver', 2),
+(6, 'andresbonifacio3', 'driver123', 'driver', 3),
+(7, 'emilioaguinaldo4', 'driver123', 'driver', 4),
+(8, 'mariasantos5', 'driver123', 'driver', 5),
+(9, 'juanreyes6', 'driver123', 'driver', 6),
+(10, 'kristinedelarosa7', 'driver123', 'driver', 7),
+(11, 'carlomendoza8', 'driver123', 'driver', 8),
+(12, 'angelicacruz9', 'driver123', 'driver', 9),
+(13, 'miguelvillanueva10', 'driver123', 'driver', 10),
+(14, 'theresacastillo11', 'driver123', 'driver', 11),
+(15, 'markvelasco12', 'driver123', 'driver', 12),
+(16, 'katrinaflores13', 'driver123', 'driver', 13),
+(17, 'anthonynavarro14', 'driver123', 'driver', 14),
+(18, 'jessicaaquino15', 'driver123', 'driver', 15),
+(19, 'paologonzales16', 'driver123', 'driver', 16),
+(20, 'camillefernandez17', 'driver123', 'driver', 17),
+(21, 'luissoriano18', 'driver123', 'driver', 18),
+(22, 'angelcaballero19', 'driver123', 'driver', 19),
+(23, 'ramonbautista20', 'driver123', 'driver', 20);
 
 -- --------------------------------------------------------
 
@@ -535,6 +576,14 @@ ALTER TABLE `trip_status_data`
   ADD UNIQUE KEY `trip_status` (`trip_status`);
 
 --
+-- Indexes for table `user_login`
+--
+ALTER TABLE `user_login`
+  ADD PRIMARY KEY (`User_id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `driver_id` (`driver_id`);
+
+--
 -- Indexes for table `vehicle_condition_data`
 --
 ALTER TABLE `vehicle_condition_data`
@@ -578,6 +627,16 @@ ALTER TABLE `vehicle_type_data`
   ADD UNIQUE KEY `vehicle_type` (`vehicle_type`);
 
 --
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `user_login`
+--
+ALTER TABLE `user_login`
+  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -611,6 +670,12 @@ ALTER TABLE `trip_info`
   ADD CONSTRAINT `trip_info_ibfk_3` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle_info` (`vehicle_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `trip_info_ibfk_4` FOREIGN KEY (`purpose_id`) REFERENCES `purpose_data` (`purpose_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `trip_info_ibfk_5` FOREIGN KEY (`trip_status_id`) REFERENCES `trip_status_data` (`trip_status_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_login`
+--
+ALTER TABLE `user_login`
+  ADD CONSTRAINT `user_login_ibfk_1` FOREIGN KEY (`driver_id`) REFERENCES `driver_info` (`driver_id`);
 
 --
 -- Constraints for table `vehicle_info`
