@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 05:19 PM
+-- Generation Time: Nov 17, 2025 at 05:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -319,7 +319,7 @@ INSERT INTO `trip_status_data` (`trip_status_id`, `trip_status`) VALUES
 CREATE TABLE `user_login` (
   `User_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `passcode` varchar(50) DEFAULT NULL,
+  `passcode` varchar(50) NOT NULL,
   `role` enum('admin','driver') NOT NULL,
   `driver_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -329,27 +329,27 @@ CREATE TABLE `user_login` (
 --
 
 INSERT INTO `user_login` (`User_id`, `username`, `passcode`, `role`, `driver_id`) VALUES
-(3, 'Admin1', 'AdMin1', 'admin', NULL),
-(4, 'joandelacruz1', 'driver123', 'driver', 1),
-(5, 'joserizal2', 'driver123', 'driver', 2),
-(6, 'andresbonifacio3', 'driver123', 'driver', 3),
-(7, 'emilioaguinaldo4', 'driver123', 'driver', 4),
-(8, 'mariasantos5', 'driver123', 'driver', 5),
-(9, 'juanreyes6', 'driver123', 'driver', 6),
-(10, 'kristinedelarosa7', 'driver123', 'driver', 7),
-(11, 'carlomendoza8', 'driver123', 'driver', 8),
-(12, 'angelicacruz9', 'driver123', 'driver', 9),
-(13, 'miguelvillanueva10', 'driver123', 'driver', 10),
-(14, 'theresacastillo11', 'driver123', 'driver', 11),
-(15, 'markvelasco12', 'driver123', 'driver', 12),
-(16, 'katrinaflores13', 'driver123', 'driver', 13),
-(17, 'anthonynavarro14', 'driver123', 'driver', 14),
-(18, 'jessicaaquino15', 'driver123', 'driver', 15),
-(19, 'paologonzales16', 'driver123', 'driver', 16),
-(20, 'camillefernandez17', 'driver123', 'driver', 17),
-(21, 'luissoriano18', 'driver123', 'driver', 18),
-(22, 'angelcaballero19', 'driver123', 'driver', 19),
-(23, 'ramonbautista20', 'driver123', 'driver', 20);
+(1, 'Admin1', 'AdMin1', 'admin', NULL),
+(2, 'joandelacruz1', 'driver123', 'driver', 1),
+(3, 'joserizal2', 'driver123', 'driver', 2),
+(4, 'andresbonifacio3', 'driver123', 'driver', 3),
+(5, 'emilioaguinaldo4', 'driver123', 'driver', 4),
+(6, 'mariasantos5', 'driver123', 'driver', 5),
+(7, 'juanreyes6', 'driver123', 'driver', 6),
+(8, 'kristinedelarosa7', 'driver123', 'driver', 7),
+(9, 'carlomendoza8', 'driver123', 'driver', 8),
+(10, 'angelicacruz9', 'driver123', 'driver', 9),
+(11, 'miguelvillanueva10', 'driver123', 'driver', 10),
+(12, 'theresacastillo11', 'driver123', 'driver', 11),
+(13, 'markvelasco12', 'driver123', 'driver', 12),
+(14, 'katrinaflores13', 'driver123', 'driver', 13),
+(15, 'anthonynavarro14', 'driver123', 'driver', 14),
+(16, 'jessicaaquino15', 'driver123', 'driver', 15),
+(17, 'paologonzales16', 'driver123', 'driver', 16),
+(18, 'camillefernandez17', 'driver123', 'driver', 17),
+(19, 'luissoriano18', 'driver123', 'driver', 18),
+(20, 'angelcaballero19', 'driver123', 'driver', 19),
+(21, 'ramonbautista20', 'driver123', 'driver', 20);
 
 -- --------------------------------------------------------
 
@@ -634,7 +634,7 @@ ALTER TABLE `vehicle_type_data`
 -- AUTO_INCREMENT for table `user_login`
 --
 ALTER TABLE `user_login`
-  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
