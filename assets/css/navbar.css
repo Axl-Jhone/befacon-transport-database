@@ -9,10 +9,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-bottom: #10263a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);    
     padding: 0 25px;
-    z-index: 2;
+    z-index: 1000;
 }
 
 .nav-left, .nav-right {
@@ -20,6 +19,17 @@
     align-items: center;
     gap: 15px;
     height: 100%;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    padding: 7px;
+    border-radius: 4px;
+}
+
+.menu-toggle:hover {
+    background-color: var(--bg-menu-hover);
 }
 
 .menu-icon {
@@ -39,7 +49,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    border-right: 1px solid #12293d;
+    border-right: 1px solid var(--border-clr);
     padding-right: 15px;
     padding-left: 3px;
 }
@@ -83,6 +93,8 @@
     background-color: #163047;
 }
 
-.menu-icon, .user-profile, .settings-icon {
+.menu-toggle, .user-profile, .settings-icon {
     cursor: pointer;
 }
+
+

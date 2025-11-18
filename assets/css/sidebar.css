@@ -1,4 +1,132 @@
 .sidebar {
+    height: calc(100vh - 60px);
+    width: 257px;
+    padding: 15px 0 0 0;
+    background-color: var(--bg-navbar);
+    color: var(--text-clr);
+    /* border-right: 1px solid var(--border-clr); */
+    position: sticky;
+    top: 60px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: 300ms ease-in-out;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar.close {
+    width: 82px;
+}
+
+.section-title {
+    font-size: 0.8rem;
+    color: var(--section-title-clr);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    padding-left: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li.active a {
+    background-color: var(--bg-menu-hover);
+    color: var(--accent-clr);
+    svg {
+        fill: var(--accent-clr);
+    }
+}
+
+.sidebar .menu-item, .sidebar .submenu-item {
+    text-decoration: none;
+    color: #e2eaf3;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 15px 27px;
+}
+
+.sidebar .menu-item span {
+    transition: 0.2s;
+    opacity: 1;
+}
+
+.sidebar.close .menu-item span {
+    opacity: 0;
+}
+
+.dropdown-btn {
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar svg {
+    height: 21px;
+    width: 21px;
+    fill: var(--text-clr);
+    flex-shrink: 0;
+}
+
+.sidebar .menu-text {
+    flex-grow: 1;
+}
+
+.sidebar .menu-item:hover {
+    background-color: var(--bg-menu-hover);
+    color: var(--accent-clr);
+
+    svg {
+        fill: var(--accent-clr);
+    }
+}
+
+.sidebar .sub-menu {
+    display: grid;
+    grid-template-rows: 0fr; /* responsive like height: auto */
+    transition: 300ms ease-in-out;
+    > div {
+        overflow: hidden;
+    }
+}
+
+.sidebar .sub-menu li a:hover {
+    background-color: var(--bg-submenu-hover);
+    color: var(--text-submenu-hover);
+}
+
+.sidebar .sub-menu a {
+    padding-left: 60px;
+}
+
+.sidebar .sub-menu.show {
+    grid-template-rows: 1fr;
+}
+
+.rotate svg:last-child {
+    rotate: 180deg;
+}
+
+.dropdown-btn svg {
+    transition: 200ms ease;
+}
+
+.bottom-menu {
+    margin-top: auto;
+}
+
+
+
+
+
+
+
+/* .sidebar {
     background-color: #183a59;
     color: white;
     width: 257px;
@@ -11,6 +139,11 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+}
+
+svg {
+    height: 1.125rem;
+    width: 1.125rem;
 }
 
 .section-title {
@@ -68,4 +201,4 @@
     background-color: #13293d;
     color: #4ab5c4;
 }
-
+ */

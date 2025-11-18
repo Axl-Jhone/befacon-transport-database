@@ -1,3 +1,18 @@
+:root {
+    /* Backgrounds */
+    --bg-page: #f4f6f8;           
+    --bg-navbar: #183a59;         
+    --bg-menu-hover: #163047; 
+    --bg-submenu-hover: #13293d;  
+
+    /* Text colors */
+    --text-clr: #ffffff;
+    --section-title-clr: #9fb1c1;       
+    --accent-clr: #54e0f3;  
+    --text-submenu-hover: #4ab5c4;
+    --border-clr: #12293d;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,17 +21,14 @@
 }
 
 body {
-    background-color: #f4f6f8;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    background-color: var(--bg-page);
+    width: 100%;
 }
 
 .main-container {
-    display: flex;
-    flex: 1;
+    display: grid;
+    grid-template-columns: auto 1fr;
     margin-top: 60px;
-    height: calc(100vh - 60px);
 }
 
 
