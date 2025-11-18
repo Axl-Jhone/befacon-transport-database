@@ -1,3 +1,19 @@
+<?php 
+    $routes = [
+        'dashboard' => 'pages/dashboard.php',
+        'trips' => 'pages/trips.php',
+        'vehicles' => 'pages/vehicles.php'
+    ];
+
+    $page_key = $_GET['page'] ?? 'dashboard';
+
+    if (array_key_exists($page_key, $routes)) {
+        $content_path = $routes[$page_key];
+    } else {
+        $content_path = 'pages/error404.php';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,13 +29,18 @@
 </head>
 <body>
     <?php include ('components/navbar.php') ?>
-    
     <div class="main-container">
         <?php include ('components/sidebar.php') ?>
         <div class="content-area">
             <main>
                 <div class="container">
-                    <h2>bruh</h2>
+                    <?php  
+                        if (file_exists($content_path)) {
+                            include $content_path;
+                        } else {
+                            echo "<h2>Page not found</h2>";
+                        }
+                    ?>
                 </div>
             </main>
         </div>
