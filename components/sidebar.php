@@ -1,5 +1,5 @@
 <nav id="sidebar" class="sidebar">
-    <p class="section-title"><span>MENU</span></p>
+    <p class="section-title">MENU</p>
     <ul>
         <li class="active">
             <a href="#" class="menu-item">
@@ -54,108 +54,14 @@
     <div class="bottom-menu">
         <p class="section-title">OTHERS</p>
         <ul>
-            <a href="#" class="menu-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
-                <span>About us</span>
-            </a>
+            <li>
+                <a href="#" class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM224 160a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm-8 64l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
+                    <span>About us</span>
+                </a>
+            </li>
         </ul>
+        
+        <footer>BeFaCon Copyright © 2025</footer>
     </div>
 </nav>
-
-<!-- <aside class="sidebar">
-    <p class="section-title">MENU</p>
-    <ul class="main-menu">
-        <li>
-            <a class="menu-link" href="#">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-
-        <li>
-            <a class="menu-link" href="#">
-                <i class="fa-solid fa-route"></i>
-                <span>Trips</span>
-            </a>
-        </li>
-
-        <li>
-            <a class="menu-link" href="#">
-                <i class="fa-solid fa-users"></i>
-                <span>Drivers</span>
-            </a>
-        </li>
-
-        <li>
-            <a class="menu-link" href="#">
-                <i class="fa-solid fa-taxi"></i>
-                <span>Vehicles</span>
-            </a>
-        </li>
-
-        <li class="has-submenu">
-            <a class="menu-link" href="#">
-                <i class="fa-solid fa-table"></i>
-                <span>Lookup Tables</span>
-                <i class="fa-solid fa-angle-right"></i>
-            </a>
-
-            <ul class="submenu">
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Access Type</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Driver Status</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>License Type</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Purpose Type</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Trip Status</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Vehicle Condition</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Vehicle Status</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="submenu-link" href="#">
-                        <span>Vehicle Type</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-
-    <div class="bottom">
-        <p class="section-title">OTHERS</p>
-        <ul class="main-menu">
-            <li><a class="menu-link" href="#"><i class="fa-solid fa-circle-info"></i><span>About us</span></a></li>
-        </ul>
-    </div>
-</aside> -->
