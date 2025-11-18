@@ -28,25 +28,28 @@
                 </ul>
             </nav>
             <div id="login">
-                <a href="login.php">Login</a>
+                <a href="pages/login.php">Login</a>
             </div>
         </div>
 
         <div id="landing-content">
+            <img src="assets/img/landing_page/van.png" alt="Van Image">
+
             <h2>Welcome to BeFaCon Transportation Co.</h2>
             <p>Your Partner in Motion.</p>
             <a href="#about" class="btn">Learn More</a>
             <a href="#contact" class="btn">Contact Us</a>
         </div>
 
-        <div id="about">
+        <div id="about" class="info">
             <h2>About Us</h2>
-            <p></p>
+            <p>BeFaCon Transport Co. was  founded by Leonardo Benando, Miguel Jr. Factora, and Ax’l Conchada on the year December 25, 2005. Based in Baguio City, Philippines.</p>
         </div>
 
-        <div id="contact">
+        <div id="contact" class="info">
             <h2>Contact Us</h2>
-            <p></p>
+            <p>support@befacon.com</p>
+            <p>(000) 123-4567</p>
         </div>
 
         <div id="footer">
