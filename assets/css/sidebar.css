@@ -1,7 +1,6 @@
 .sidebar {
     height: calc(100vh - 60px);
-    width: 257px;
-    padding: 15px 0 0 0;
+    width: 260px;
     background-color: var(--bg-navbar);
     color: var(--text-clr);
     /* border-right: 1px solid var(--border-clr); */
@@ -16,15 +15,28 @@
 }
 
 .sidebar.close {
-    width: 82px;
+    width: 80px;
 }
 
-.section-title {
+/* .section-title {
     font-size: 0.8rem;
     color: var(--section-title-clr);
     letter-spacing: 1px;
     margin-bottom: 8px;
     padding-left: 10px;
+} */
+
+.sidebar .menu-item span, .sidebar .dropdown-btn span {
+    transition: 0.2s;
+    opacity: 1;
+}
+
+.sidebar.close .menu-item span, .sidebar.close .dropdown-btn span {
+    opacity: 0;
+}
+
+.sidebar.sidebar.close svg:last-child {
+    rotate: 180;
 }
 
 .sidebar ul {
@@ -39,24 +51,27 @@
     }
 }
 
-.sidebar .menu-item, .sidebar .submenu-item {
+.sidebar .menu-item, 
+.sidebar .submenu-item,
+.sidebar .dropdown-btn {
     text-decoration: none;
     color: #e2eaf3;
     display: flex;
     align-items: center;
-    gap: 15px;
-    font-size: 1.1rem;
     width: 100%;
-    padding: 15px 27px;
+    font-size: 1.1rem;
+    height: 60px; 
+    overflow: hidden;
 }
 
-.sidebar .menu-item span {
-    transition: 0.2s;
-    opacity: 1;
-}
-
-.sidebar.close .menu-item span {
-    opacity: 0;
+.sidebar svg {
+    width: 75px;
+    height: 25px;   
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    fill: var(--text-clr);
+    flex-shrink: 0;
 }
 
 .dropdown-btn {
@@ -64,13 +79,6 @@
     background: none;
     border: none;
     cursor: pointer;
-}
-
-.sidebar svg {
-    height: 21px;
-    width: 21px;
-    fill: var(--text-clr);
-    flex-shrink: 0;
 }
 
 .sidebar .menu-text {
@@ -101,7 +109,7 @@
 }
 
 .sidebar .sub-menu a {
-    padding-left: 60px;
+    padding-left: 75px;
 }
 
 .sidebar .sub-menu.show {

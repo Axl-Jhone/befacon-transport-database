@@ -1,5 +1,4 @@
 <nav id="sidebar" class="sidebar">
-    <p class="section-title">MENU</p>
     <ul>
         <li class="active">
             <a href="index.php?page=dashboard" class="menu-item">
@@ -30,10 +29,10 @@
         </li>
 
         <li>
-            <button onclick="toggleSubMenu(this)" class="menu-item dropdown-btn">
+            <button onclick="toggleSubMenu(this)" class="dropdown-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M256 160l0 96 128 0 0-96-128 0zm-64 0l-128 0 0 96 128 0 0-96zM0 320L0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64l0-96zm384 0l-128 0 0 96 128 0 0-96zM192 416l0-96-128 0 0 96 128 0z"/></svg>
                 <span class="menu-text">Lookup Tables</span>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>            
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>            
             </button>
             
             <ul class="sub-menu">
@@ -52,7 +51,6 @@
     </ul>
 
     <div class="bottom-menu">
-        <p class="section-title">OTHERS</p>
         <ul>
             <li>
                 <a href="#" class="menu-item">
