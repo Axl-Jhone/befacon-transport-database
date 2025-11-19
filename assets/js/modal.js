@@ -114,3 +114,56 @@ function openUniversalModal(templateId, title, data = null) {
     // 4. Show the Modal with transition
     openModal('universalModal');
 }
+
+/**
+ * 1. Opens the universal modal and populates the delete template
+ * with the specific ID of the trip to be deleted.
+ * * @param {number} tripId The ID of the trip row to be deleted.
+ */
+function openDeleteModal(tripId) {
+    // 1. Get the template content
+    const template = document.getElementById('confirm-delete-template');
+    const content = template.content.cloneNode(true);
+
+    // 2. Locate the dynamic elements within the cloned content
+    const hiddenInput = content.getElementById('deleteTripIdHidden');
+    const displayElement = content.getElementById('deleteTripIdDisplay');
+
+    // 3. Update the elements with the correct trip ID
+    if (hiddenInput) {
+        hiddenInput.value = tripId;
+    }
+    if (displayElement) {
+        displayElement.textContent = tripId;
+    }
+
+    // 4. Assuming you have a function to populate and display your modal
+    // (You will need to implement or adapt this function)
+    if (typeof showModal === 'function') {
+        showModal('universalModal', 'Delete Confirmation', content);
+    } else {
+        console.error("showModal function is not defined.");
+    }
+}
+
+/**
+ * 2. Submits the hidden form when the user confirms deletion.
+ */
+function proceedWithSimpleDeletion() {
+    // 1. Get the form element by its ID
+    const form = document.getElementById('deleteActionForm');
+    
+    if (form) {
+        // 2. Submit the form
+        // This will trigger a POST request to 'pages/endpoints/delete_trip.php'
+        form.submit();
+        
+        // 3. Optional: Close the modal immediately after submission
+        if (typeof closeModal === 'function') {
+            closeModal('universalModal');
+        }
+    } else {
+        console.error("Delete form element not found.");
+    }
+}
+

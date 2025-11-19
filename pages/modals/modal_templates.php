@@ -2,7 +2,7 @@
 /**
  * Generates all reusable HTML <template> tags for various modal views.
  */
-function generateAllContentTemplates() {
+function generateContentTemplates() {
     $output = '
         <template id="trip-view-template">
             <input type="hidden" id="modalTripIdHidden" value="">
@@ -58,6 +58,10 @@ function generateAllContentTemplates() {
                     <p id="modalArrival" class="detail-value"></p>
                 </div>
             </div>
+
+            <div class="modal-footer">
+                <button class="close-btn-footer" onclick="closeModal(\'universalModal\')">Close</button>
+            </div>
         </template>
         
         <template id="vehicle-view-template">
@@ -88,6 +92,26 @@ function generateAllContentTemplates() {
                     <p class="detail-label">Last Maintenance Date</p>
                     <p id="modalVehicleLastMaint" class="detail-value"></p>
                 </div>
+            </div>
+        </template>
+    ';
+    echo $output;
+
+    $output = '
+        <template id="confirm-delete-template">
+            
+            <form id="deleteActionForm" method="POST" action="pages/endpoints/delete_trip.php">
+                <input type="hidden" name="trip_id" id="deleteTripIdHidden" value="">
+            </form>
+
+            <div class="confirm-message-container">
+                <h4 class="confirm-title">Are you sure you want to delete this trip?</h4>
+                <p>This action is irreversible and will permanently remove Trip ID: <strong id="deleteTripIdDisplay"></strong> from the database.</p>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="close-btn-footer" onclick="closeModal(\'universalModal\')">Cancel</button>
+                <button type="button" class="delete-btn-action" onclick="proceedWithSimpleDeletion()">Delete</button>
             </div>
         </template>
     ';

@@ -3,7 +3,6 @@
     width: 260px;
     background-color: var(--bg-navbar);
     color: var(--text-clr);
-    /* border-right: 1px solid var(--border-clr); */
     position: sticky;
     top: 60px;
     overflow-y: auto;
@@ -17,14 +16,6 @@
 .sidebar.close {
     width: 80px;
 }
-
-/* .section-title {
-    font-size: 0.8rem;
-    color: var(--section-title-clr);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    padding-left: 10px;
-} */
 
 .sidebar .menu-item span, .sidebar .dropdown-btn span {
     transition: 0.2s;

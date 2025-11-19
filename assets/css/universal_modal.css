@@ -73,7 +73,6 @@
     background-color: var(--bg-menu-hover); 
 }
 
-
 .trip-details-grid, 
 .vehicle-details-grid { 
     display: grid; 
@@ -103,9 +102,10 @@
 }
 
 .modal-footer { 
-    padding: 15px 20px; 
+    padding-top: 20px; 
     border-top: 1px solid #eee; 
     text-align: right; 
+    margin-top: 20px;
 }
 
 .close-btn-footer { 
@@ -120,4 +120,14 @@
 
 .close-btn-footer:hover {
     background-color: #245685;
+}
+
+.delete-btn-action {
+    background-color: var(--danger-clr); 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; 
 }

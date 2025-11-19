@@ -10,12 +10,7 @@
                         </button>
                     </div>
                     
-                    <div id="modalContentArea" class="modal-body-container">
-                        </div>
-                    
-                    <div class="modal-footer">
-                        <button class="close-btn-footer" onclick="closeModal(\'universalModal\')">Close</button>
-                    </div>
+                    <div id="modalContentArea" class="modal-body-container"></div>
                 </div>
             </div>
         ';
