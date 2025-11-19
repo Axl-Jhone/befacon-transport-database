@@ -35,10 +35,6 @@
     opacity: 0;
 }
 
-.sidebar.sidebar.close svg:last-child {
-    rotate: 180;
-}
-
 .sidebar ul {
     list-style: none;
 }

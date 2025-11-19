@@ -4,6 +4,7 @@
     --bg-navbar: #183a59;         
     --bg-menu-hover: #163047; 
     --bg-submenu-hover: #13293d;  
+    --bg-action-icons-hover: #d6d6d6;
 
     /* Text colors */
     --text-clr: #ffffff;
@@ -11,6 +12,11 @@
     --accent-clr: #54e0f3;  
     --text-submenu-hover: #4ab5c4;
     --border-clr: #12293d;
+
+    /* Table Alternating Colors */
+    --bg-row-odd: #ffffff;
+    --bg-row-even: #f0f0f0;
+    --bg-divider: #e0e0e0;
 }
 
 * {
@@ -31,8 +37,124 @@ body {
     margin-top: 60px;
 }
 
+.content-area {
+    border: 5px solid indianred;
+    padding: 50px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid black;
+    padding: 50px 20px;
+    border-radius: 4px;
+}
+
+.content-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    border: 5px solid red;
+}
+
+.page-title {
+    text-align: center;
+}   
+
+.page-title, .filter-search, .add-btn {
+    border: 5px solid green;
+}
+
+.content-table {
+    border: 2px solid black;
+    border-radius: 4px;
+    overflow: hidden; 
+}
+
+.trip-schedule {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    text-align: center;
+}
+
+.trip-schedule td,
+.trip-schedule th {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--bg-divider); 
+    border-right: 1px solid var(--bg-divider);
+    border-top: none; 
+    border-left: none;
+    vertical-align: middle;
+}
+
+.trip-schedule th:last-child,
+.trip-schedule td:last-child {
+    border-right: none;
+}
+
+.trip-schedule tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.trip-schedule thead th {
+    background-color: var(--bg-navbar); 
+    color: var(--text-clr); 
+}
+
+.trip-schedule th:first-child,
+.trip-schedule td:first-child {
+    width: 6%; 
+    min-width: 50px; 
+}
+
+.trip-schedule td:nth-child(2) {
+    text-align: left;
+}
 
 
+.trip-schedule tbody tr:nth-child(odd) {
+    background-color: var(--bg-row-odd);
+}
+
+.trip-schedule tbody tr:nth-child(even) {
+    background-color: var(--bg-row-even);
+}
+
+.action-cell {
+    text-align: center;
+    width: 10%;
+}
+
+.action-cell .action-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1.5px;
+    border-radius: 4px;
+
+    svg {
+        fill: var(--bg-navbar);
+    }
+}
+
+.action-cell .action-icon:hover {
+    background-color: var(--bg-action-icons-hover);
+}
+
+.action-cell .action-icon:nth-child(2) {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.content-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 5px solid orange;
+}
 
 
 
