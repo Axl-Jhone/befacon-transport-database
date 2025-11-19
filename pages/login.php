@@ -1,3 +1,48 @@
+<?php
+session_start();
+require '../includes/db_connect.php';
+
+if (isset($_SESSION['user'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: admin_view.php');
+    } else {
+        header('Location: driver_view.php');
+    }
+    exit;
+}
+
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    $sql = "SELECT * FROM user_login WHERE email = ? AND passcode = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ss", $email, $password);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        
+        $_SESSION['user'] = $user['email']; 
+        $_SESSION['role'] = $user['role'];  
+
+        // Redirect based on role
+        if ($user['role'] === 'admin') {
+            header('Location: admin_view.php');
+        } else {
+            header('Location: driver_view.php');
+        }
+        exit;
+    } else {
+        $error = "Invalid username/email or password.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +50,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../assets/css/login.css">  
+    <script defer src="../assets/js/login.js"></script>
 </head>
 <body>
     <div class = "left-side"></div>
@@ -18,12 +64,22 @@
             <h2>Welcome Back!</h2>
             <p>Please enter your credentials to continue</p>
 
+            <?php if (!empty($error)) : ?>
+            <div style="color: red; margin-bottom: 10px;">
+            <?= $error ?>
+            </div>
+            <?php endif; ?>
+
             <form action="login.php" method="POST">
                 <label>Email Address</label>
                 <input type="email" name="email" required placeholder="Enter email">
 
                 <label>Password</label>
-                <input type="password" name="password" required placeholder="Enter password">
+                <div class="password-container">
+                    <input type="password" id="password" name="password" placeholder="Enter password">
+                    <img src="../assets/img/login_page/closed.png" id="eyeIcon" class="eye-icon" alt="Toggle password">
+                </div>
+
 
                 <div class="remember-row">
                     <div><input type="checkbox" name="remember">Remember me</div>
@@ -35,7 +91,6 @@
         </div>
 
         <div class="footer-links">
-            <a href="#">Help</a>
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
         </div>

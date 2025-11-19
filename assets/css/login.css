@@ -125,3 +125,27 @@ body {
     color: #555;
     text-decoration: none;
 }
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* space for icon */
+    /*height: 45px;*/
+    box-sizing: border-box;
+}
+
+.password-container .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-65%);
+    width: 24px;      /* scale down large PNG */
+    height: 24px;
+    cursor: pointer;
+    display: block;   /* ensure visible */
+}
+
