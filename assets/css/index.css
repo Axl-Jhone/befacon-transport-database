@@ -1,0 +1,306 @@
+/* GLOBAL RESETS AND VARIABLES */
+:root {
+    /* Mapped Admin Theme Colors for Landing Page */
+    --primary-color: #183a59; /* Main Dark Blue (from --bg-navbar) */
+    --secondary-color: #ffffff; /* White (from --text-clr) */
+    
+    /* Used for navigation link hover (Cyan) */
+    --accent-color: #54e0f3; 
+    /* NEW: Used for main CTA button hover (Orange) */
+    --cta-accent-color: #e67e22; 
+    
+    --light-bg: #f4f6f8; /* Very Light Background (from --bg-page) */
+
+    --font-family: sans-serif;
+    --header-height: 60px; /* Fixed height for header */
+}
+
+body {
+    margin: 0;
+    /* Content starts below the fixed header */
+    padding-top: var(--header-height); 
+    font-family: var(--font-family);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+/* ----------------------------------- */
+/* --- TOP BAR (HEADER) --- */
+#top-bar {
+    /* Solid Dark Blue Background */
+    background-color: var(--primary-color); 
+
+    /* White text color for contrast against dark background */
+    color: var(--secondary-color); 
+    font-size: 0.9rem;
+    font-weight: bold;
+
+    padding: 0 2rem;
+    height: var(--header-height); 
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box; 
+    z-index: 1000;
+}
+
+#top-bar #location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#top-bar #nav-menu {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#top-bar #nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+#top-bar #nav-menu ul li a {
+    text-decoration: none;
+    display: block;
+    /* Vertically center the link text within the 60px header */
+    padding: calc(var(--header-height) / 2 - 0.9rem); 
+    height: 100%;
+    /* Link text is white */
+    color: var(--secondary-color); 
+    transition: color 0.2s;
+}
+
+#top-bar #nav-menu ul li a:hover {
+    /* Hover color is Bright Cyan */
+    color: var(--accent-color);
+}
+
+/* ----------------------------------- */
+/* --- BUTTON STYLES --- */
+.btn-login {
+    text-decoration: none;
+    display: block;
+    color: var(--secondary-color); /* White text */
+
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    background-color: var(--primary-color); /* Dark Blue background */
+
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn-login:hover {
+    background-color: transparent;
+    color: var(--secondary-color);
+    /* White border on hover since the header is dark */
+    box-shadow: inset 0 0 0 2px var(--secondary-color); 
+}
+
+/* Styles for the landing page buttons (.btn) */
+.btn {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--primary-color); /* Dark Blue button */
+    color: var(--secondary-color);
+}
+
+.btn-primary:hover {
+    /* Primary CTA hover color is vibrant Orange */
+    background-color: var(--cta-accent-color); 
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color); /* Dark Blue text */
+    border: 2px solid var(--primary-color); /* Dark Blue border */
+}
+
+.btn-secondary:hover {
+    /* On hover, fill the button with Dark Blue */
+    background-color: var(--primary-color); 
+    color: var(--secondary-color); /* White text */
+}
+
+/* ----------------------------------- */
+/* --- LANDING CONTENT (HERO SECTION) --- */
+#landing-content {
+    /* Adjusted min-height to account for the fixed header */
+    min-height: calc(100vh - var(--header-height)); 
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--light-bg); /* New Light Background */
+}
+
+.hero-text {
+    z-index: 10;
+    max-width: 50%;
+}
+
+#landing-content h2 {
+    font-size: 1.5rem;
+    color: #666; 
+    margin-bottom: 0.5rem;
+}
+
+#landing-content h1 {
+    font-weight: bold;
+    font-size: 5rem;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+#landing-content img {
+    position: absolute;
+    right: 5rem;
+    bottom: 0;
+    height: auto;
+    max-height: 85%;
+    width: auto;
+    max-width: 50%; 
+    object-fit: contain;
+    z-index: 5;
+}
+
+/* ----------------------------------- */
+/* --- ABOUT & CONTACT INFO (SECTIONS) --- */
+.info {
+    padding: 8rem 4rem;
+    background-color: var(--secondary-color);
+    border-top: 1px solid #ddd;
+}
+
+#contact.info {
+    background-color: var(--light-bg); /* New Light Background */
+}
+
+.info h2 {
+    font-size: 2.5rem;
+    text-align: left;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid var(--primary-color); /* Dark Blue line */
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.info p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: left;
+    max-width: 65ch;
+    margin-bottom: 1rem;
+}
+
+.contact-details p {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: normal;
+}
+
+/* ----------------------------------- */
+/* --- FOOTER --- */
+#footer {
+    background-color: var(--primary-color); /* Dark Blue background */
+    color: var(--secondary-color);
+    text-align: center;
+    /* Shortened vertical padding */
+    padding: 1rem 0; 
+    font-size: 0.9rem;
+}
+
+/* ----------------------------------- */
+/* --- RESPONSIVENESS (Mobile/Tablet adjustments) --- */
+@media (max-width: 1024px) {
+    #landing-content {
+        flex-direction: column;
+        text-align: center;
+        /* Adjusted padding-top to account for the fixed header */
+        padding-top: calc(var(--header-height) + 2rem); 
+        min-height: auto; 
+    }
+    
+    .hero-text {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+    
+    #landing-content h1 {
+        font-size: 3rem;
+    }
+
+    #landing-content img {
+        position: static;
+        max-width: 80%;
+        height: auto;
+        margin-top: 1rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    /* Adjust padding for smaller screens */
+    #top-bar, .info {
+        padding: 0 1rem;
+    }
+    
+    .info {
+        padding: 4rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #top-bar {
+        font-size: 0.8rem;
+    }
+
+    /* Hide nav menu on smaller screens to make room */
+    #top-bar #nav-menu {
+        display: none;
+    }
+    
+    #landing-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .info h2 {
+        font-size: 2rem;
+    }
+}
