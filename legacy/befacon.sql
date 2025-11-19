@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 05:30 PM
+-- Generation Time: Nov 19, 2025 at 02:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -318,7 +318,7 @@ INSERT INTO `trip_status_data` (`trip_status_id`, `trip_status`) VALUES
 
 CREATE TABLE `user_login` (
   `User_id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `passcode` varchar(50) NOT NULL,
   `role` enum('admin','driver') NOT NULL,
   `driver_id` int(11) DEFAULT NULL
@@ -328,28 +328,28 @@ CREATE TABLE `user_login` (
 -- Dumping data for table `user_login`
 --
 
-INSERT INTO `user_login` (`User_id`, `username`, `passcode`, `role`, `driver_id`) VALUES
-(1, 'Admin1', 'AdMin1', 'admin', NULL),
-(2, 'joandelacruz1', 'driver123', 'driver', 1),
-(3, 'joserizal2', 'driver123', 'driver', 2),
-(4, 'andresbonifacio3', 'driver123', 'driver', 3),
-(5, 'emilioaguinaldo4', 'driver123', 'driver', 4),
-(6, 'mariasantos5', 'driver123', 'driver', 5),
-(7, 'juanreyes6', 'driver123', 'driver', 6),
-(8, 'kristinedelarosa7', 'driver123', 'driver', 7),
-(9, 'carlomendoza8', 'driver123', 'driver', 8),
-(10, 'angelicacruz9', 'driver123', 'driver', 9),
-(11, 'miguelvillanueva10', 'driver123', 'driver', 10),
-(12, 'theresacastillo11', 'driver123', 'driver', 11),
-(13, 'markvelasco12', 'driver123', 'driver', 12),
-(14, 'katrinaflores13', 'driver123', 'driver', 13),
-(15, 'anthonynavarro14', 'driver123', 'driver', 14),
-(16, 'jessicaaquino15', 'driver123', 'driver', 15),
-(17, 'paologonzales16', 'driver123', 'driver', 16),
-(18, 'camillefernandez17', 'driver123', 'driver', 17),
-(19, 'luissoriano18', 'driver123', 'driver', 18),
-(20, 'angelcaballero19', 'driver123', 'driver', 19),
-(21, 'ramonbautista20', 'driver123', 'driver', 20);
+INSERT INTO `user_login` (`User_id`, `email`, `passcode`, `role`, `driver_id`) VALUES
+(1, 'Admin1@gmail.com', 'AdMin1', 'admin', NULL),
+(4, 'jdelacruz1@gmail.com', 'driver123', 'driver', 1),
+(5, 'jrizal2@gmail.com', 'driver123', 'driver', 2),
+(6, 'abonifacio3@gmail.com', 'driver123', 'driver', 3),
+(7, 'eaguinaldo4@gmail.com', 'driver123', 'driver', 4),
+(8, 'msantos5@gmail.com', 'driver123', 'driver', 5),
+(9, 'jreyes6@gmail.com', 'driver123', 'driver', 6),
+(10, 'kdelarosa7@gmail.com', 'driver123', 'driver', 7),
+(11, 'cmendoza8@gmail.com', 'driver123', 'driver', 8),
+(12, 'acruz9@gmail.com', 'driver123', 'driver', 9),
+(13, 'mvillanueva10@gmail.com', 'driver123', 'driver', 10),
+(14, 'tcastillo11@gmail.com', 'driver123', 'driver', 11),
+(15, 'mvelasco12@gmail.com', 'driver123', 'driver', 12),
+(16, 'kflores13@gmail.com', 'driver123', 'driver', 13),
+(17, 'anavarro14@gmail.com', 'driver123', 'driver', 14),
+(18, 'jaquino15@gmail.com', 'driver123', 'driver', 15),
+(19, 'pgonzales16@gmail.com', 'driver123', 'driver', 16),
+(20, 'cfernandez17@gmail.com', 'driver123', 'driver', 17),
+(21, 'lsoriano18@gmail.com', 'driver123', 'driver', 18),
+(22, 'acaballero19@gmail.com', 'driver123', 'driver', 19),
+(23, 'rbautista20@gmail.com', 'driver123', 'driver', 20);
 
 -- --------------------------------------------------------
 
@@ -580,7 +580,7 @@ ALTER TABLE `trip_status_data`
 --
 ALTER TABLE `user_login`
   ADD PRIMARY KEY (`User_id`),
-  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `driver_id` (`driver_id`);
 
 --
@@ -634,7 +634,7 @@ ALTER TABLE `vehicle_type_data`
 -- AUTO_INCREMENT for table `user_login`
 --
 ALTER TABLE `user_login`
-  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
