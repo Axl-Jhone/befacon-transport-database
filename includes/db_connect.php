@@ -3,13 +3,13 @@
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $database = "befacon";
+    $database = "befacon_transpo_records";
 
     // Create connection
-    $connection = new mysqli($servername, $username, $password, $database);
+    $conn = new mysqli($servername, $username, $password, $database);
 
     // Check Connection
-    if($connection->connect_error){
-        die("Connection failed: " . $connection->connect_error);
+    if($conn->connect_error){
+        die("Connection failed: " . $conn->connect_error);
     }
 ?>

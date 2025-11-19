@@ -1,7 +1,10 @@
 <?php 
+    require_once 'includes/db_connect.php';
+
     $routes = [
         'dashboard' => 'pages/dashboard.php',
         'trips' => 'pages/trips.php',
+        'drivers' => 'pages/drivers.php',
         'vehicles' => 'pages/vehicles.php'
     ];
 
@@ -25,7 +28,7 @@
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/main.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=circle" />
     <script defer src="https://kit.fontawesome.com/da8e65aaa6.js" crossorigin="anonymous"></script>
-    <script  typpe="text/javascript" defer src="/befacon-transport-database/assets/js/main.js"></script>
+    <script  type="text/javascript" defer src="/befacon-transport-database/assets/js/main.js"></script>
 </head>
 <body>
     <?php include ('components/navbar.php') ?>
