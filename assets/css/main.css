@@ -99,6 +99,20 @@ body {
     background-color: var(--bg-menu-hover);
 }
 
+.filter-indicator {
+    /* display: inline-block; */
+    background: #d93b3b;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1;
+    margin-left: 6px;
+    vertical-align: middle;
+    position: absolute;
+    transform: translateY(-10px);
+}
+
 /* --- Center: Page Title --- */
 .page-title {
     text-align: center;
