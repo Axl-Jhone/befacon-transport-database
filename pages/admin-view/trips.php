@@ -161,8 +161,8 @@
 <!-- CONTENT HEADER -->
 <div class="content-header">
     <div class="filter-search">
-        <button class="filter" title="Filter">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#183a59" width="24" height="24" onclick="openModal('filter-search-template', 'Filter Trips')">
+        <button class="filter" title="Filter" onclick="openModal('filter-search-template', 'Filter Trips')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#183a59" width="24" height="24">
                 <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
             </svg>
             <?php if (!empty($activeFilters)): ?>
@@ -576,7 +576,7 @@
         </div>
 
         <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
-            <button type="button" class="btn-secondary" onclick="(function(btn){
+            <button type="button" class="btn-primary" onclick="(function(btn){
                 const modal = btn.closest('.filter-search-modal');
                 const params = new URLSearchParams(window.location.search);
                 params.set('p', 1);
@@ -599,7 +599,7 @@
                 window.location = window.location.pathname + '?' + params.toString();
             })(this)">Apply</button>
 
-            <button type="button" class="btn-secondary" onclick="(function(btn){
+            <button type="button" class="btn-danger" onclick="(function(btn){
                 const params = new URLSearchParams(window.location.search);
                 params.delete('filter_driver_id');
                 params.delete('filter_vehicle_type_id');
