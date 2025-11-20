@@ -344,6 +344,7 @@
             <div class="form-group">
                 <label>Purpose</label>
                 <select name="purpose_id" data-key="purposeId" required>
+                    <option value="" disabled selected>-- Select Purpose --</option>
                     <?php if($purposes_res) $purposes_res->data_seek(0); while($p = $purposes_res->fetch_assoc()): ?>
                         <option value="<?php echo $p['purpose_id']; ?>"><?php echo $p['purpose']; ?></option>
                     <?php endwhile; ?>
@@ -352,6 +353,7 @@
             <div class="form-group">
                 <label>Status</label>
                 <select name="trip_status_id" data-key="statusId" required>
+                    <option value="" disabled selected>-- Select Status --</option>
                     <?php if($status_res) $status_res->data_seek(0); while($s = $status_res->fetch_assoc()): ?>
                         <option value="<?php echo $s['trip_status_id']; ?>"><?php echo $s['trip_status']; ?></option>
                     <?php endwhile; ?>
@@ -373,7 +375,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z"/></svg>
         </div>
         <h3>Confirm Delete</h3>
-        <p class="warning-text">Are you sure? This cannot be undone.</p>
+        <p class="warning-text">Are you sure? This action cannot be undone.</p>
         <div class="delete-actions">
             <button onclick="closeModal()" class="btn-secondary">Cancel</button>
             <a id="confirm-delete-btn" href="#" class="btn-danger">Delete</a>
