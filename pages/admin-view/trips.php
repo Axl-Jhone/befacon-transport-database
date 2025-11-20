@@ -161,6 +161,15 @@
             <input type="hidden" name="page" value="<?php echo htmlspecialchars($current_route); ?>">
             <input type="hidden" name="limit" id="limitInput" value="<?php echo $limit; ?>">
             <input type="hidden" name="p" id="pInput" value="<?php echo $curr_page; ?>">
+            <!-- Preserve active filters when performing a search -->
+            <input type="hidden" name="filter_driver_id" value="<?php echo htmlspecialchars($filter_driver_id); ?>">
+            <input type="hidden" name="filter_vehicle_type_id" value="<?php echo htmlspecialchars($filter_vehicle_type_id); ?>">
+            <input type="hidden" name="filter_trip_status_id" value="<?php echo htmlspecialchars($filter_trip_status_id); ?>">
+            <input type="hidden" name="filter_purpose_id" value="<?php echo htmlspecialchars($filter_purpose_id); ?>">
+            <input type="hidden" name="filter_origin" value="<?php echo htmlspecialchars($filter_origin); ?>">
+            <input type="hidden" name="filter_destination" value="<?php echo htmlspecialchars($filter_destination); ?>">
+            <input type="hidden" name="filter_departure" value="<?php echo htmlspecialchars($filter_departure); ?>">
+            <input type="hidden" name="filter_arrival" value="<?php echo htmlspecialchars($filter_arrival); ?>">
             <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search..." value="<?php echo htmlspecialchars($q); ?>">
         </form>
     </div>
