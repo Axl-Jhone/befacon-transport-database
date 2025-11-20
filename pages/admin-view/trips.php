@@ -3,10 +3,36 @@
     $current_route = isset($_GET['page']) ? $_GET['page'] : '';
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
     $curr_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+    $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+    if ($curr_page < 1) $curr_page = 1;
     if ($curr_page < 1) $curr_page = 1;
     $offset = ($curr_page - 1) * $limit;
 
-    $count_sql = "SELECT COUNT(*) as total FROM trip_info"; 
+    // Prepare a WHERE clause when a search term is provided (searches multiple columns)
+    $where = "";
+    if ($q !== '') {
+        $qEsc = $conn->real_escape_string($q);
+        $where = " WHERE (
+            t.trip_id LIKE '%$qEsc%' OR 
+            d.driver_fname LIKE '%$qEsc%' OR 
+            d.driver_lname LIKE '%$qEsc%' OR 
+            v.plate_no LIKE '%$qEsc%' OR 
+            vt.vehicle_type LIKE '%$qEsc%' OR 
+            t.origin LIKE '%$qEsc%' OR 
+            t.destination LIKE '%$qEsc%' OR 
+            td.trip_status LIKE '%$qEsc%'
+        )";
+    }
+
+    $count_sql = "
+        SELECT COUNT(*) as total
+        FROM trip_info t
+        JOIN driver_info d ON t.driver_id = d.driver_id
+        JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id
+        JOIN vehicle_type_data vt ON v.vehicle_type_id = vt.vehicle_type_id
+        JOIN trip_status_data td ON t.trip_status_id = td.trip_status_id
+        JOIN purpose_data p ON t.purpose_id = p.purpose_id
+    " . $where;
     $count_result = $conn->query($count_sql);
     $count_row = $count_result->fetch_assoc();
     $total_rows = $count_row['total'];
@@ -44,6 +70,7 @@
         JOIN vehicle_type_data vt ON v.vehicle_type_id = vt.vehicle_type_id
         JOIN trip_status_data td ON t.trip_status_id = td.trip_status_id
         JOIN purpose_data p ON t.purpose_id = p.purpose_id 
+    " . $where . "
         ORDER BY t.trip_id ASC
         LIMIT $limit OFFSET $offset 
     ";
@@ -58,6 +85,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scheduled Trips</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        // Debounced submit for server-side search. Resets page to 1 on new search.
+        var searchTimer;
+        $('#searchInput').on('input', function(){
+            clearTimeout(searchTimer);
+            $('#pInput').val(1);
+            searchTimer = setTimeout(function(){
+                $('#searchForm').submit();
+            }, 500);
+        });
+    });
+    </script>
 </head>
 <body>
 
@@ -69,7 +111,13 @@
                 <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
             </svg>
         </button>
-        <input type="search" placeholder="Search...">
+
+        <form id="searchForm" method="GET" action="">
+            <input type="hidden" name="page" value="<?php echo htmlspecialchars($current_route); ?>">
+            <input type="hidden" name="limit" id="limitInput" value="<?php echo $limit; ?>">
+            <input type="hidden" name="p" id="pInput" value="<?php echo $curr_page; ?>">
+            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search..." value="<?php echo htmlspecialchars($q); ?>">
+        </form>
     </div>
     
     <div class="page-title">SCHEDULED TRIPS</div>
@@ -145,7 +193,7 @@
                     <td><?php echo $row['departure']; ?></td>
                     <td><?php echo $row['arrival']; ?></td>
                     <td><span class='status-text'><?php echo $row['trip_status']; ?></span></td>
-                   
+                    
                     <!-- ACTIONS COLUMN -->
                     <td class='action-cell'>
                         <button class='action-icon view-btn' 
@@ -177,6 +225,7 @@
     <div class="entries-container">
         <form method="GET" class="entries-form">
             <input type="hidden" name="page" value="<?php echo htmlspecialchars($current_route); ?>">
+            <input type="hidden" name="q" value="<?php echo htmlspecialchars($q); ?>">
             <label>Show</label>
             <select name="limit" onchange="this.form.submit()">
                 <option value="5"  <?php if($limit == 5) echo 'selected'; ?>>5</option>
@@ -195,20 +244,20 @@
     </div>
 
     <div class="pagination">
-        <a href="?page=<?php echo $current_route; ?>&p=<?php echo max(1, $curr_page-1); ?>&limit=<?php echo $limit; ?>" class="prev <?php echo ($curr_page <= 1) ? 'disabled' : ''; ?>">
+        <a href="?page=<?php echo $current_route; ?>&p=<?php echo max(1, $curr_page-1); ?>&limit=<?php echo $limit; ?>&q=<?php echo urlencode($q); ?>" class="prev <?php echo ($curr_page <= 1) ? 'disabled' : ''; ?>">
             <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
         </a>
         <?php 
         $adjacents = 1; 
         for ($i = 1; $i <= $total_pages; $i++) {
             if ($i == 1 || $i == $total_pages || ($i >= $curr_page - $adjacents && $i <= $curr_page + $adjacents)) {
-                echo '<a href="?page='.$current_route.'&p='.$i.'&limit='.$limit.'" class="'.(($curr_page == $i) ? 'active' : '').'">'.$i.'</a>';
+                echo '<a href="?page='.$current_route.'&p='.$i.'&limit='.$limit.'&q='.urlencode($q).'" class="'.(($curr_page == $i) ? 'active' : '').'">'.$i.'</a>';
             } elseif ($i == $curr_page - $adjacents - 1 || $i == $curr_page + $adjacents + 1) {
                 echo '<span class="pagination-dots">...</span>';
             }
         }
         ?>
-        <a href="?page=<?php echo $current_route; ?>&p=<?php echo min($total_pages, $curr_page+1); ?>&limit=<?php echo $limit; ?>" class="next <?php echo ($curr_page >= $total_pages) ? 'disabled' : ''; ?>">
+        <a href="?page=<?php echo $current_route; ?>&p=<?php echo min($total_pages, $curr_page+1); ?>&limit=<?php echo $limit; ?>&q=<?php echo urlencode($q); ?>" class="next <?php echo ($curr_page >= $total_pages) ? 'disabled' : ''; ?>">
             <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
         </a>
     </div>

@@ -68,7 +68,7 @@ body {
 
 .filter-search input[type="search"] {
     padding: 8px 12px;
-    width: 50%;
+    width: 120%;
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
