@@ -1,0 +1,116 @@
+/* =========================================
+   1. UNIVERSAL MODAL SHELL
+   ========================================= */
+
+/* The Overlay (Dark Background) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% opacity black */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers box vertically & horizontally */
+    z-index: 9999; /* Sits on top of everything */
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Hidden State */
+.modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The Modal Box */
+.modal-box {
+    background: #ffffff;
+    width: 90%;
+    max-width: 550px; /* Limits width on large screens */
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Prevents box from being taller than screen */
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Header */
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #dc3545;
+}
+
+/* Body Content */
+#modal-body {
+    padding: 20px;
+    overflow-y: auto; /* Adds scrollbar if content is too long */
+}
+
+/* Footer */
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eaeaea;
+    text-align: right;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+}
+
+/* =========================================
+   GLOBAL BUTTON STYLES (Used in Shell & Templates)
+   ========================================= */
+.btn-primary, .btn-secondary, .btn-danger, .btn-save {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-save, .btn-primary { background-color: #007bff; color: white; }
+.btn-save:hover, .btn-primary:hover { background-color: #0056b3; }
+
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-secondary:hover { background-color: #545b62; }
+
+.btn-danger { background-color: #dc3545; color: white; }
+.btn-danger:hover { background-color: #c82333; }
+
+.btn-cancel { margin-right: 10px; }
