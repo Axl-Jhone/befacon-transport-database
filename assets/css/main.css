@@ -68,7 +68,7 @@ body {
 
 .filter-search input[type="search"] {
     padding: 8px 12px;
-    width: 50%;
+    width: 120%;
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
@@ -97,6 +97,20 @@ body {
 
 .filter-search .filter:hover {
     background-color: var(--bg-menu-hover);
+}
+
+.filter-indicator {
+    /* display: inline-block; */
+    background: #d93b3b;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1;
+    margin-left: 6px;
+    vertical-align: middle;
+    position: absolute;
+    transform: translateY(-10px);
 }
 
 /* --- Center: Page Title --- */

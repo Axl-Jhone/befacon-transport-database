@@ -3,10 +3,91 @@
     $current_route = isset($_GET['page']) ? $_GET['page'] : '';
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
     $curr_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+    $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+    // Modal filter params (driver, vehicle type, status) and extended filters
+    $filter_driver_id = isset($_GET['filter_driver_id']) && $_GET['filter_driver_id'] !== '' ? (int)$_GET['filter_driver_id'] : 0;
+    $filter_vehicle_type_id = isset($_GET['filter_vehicle_type_id']) && $_GET['filter_vehicle_type_id'] !== '' ? (int)$_GET['filter_vehicle_type_id'] : 0;
+    $filter_trip_status_id = isset($_GET['filter_trip_status_id']) && $_GET['filter_trip_status_id'] !== '' ? (int)$_GET['filter_trip_status_id'] : 0;
+    $filter_purpose_id = isset($_GET['filter_purpose_id']) && $_GET['filter_purpose_id'] !== '' ? (int)$_GET['filter_purpose_id'] : 0;
+    $filter_origin = isset($_GET['filter_origin']) ? trim($_GET['filter_origin']) : '';
+    $filter_destination = isset($_GET['filter_destination']) ? trim($_GET['filter_destination']) : '';
+    $filter_departure = isset($_GET['filter_departure']) ? trim($_GET['filter_departure']) : '';
+    $filter_arrival = isset($_GET['filter_arrival']) ? trim($_GET['filter_arrival']) : '';
+    // Count active modal/extended filters for UI indicator
+    $activeFilters = 0;
+    if ($filter_driver_id) $activeFilters++;
+    if ($filter_vehicle_type_id) $activeFilters++;
+    if ($filter_trip_status_id) $activeFilters++;
+    if ($filter_purpose_id) $activeFilters++;
+    if ($filter_origin !== '') $activeFilters++;
+    if ($filter_destination !== '') $activeFilters++;
+    if ($filter_departure !== '') $activeFilters++;
+    if ($filter_arrival !== '') $activeFilters++;
+    if ($curr_page < 1) $curr_page = 1;
     if ($curr_page < 1) $curr_page = 1;
     $offset = ($curr_page - 1) * $limit;
 
-    $count_sql = "SELECT COUNT(*) as total FROM trip_info"; 
+    // Prepare a WHERE clause when a search term or modal filters are provided
+    $where = "";
+    $clauses = [];
+
+    if ($q !== '') {
+        $qEsc = $conn->real_escape_string($q);
+        $clauses[] = "(
+            t.trip_id LIKE '%$qEsc%' OR 
+            CONCAT_WS(' ', d.driver_fname, COALESCE(d.driver_mi, ''), d.driver_lname) LIKE '%$qEsc%' OR 
+            v.plate_no LIKE '%$qEsc%' OR 
+            vt.vehicle_type LIKE '%$qEsc%' OR 
+            t.origin LIKE '%$qEsc%' OR 
+            t.destination LIKE '%$qEsc%' OR 
+            td.trip_status LIKE '%$qEsc%' OR 
+            p.purpose LIKE '%$qEsc%'
+        )";
+    }
+
+    if ($filter_driver_id) {
+        $clauses[] = "t.driver_id = $filter_driver_id";
+    }
+    if ($filter_vehicle_type_id) {
+        $clauses[] = "vt.vehicle_type_id = $filter_vehicle_type_id";
+    }
+    if ($filter_trip_status_id) {
+        $clauses[] = "t.trip_status_id = $filter_trip_status_id";
+    }
+    if ($filter_purpose_id) {
+        $clauses[] = "t.purpose_id = $filter_purpose_id";
+    }
+    if ($filter_origin !== '') {
+        $originEsc = $conn->real_escape_string($filter_origin);
+        $clauses[] = "t.origin LIKE '%$originEsc%'";
+    }
+    if ($filter_destination !== '') {
+        $destEsc = $conn->real_escape_string($filter_destination);
+        $clauses[] = "t.destination LIKE '%$destEsc%'";
+    }
+    if ($filter_departure !== '') {
+        // expect YYYY-MM-DD or datetime; compare against sched_depart_datetime
+        $fromEsc = $conn->real_escape_string($filter_departure);
+        $clauses[] = "t.sched_depart_datetime >= '$fromEsc'";
+    }
+    if ($filter_arrival !== '') {
+        $toEsc = $conn->real_escape_string($filter_arrival);
+        $clauses[] = "t.sched_arrival_datetime <= '$toEsc'";
+    }
+
+    if (!empty($clauses)) {
+        $where = ' WHERE ' . implode(' AND ', $clauses);
+    }
+
+    $count_sql = "
+        SELECT COUNT(*) as total
+        FROM trip_info t
+        JOIN driver_info d ON t.driver_id = d.driver_id
+        JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id
+        JOIN vehicle_type_data vt ON v.vehicle_type_id = vt.vehicle_type_id
+        JOIN trip_status_data td ON t.trip_status_id = td.trip_status_id
+        JOIN purpose_data p ON t.purpose_id = p.purpose_id
+    " . $where;
     $count_result = $conn->query($count_sql);
     $count_row = $count_result->fetch_assoc();
     $total_rows = $count_row['total'];
@@ -44,6 +125,7 @@
         JOIN vehicle_type_data vt ON v.vehicle_type_id = vt.vehicle_type_id
         JOIN trip_status_data td ON t.trip_status_id = td.trip_status_id
         JOIN purpose_data p ON t.purpose_id = p.purpose_id 
+    " . $where . "
         ORDER BY t.trip_id ASC
         LIMIT $limit OFFSET $offset 
     ";
@@ -58,6 +140,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scheduled Trips</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        // Debounced submit for server-side search. Resets page to 1 on new search.
+        var searchTimer;
+        $('#searchInput').on('input', function(){
+            clearTimeout(searchTimer);
+            $('#pInput').val(1);
+            searchTimer = setTimeout(function(){
+                $('#searchForm').submit();
+            }, 500);
+        });
+    });
+    </script>
 </head>
 <body>
 
@@ -65,11 +162,29 @@
 <div class="content-header">
     <div class="filter-search">
         <button class="filter" title="Filter">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#183a59" width="24" height="24">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#183a59" width="24" height="24" onclick="openModal('filter-search-template', 'Filter Trips')">
                 <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
             </svg>
+            <?php if (!empty($activeFilters)): ?>
+                <span class="filter-indicator"><?php echo $activeFilters; ?></span>
+            <?php endif; ?>
         </button>
-        <input type="search" placeholder="Search...">
+
+        <form id="searchForm" method="GET" action="">
+            <input type="hidden" name="page" value="<?php echo htmlspecialchars($current_route); ?>">
+            <input type="hidden" name="limit" id="limitInput" value="<?php echo $limit; ?>">
+            <input type="hidden" name="p" id="pInput" value="<?php echo $curr_page; ?>">
+            <!-- Preserve active filters when performing a search -->
+            <input type="hidden" name="filter_driver_id" value="<?php echo htmlspecialchars($filter_driver_id); ?>">
+            <input type="hidden" name="filter_vehicle_type_id" value="<?php echo htmlspecialchars($filter_vehicle_type_id); ?>">
+            <input type="hidden" name="filter_trip_status_id" value="<?php echo htmlspecialchars($filter_trip_status_id); ?>">
+            <input type="hidden" name="filter_purpose_id" value="<?php echo htmlspecialchars($filter_purpose_id); ?>">
+            <input type="hidden" name="filter_origin" value="<?php echo htmlspecialchars($filter_origin); ?>">
+            <input type="hidden" name="filter_destination" value="<?php echo htmlspecialchars($filter_destination); ?>">
+            <input type="hidden" name="filter_departure" value="<?php echo htmlspecialchars($filter_departure); ?>">
+            <input type="hidden" name="filter_arrival" value="<?php echo htmlspecialchars($filter_arrival); ?>">
+            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search..." value="<?php echo htmlspecialchars($q); ?>">
+        </form>
     </div>
     
     <div class="page-title">SCHEDULED TRIPS</div>
@@ -99,7 +214,8 @@
         </thead>
 
         <tbody>
-            <?php while ($row = $result->fetch_assoc()): ?>
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
                 <?php 
                     $modalData = [
                         // Edit Mode IDs
@@ -145,7 +261,7 @@
                     <td><?php echo $row['departure']; ?></td>
                     <td><?php echo $row['arrival']; ?></td>
                     <td><span class='status-text'><?php echo $row['trip_status']; ?></span></td>
-                   
+                    
                     <!-- ACTIONS COLUMN -->
                     <td class='action-cell'>
                         <button class='action-icon view-btn' 
@@ -168,6 +284,11 @@
                     </td>
                 </tr>
             <?php endwhile; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="10" style="text-align:center; color:#777; padding:18px; font-weight: bold;">No Data Found</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
@@ -177,6 +298,10 @@
     <div class="entries-container">
         <form method="GET" class="entries-form">
             <input type="hidden" name="page" value="<?php echo htmlspecialchars($current_route); ?>">
+            <input type="hidden" name="q" value="<?php echo htmlspecialchars($q); ?>">
+            <input type="hidden" name="filter_driver_id" value="<?php echo htmlspecialchars($filter_driver_id); ?>">
+            <input type="hidden" name="filter_vehicle_type_id" value="<?php echo htmlspecialchars($filter_vehicle_type_id); ?>">
+            <input type="hidden" name="filter_trip_status_id" value="<?php echo htmlspecialchars($filter_trip_status_id); ?>">
             <label>Show</label>
             <select name="limit" onchange="this.form.submit()">
                 <option value="5"  <?php if($limit == 5) echo 'selected'; ?>>5</option>
@@ -195,20 +320,20 @@
     </div>
 
     <div class="pagination">
-        <a href="?page=<?php echo $current_route; ?>&p=<?php echo max(1, $curr_page-1); ?>&limit=<?php echo $limit; ?>" class="prev <?php echo ($curr_page <= 1) ? 'disabled' : ''; ?>">
+        <a href="?page=<?php echo $current_route; ?>&p=<?php echo max(1, $curr_page-1); ?>&limit=<?php echo $limit; ?>&q=<?php echo urlencode($q); ?>&filter_driver_id=<?php echo urlencode($filter_driver_id); ?>&filter_vehicle_type_id=<?php echo urlencode($filter_vehicle_type_id); ?>&filter_trip_status_id=<?php echo urlencode($filter_trip_status_id); ?>" class="prev <?php echo ($curr_page <= 1) ? 'disabled' : ''; ?>">
             <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
         </a>
         <?php 
         $adjacents = 1; 
         for ($i = 1; $i <= $total_pages; $i++) {
             if ($i == 1 || $i == $total_pages || ($i >= $curr_page - $adjacents && $i <= $curr_page + $adjacents)) {
-                echo '<a href="?page='.$current_route.'&p='.$i.'&limit='.$limit.'" class="'.(($curr_page == $i) ? 'active' : '').'">'.$i.'</a>';
+                echo '<a href="?page='.$current_route.'&p='.$i.'&limit='.$limit.'&q='.urlencode($q).'&filter_driver_id='.urlencode($filter_driver_id).'&filter_vehicle_type_id='.urlencode($filter_vehicle_type_id).'&filter_trip_status_id='.urlencode($filter_trip_status_id).'" class="'.(($curr_page == $i) ? 'active' : '').'">'.$i.'</a>';
             } elseif ($i == $curr_page - $adjacents - 1 || $i == $curr_page + $adjacents + 1) {
                 echo '<span class="pagination-dots">...</span>';
             }
         }
         ?>
-        <a href="?page=<?php echo $current_route; ?>&p=<?php echo min($total_pages, $curr_page+1); ?>&limit=<?php echo $limit; ?>" class="next <?php echo ($curr_page >= $total_pages) ? 'disabled' : ''; ?>">
+        <a href="?page=<?php echo $current_route; ?>&p=<?php echo min($total_pages, $curr_page+1); ?>&limit=<?php echo $limit; ?>&q=<?php echo urlencode($q); ?>&filter_driver_id=<?php echo urlencode($filter_driver_id); ?>&filter_vehicle_type_id=<?php echo urlencode($filter_vehicle_type_id); ?>&filter_trip_status_id=<?php echo urlencode($filter_trip_status_id); ?>" class="next <?php echo ($curr_page >= $total_pages) ? 'disabled' : ''; ?>">
             <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>
         </a>
     </div>
@@ -379,6 +504,116 @@
         <div class="delete-actions">
             <button onclick="closeModal()" class="btn-secondary">Cancel</button>
             <a id="confirm-delete-btn" href="#" class="btn-danger">Delete</a>
+        </div>
+    </div>
+</template>
+
+<!-- FILTER SEARCH TEMPLATE -->
+<template id="filter-search-template">
+    <div class="filter-search-modal styled-form">
+        <!-- <div class="form-row-grid"> -->
+            <div class="form-group">
+                <label>Driver</label>
+                <select name="filter_driver_id">
+                    <option value="" <?php if(!$filter_driver_id) echo 'selected'; ?>>-- All Drivers --</option>
+                    <?php if($drivers_res) $drivers_res->data_seek(0); while($d = $drivers_res->fetch_assoc()): ?>
+                        <option value="<?php echo $d['driver_id']; ?>" <?php if($filter_driver_id == $d['driver_id']) echo 'selected'; ?>><?php echo $d['full_name']; ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Vehicle Type</label>
+                <select name="filter_vehicle_type_id">
+                    <option value="" <?php if(!$filter_vehicle_type_id) echo 'selected'; ?>>-- All Types --</option>
+                    <?php if($types_res) $types_res->data_seek(0); while($t = $types_res->fetch_assoc()): ?>
+                        <option value="<?php echo $t['vehicle_type_id']; ?>" <?php if($filter_vehicle_type_id == $t['vehicle_type_id']) echo 'selected'; ?>><?php echo $t['vehicle_type']; ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select name="filter_trip_status_id">
+                    <option value="" <?php if(!$filter_trip_status_id) echo 'selected'; ?>>-- All Statuses --</option>
+                    <?php if($status_res) $status_res->data_seek(0); while($s = $status_res->fetch_assoc()): ?>
+                        <option value="<?php echo $s['trip_status_id']; ?>" <?php if($filter_trip_status_id == $s['trip_status_id']) echo 'selected'; ?>><?php echo $s['trip_status']; ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+        <!-- </div> -->
+            <div class="form-group">
+                <label>Purpose</label>
+                <select name="filter_purpose_id">
+                    <option value="" <?php if(!$filter_purpose_id) echo 'selected'; ?>>-- All Purposes --</option>
+                    <?php if($purposes_res) $purposes_res->data_seek(0); while($p = $purposes_res->fetch_assoc()): ?>
+                        <option value="<?php echo $p['purpose_id']; ?>" <?php if($filter_purpose_id == $p['purpose_id']) echo 'selected'; ?>><?php echo $p['purpose']; ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+        <div class="form-row-grid">
+            <div class="form-group">
+                <label>Origin</label>
+                <input type="text" name="filter_origin" placeholder="Origin" value="<?php echo htmlspecialchars($filter_origin); ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Destination</label>
+                <input type="text" name="filter_destination" placeholder="Destination" value="<?php echo htmlspecialchars($filter_destination); ?>">
+            </div>
+        </div>
+
+        <div class="form-row-grid">
+            <div class="form-group">
+                <label>Departure</label>
+                <input type="datetime-local" name="filter_departure" value="<?php echo htmlspecialchars($filter_departure); ?>">
+            </div>
+            <div class="form-group">
+                <label>Arrival</label>
+                <input type="datetime-local" name="filter_arrival" value="<?php echo htmlspecialchars($filter_arrival); ?>">
+            </div>
+        </div>
+
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
+            <button type="button" class="btn-secondary" onclick="(function(btn){
+                const modal = btn.closest('.filter-search-modal');
+                const params = new URLSearchParams(window.location.search);
+                params.set('p', 1);
+                const dv = modal.querySelector('select[name=\'filter_driver_id\']').value;
+                const tv = modal.querySelector('select[name=\'filter_vehicle_type_id\']').value;
+                const sv = modal.querySelector('select[name=\'filter_trip_status_id\']').value;
+                const pv = modal.querySelector('select[name=\'filter_purpose_id\']').value;
+                const ov = modal.querySelector('input[name=\'filter_origin\']').value.trim();
+                const dvn = modal.querySelector('input[name=\'filter_destination\']').value.trim();
+                const ff = modal.querySelector('input[name=\'filter_departure\']').value;
+                const ft = modal.querySelector('input[name=\'filter_arrival\']').value;
+                if (dv) params.set('filter_driver_id', dv); else params.delete('filter_driver_id');
+                if (tv) params.set('filter_vehicle_type_id', tv); else params.delete('filter_vehicle_type_id');
+                if (sv) params.set('filter_trip_status_id', sv); else params.delete('filter_trip_status_id');
+                if (pv) params.set('filter_purpose_id', pv); else params.delete('filter_purpose_id');
+                if (ov) params.set('filter_origin', ov); else params.delete('filter_origin');
+                if (dvn) params.set('filter_destination', dvn); else params.delete('filter_destination');
+                if (ff) params.set('filter_departure', ff); else params.delete('filter_departure');
+                if (ft) params.set('filter_arrival', ft); else params.delete('filter_arrival');
+                window.location = window.location.pathname + '?' + params.toString();
+            })(this)">Apply</button>
+
+            <button type="button" class="btn-secondary" onclick="(function(btn){
+                const params = new URLSearchParams(window.location.search);
+                params.delete('filter_driver_id');
+                params.delete('filter_vehicle_type_id');
+                params.delete('filter_trip_status_id');
+                params.delete('filter_purpose_id');
+                params.delete('filter_origin');
+                params.delete('filter_destination');
+                params.delete('filter_departure');
+                params.delete('filter_arrival');
+                params.set('p', 1);
+                window.location = window.location.pathname + '?' + params.toString();
+            })(this)">Clear</button>
+
+            <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
         </div>
     </div>
 </template>
