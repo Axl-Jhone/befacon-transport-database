@@ -1,8 +1,246 @@
-* {
-    font-family: 'Roboto', sans-serif;
+:root {
+    /* Backgrounds */
+    --bg-page: #f4f6f8;           
+    --bg-navbar: #183a59;         
+    --bg-menu-hover: #163047; 
+    --bg-submenu-hover: #13293d;  
+    --bg-action-icons-hover: #d6d6d6;
+
+    /* Text colors */
+    --text-clr: #ffffff;
+    --section-title-clr: #9fb1c1;       
+    --accent-clr: #54e0f3;  
+    --text-submenu-hover: #4ab5c4;
+    --border-clr: #12293d;
+    --danger-clr: #dc3545;
+
+    /* Table Alternating Colors */
+    --bg-row-odd: #ffffff;
+    --bg-row-even: #f0f0f0;
+    --bg-divider: #e0e0e0;
 }
 
-html, body, p, h1, h2, h3, h4, h5, h6 {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+body {
+    background-color: var(--bg-page);
+    width: 100%;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    margin-top: 60px;
+}
+
+.content-area {
+    padding: 50px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* Replace the corresponding section in your CSS with this */
+
+.content-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    margin-bottom: 5px; 
+    padding: 0 10px;
+}
+
+/* --- Left Side: Filter & Search --- */
+.filter-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Removed green border */
+}
+
+.filter-search input[type="search"] {
+    padding: 8px 12px;
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border 0.2s;
+}
+
+.filter-search input[type="search"]:focus {
+    border-color: var(--bg-navbar);
+}
+
+.filter-search .filter {
+    padding: 6px 16px;
+    background-color: var(--bg-navbar);
+    border: none;
+    color: var(--bg-navbar);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.filter-search .filter svg {
+    fill: var(--text-clr);
+}
+
+.filter-search .filter:hover {
+    background-color: var(--bg-menu-hover);
+}
+
+/* --- Center: Page Title --- */
+.page-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bg-navbar);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Removed green border */
+}
+
+
+.add-button {
+    justify-self: end; 
+    background-color: var(--bg-navbar);
+    color: var(--text-clr);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.add-button:hover {
+    background-color: var(--bg-menu-hover); 
+}
+
+.content-table {
+    border: 2px solid black;
+    border-radius: 4px;
+    overflow: hidden; 
+}
+
+.trip-schedule {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    text-align: center;
+}
+
+.trip-schedule td,
+.trip-schedule th {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--bg-divider); 
+    border-right: 1px solid var(--bg-divider);
+    border-top: none; 
+    border-left: none;
+    vertical-align: middle;
+}
+
+.trip-schedule td {
+    white-space: nowrap;       /* Keep text on one line */
+    overflow: hidden;          /* Hide overflow */
+    text-overflow: ellipsis;   /* Add "..." if text is too long */
+}
+
+.trip-schedule th:last-child,
+.trip-schedule td:last-child {
+    border-right: none;
+}
+
+.trip-schedule tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.trip-schedule thead th {
+    background-color: var(--bg-navbar); 
+    color: var(--text-clr); 
+}
+
+.trip-schedule th:first-child,
+.trip-schedule td:first-child {
+    width: 6%; 
+    min-width: 50px; 
+}
+
+.trip-schedule td:nth-child(2) {
+    text-align: left;
+}
+
+
+.trip-schedule tbody tr:nth-child(odd) {
+    background-color: var(--bg-row-odd);
+}
+
+.trip-schedule tbody tr:nth-child(even) {
+    background-color: var(--bg-row-even);
+}
+
+.trip-schedule th:nth-child(1) { width: 6%; }  /* Trip ID */
+.trip-schedule th:nth-child(2) { width: 13%; } /* Driver */
+.trip-schedule th:nth-child(3) { width: 9%; }  /* Vehicle Type */
+.trip-schedule th:nth-child(4) { width: 9%; }  /* Plate No */
+.trip-schedule th:nth-child(5) { width: 10%; } /* Origin */
+.trip-schedule th:nth-child(6) { width: 10%; } /* Destination */
+.trip-schedule th:nth-child(7) { width: 12%; } /* Departure */
+.trip-schedule th:nth-child(8) { width: 12%; } /* Arrival */
+.trip-schedule th:nth-child(9) { width: 9%; }  /* Status */
+.trip-schedule th:nth-child(10){ width: 10%; } /* Actions */
+
+.action-cell {
+    text-align: center;
+    width: 10%;
+}
+
+.action-cell .action-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1.5px;
+    border-radius: 4px;
+
+    svg {
+        fill: rgb(124, 124, 124);
+    }
+}
+
+.action-cell .action-icon:hover {
+    background-color: var(--bg-action-icons-hover);
+}
+
+.action-cell .action-icon:nth-child(2) {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.action-cell .action-icon.view-btn:hover svg {
+    fill: var(--bg-navbar);
+}
+
+.action-cell .action-icon.edit-btn:hover svg {
+    fill: #c79500;
+}
+
+.action-cell .action-icon.delete-btn:hover svg {
+    fill: var(--danger-clr);
+}
+
+

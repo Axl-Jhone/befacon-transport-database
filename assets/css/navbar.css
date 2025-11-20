@@ -1,0 +1,101 @@
+.navbar {
+    background-color: #183a59;
+    color: white;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);    
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    line-height: 1;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.menu-toggle:hover {
+    background-color: var(--bg-menu-hover);
+}
+
+.menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.menu-icon:hover {
+    background-color: #163047;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid var(--border-clr);
+    padding-right: 15px;
+    padding-left: 3px;
+}
+
+.brand-text {
+    font-size: 1.35rem;
+    line-height: 1;
+    letter-spacing: 0.5px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.user-profile:hover {
+    background-color: #163047;
+}
+
+.user-name {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.settings-icon {
+    margin-right: -8px;
+    margin-left: -7px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 0;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.settings-icon:hover {
+    background-color: #163047;
+}
+
+.menu-toggle, .user-profile, .settings-icon {
+    cursor: pointer;
+}
+
+

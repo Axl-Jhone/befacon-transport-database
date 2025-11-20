@@ -1,0 +1,128 @@
+.sidebar {
+    height: calc(100vh - 60px);
+    width: 260px;
+    background-color: var(--bg-navbar);
+    color: var(--text-clr);
+    position: sticky;
+    top: 60px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    white-space: nowrap;
+    transition: width 300ms ease-in-out;
+}
+
+.sidebar.close {
+    width: 80px;
+}
+
+.sidebar .menu-item span, .sidebar .dropdown-btn span {
+    transition: 0.2s;
+    opacity: 1;
+}
+
+.sidebar.close .menu-item span, .sidebar.close .dropdown-btn span {
+    opacity: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li.active a {
+    background-color: var(--bg-menu-hover);
+    color: var(--accent-clr);
+    svg {
+        fill: var(--accent-clr);
+    }
+}
+
+.sidebar .menu-item, 
+.sidebar .submenu-item,
+.sidebar .dropdown-btn {
+    text-decoration: none;
+    color: #e2eaf3;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1.1rem;
+    height: 60px; 
+    overflow: hidden;
+}
+
+.sidebar svg {
+    width: 75px;
+    height: 25px;   
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    fill: var(--text-clr);
+    flex-shrink: 0;
+}
+
+.dropdown-btn {
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar .menu-text {
+    flex-grow: 1;
+}
+
+.sidebar .menu-item:hover {
+    background-color: var(--bg-menu-hover);
+    color: var(--accent-clr);
+
+    svg {
+        fill: var(--accent-clr);
+    }
+}
+
+.sidebar .sub-menu {
+    display: grid;
+    grid-template-rows: 0fr; /* responsive like height: auto */
+    transition: 300ms ease-in-out;
+    > div {
+        overflow: hidden;
+    }
+}
+
+.sidebar .sub-menu li a:hover {
+    background-color: var(--bg-submenu-hover);
+    color: var(--text-submenu-hover);
+}
+
+.sidebar .sub-menu a {
+    padding-left: 75px;
+}
+
+.sidebar .sub-menu.show {
+    grid-template-rows: 1fr;
+}
+
+.rotate svg:last-child {
+    rotate: 180deg;
+}
+
+.dropdown-btn svg {
+    transition: 200ms ease;
+}
+
+.bottom-menu {
+    margin-top: auto;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    padding: 10px;
+}
+
+.sidebar.close footer {
+    opacity: 0;
+}

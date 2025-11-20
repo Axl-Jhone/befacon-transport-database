@@ -1,25 +1,27 @@
+<?php 
+// Removed PHP logic for routing and includes (db_connect, modals) 
+// as they are not needed for a static landing page.
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BeFaCon Transportation Co.</title>
+        <title>BeFaCon Transportation Co. | Your Partner in Motion</title>
 
-        <link rel="stylesheet" href="assets/css/index.css">
-        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/index.css"> 
         <script defer src="assets/js/main.js"></script>
 
-        
         <script src="https://kit.fontawesome.com/da8e65aaa6.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <?php require("includes/db_connect.php"); ?>
-
-        <div id="top-bar">
+        <header id="top-bar">
             <div id="location">
                 <i class="fa-solid fa-location-pin"></i>
                 <p>Baguio City, Philippines</p>
             </div>
+            
             <nav id="nav-menu">
                 <ul>
                     <li><a href="#landing-content">Home</a></li>
@@ -27,33 +29,43 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
+            
             <div id="login">
-                <a href="pages/login.php">Login</a>
+                <a href="pages/login.php" class="btn-login">Admin Login</a>
             </div>
-        </div>
+        </header>
 
-        <div id="landing-content">
-            <img src="assets/img/landing_page/van.png" alt="Van Image">
+        <main>
+            <section id="landing-content">
+                <div class="hero-text">
+                    <h2>Welcome to BeFaCon Transportation Co.</h2>
+                    <h1>Your Partner in Motion.</h1> 
+                    <div class="hero-actions">
+                        <a href="#about" class="btn btn-primary">Learn More</a>
+                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                    </div>
+                </div>
+                <img src="assets/img/landing_page/van.png" alt="BeFaCon Company Van for Transportation Services">
+            </section>
 
-            <h2>Welcome to BeFaCon Transportation Co.</h2>
-            <p>Your Partner in Motion.</p>
-            <a href="#about" class="btn">Learn More</a>
-            <a href="#contact" class="btn">Contact Us</a>
-        </div>
+            <section id="about" class="info">
+                <h2>About Us</h2>
+                <p>BeFaCon Transport Co. was founded by **Leonardo Benando, Miguel Jr. Factora, and Ax’l Conchada** on December 25, 2005. Based in Baguio City, Philippines, we are committed to providing reliable and safe transportation services across the region.</p>
+                <p>We pride ourselves on our professionalism and dedication to customer satisfaction.</p>
+            </section>
 
-        <div id="about" class="info">
-            <h2>About Us</h2>
-            <p>BeFaCon Transport Co. was  founded by Leonardo Benando, Miguel Jr. Factora, and Ax’l Conchada on the year December 25, 2005. Based in Baguio City, Philippines.</p>
-        </div>
+            <section id="contact" class="info">
+                <h2>Contact Us</h2>
+                <div class="contact-details">
+                    <p><i class="fa-solid fa-envelope"></i> **Email:** support@befacon.com</p>
+                    <p><i class="fa-solid fa-phone"></i> **Phone:** (000) 123-4567</p>
+                    <p><i class="fa-solid fa-map-marker-alt"></i> **Address:** Baguio City, Philippines</p>
+                </div>
+            </section>
+        </main>
 
-        <div id="contact" class="info">
-            <h2>Contact Us</h2>
-            <p>support@befacon.com</p>
-            <p>(000) 123-4567</p>
-        </div>
-
-        <div id="footer">
+        <footer id="footer">
             <p>&copy; 2025 BeFaCon Transportation Co. All rights reserved.</p>
-        </div>
+        </footer>
     </body>
 </html>

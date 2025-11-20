@@ -2,78 +2,118 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    /* Changed font for a modern feel */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
+
+/* --- Color Palette ---
+   - Background: #f7f7f7 (Light Gray)
+   - Primary Accent (Box/Button): #003366 (Deep Navy Blue)
+   - Secondary Accent (Button/Highlight): #00a88e (Teal)
+   - Text/Links: #4a4a4a (Dark Gray)
+   - Error/Warning: #e74c3c (Red)
+*/
 
 body {
     height: 100vh;
     display: flex;
+    background-color: #f7f7f7; /* Light background for the body */
 }
 
+/* Updated left-side to use a darker overlay for better contrast */
 .left-side {
-    flex: 1;
-    background: url("../img/login_page/Login-left.jpg") bottom / cover no-repeat;
-    opacity: 0.4;
+    flex: 1.2; /* Slightly more space for the left side */
+    background: url("../img/login_page/Login-left.jpg") center / cover no-repeat;
+    position: relative;
+}
+
+.left-side::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 51, 102, 0.75); /* Deep Navy Blue Overlay */
 }
 
 .right-side {
     flex: 1;
-    background: #f3f3f3;
+    background: #ffffff; /* White background for the login side */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .avatar {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     background: url("../img/login_page/Icon.png") center / cover no-repeat;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    /* Optional: Add a subtle border */
+    border: 3px solid #003366; 
 }
 
 .tagline {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: 14px;
-    font-weight: bold;
-    color: #444;
+    font-weight: 600; /* Medium bold */
+    color: #003366; /* Match the primary color */
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .login-box {
-    width: 380px;
-    background: #123456;
-    padding: 35px;
-    border-radius: 12px;
-    color: white;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    width: 400px; /* Slightly wider box */
+    max-width: 90%;
+    background: #ffffff; /* White login box */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    padding: 40px;
+    border-radius: 10px;
+    color: #4a4a4a; /* Dark gray text */
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
 }
 
 .login-box h2 {
-    margin-bottom: 8px;
-    font-size: 28px;
+    margin-bottom: 5px;
+    font-size: 32px; /* Larger heading */
+    color: #003366; /* Deep Navy Blue for heading */
     text-align: center;
+    font-weight: 700;
 }
 
 .login-box p {
-    font-size: 14px;
-    margin-bottom: 25px;
-    color: #b6b6b6;
+    font-size: 15px;
+    margin-bottom: 30px;
+    color: #777; /* Lighter gray for subtext */
     text-align: center;
 }
 
 .login-box label {
     font-size: 14px;
+    font-weight: 600;
+    display: block; /* Make label take full width */
+    margin-top: 10px;
+    color: #4a4a4a;
 }
 
 .login-box input {
     width: 100%;
-    padding: 10px;
-    margin: 8px 0 18px 0;
+    padding: 12px;
+    margin: 6px 0 20px 0;
     border-radius: 6px;
-    border: none;
-    background: #dcdcdc;
-    font-size: 14px;
+    border: 1px solid #ccc; /* Subtle border on input */
+    background: #fcfcfc; /* Very light background for input */
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #00a88e; /* Teal highlight on focus */
 }
 
 /* Remember row */
@@ -81,8 +121,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    margin-bottom: 20px;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #4a4a4a;
 }
 
 .remember-row div {
@@ -95,35 +136,59 @@ body {
 .remember-row div input[type="checkbox"] {
     margin: 0;
     transform: translateY(-1px);
+    accent-color: #00a88e; /* Use Teal for the checkbox color */
 }
 
 .remember-row a {
-    color: #dcdcdc;
+    color: #003366; /* Deep Navy Blue link color */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.remember-row a:hover {
+    color: #00a88e; /* Teal on hover */
     text-decoration: underline;
 }
 
 .login-btn {
     width: 100%;
-    background: #f05a24;
+    background: #00a88e; /* Teal button color */
     color: white;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    font-weight: bold;
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 17px;
     border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 168, 142, 0.2); /* Teal shadow for button */
+}
+
+.login-btn:hover {
+    background: #008f75; /* Slightly darker Teal on hover */
+}
+
+.login-btn:active {
+    transform: scale(0.99);
 }
 
 .footer-links {
-    margin-top: 40px;
-    font-size: 12px;
+    margin-top: 50px;
+    font-size: 13px;
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .footer-links a {
-    color: #555;
+    color: #777; /* Neutral gray link color */
     text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #00a88e; /* Teal on hover */
 }
 
 .password-container {
@@ -132,20 +197,31 @@ body {
 }
 
 .password-container input {
-    width: 100%;
-    padding-right: 40px; /* space for icon */
-    /*height: 45px;*/
-    box-sizing: border-box;
+    /* Reset margin for input inside container */
+    margin: 6px 0 20px 0; 
+    padding-right: 40px; 
 }
 
 .password-container .eye-icon {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
-    transform: translateY(-65%);
-    width: 24px;      /* scale down large PNG */
-    height: 24px;
+    /* Adjusted transform for the new padding/sizing */
+    transform: translateY(-50%); 
+    width: 22px; 
+    height: 22px;
     cursor: pointer;
-    display: block;   /* ensure visible */
+    display: block; 
+    /* Optional: Change icon color if it's an SVG or modern image */
 }
 
+/* Style for error message */
+.login-box > div[style] {
+    border: 1px solid #e74c3c;
+    background-color: #fcecec;
+    color: #e74c3c !important;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: left;
+}
