@@ -239,4 +239,79 @@ body {
     fill: var(--danger-clr);
 }
 
+/* Add this to your main.css or the bottom of your style block */
+
+.content-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-top: 10px;  /* Just a small gap between table and footer */
+}
+
+.entries-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.entries-form select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: var(--bg-navbar);
+    padding: 6px 12px;
+    border: 1px solid var(--bg-navbar);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover state for page numbers */
+.pagination a:hover:not(.active):not(.disabled) {
+    background-color: var(--bg-navbar);
+    color: var(--text-clr);
+}
+
+/* The currently active page */
+.pagination a.active {
+    background-color: var(--bg-navbar);
+    color: var(--text-clr);
+    border-color: var(--bg-navbar);
+    pointer-events: none; /* Prevent clicking the current page */
+}
+
+/* Disabled Previous/Next buttons */
+.pagination a.disabled {
+    color: #ccc;
+    border-color: #ccc;
+    pointer-events: none;
+    cursor: default;
+}
+
+.pagination-dots {
+    padding: 0 8px;
+    color: #888;
+    font-weight: bold;
+    user-select: none; /* Prevents highlighting the dots */
+}
+
 

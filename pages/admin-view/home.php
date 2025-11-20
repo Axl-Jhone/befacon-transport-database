@@ -1,7 +1,6 @@
 <?php 
     require_once '../../includes/db_connect.php'; 
     include '../../includes/modals/modal_shell.php'; 
-    include '../../includes/modals/modal_templates.php'; 
 
     $routes = [
         // Ensure 'dashboard.php' here refers to your WIDGET/CONTENT file, 
@@ -30,7 +29,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/main.css">
-    <link rel="stylesheet" href="/befacon-transport-database/assets/css/modal_templates.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/modal_shell.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/navbar.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/sidebar.css">

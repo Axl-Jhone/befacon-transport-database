@@ -1,109 +1,119 @@
-/**
- * Universal Modal Logic
- * Handles View, Add, Edit, and Delete actions using HTML <template> tags.
- */
 
-// Main function to open the modal
-function openModal(templateId, title, data = null, deleteUrl = null) {
-    const modal = document.getElementById('universal-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalBody = document.getElementById('modal-body');
-    const template = document.getElementById(templateId);
+// 1. Handle "Vehicle Type" -> "Plate Number" filtering
+function filterPlates() {
+    const typeSelect = document.getElementById('type-select');
+    const plateSelect = document.getElementById('plate-select');
+    if (!typeSelect || !plateSelect) return;
 
-    // Safety check
-    if (!modal || !template) {
-        console.error(`Error: Modal or Template ('${templateId}') not found.`);
+    const selectedTypeId = typeSelect.value;
+
+    // If the user manually changes the type, reset the plate
+    if (window.event && window.event.type === 'change') {
+        plateSelect.value = ""; 
+    }
+
+    if (!selectedTypeId) {
+        plateSelect.disabled = true;
         return;
     }
 
-    // 1. Set the Title
-    if (modalTitle) modalTitle.textContent = title;
+    plateSelect.disabled = false;
+    
+    // Show only plates that match the selected type ID
+    Array.from(plateSelect.options).forEach(option => {
+        if (option.value === "") return; 
+        const optionTypeId = option.getAttribute('data-type-id');
+        option.style.display = (optionTypeId === selectedTypeId) ? 'block' : 'none';
+    });
+}
 
-    // 2. Clone the Template Content
-    // We clone it so we don't modify the original template
+// 2. Prevent "Arrival" being before "Departure"
+function validateDates(event) {
+    const form = event.target;
+    const d = new Date(form.querySelector('[name="sched_depart_datetime"]').value);
+    const a = new Date(form.querySelector('[name="sched_arrival_datetime"]').value);
+    
+    if (d >= a) {
+        alert("Error: Arrival time must be AFTER Departure time.");
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+// 3. Universal Modal Opener
+function openModal(templateId, title, data = null, deleteUrl = null) {
+    const modal = document.getElementById('universal-modal');
+    const modalBody = document.getElementById('modal-body');
+    const template = document.getElementById(templateId);
+
+    if (!modal || !template) return;
+
+    // Set Title
+    document.getElementById('modal-title').textContent = title;
+    
+    // Clear previous content and Clone new template
+    modalBody.innerHTML = '';
     const content = template.content.cloneNode(true);
 
-    // 3. HANDLE DELETE LINKS
-    // If a deleteUrl is passed, find the "Yes, Delete" button and set its href
+    // If it's a DELETE modal, update the Yes button
     if (deleteUrl) {
-        const deleteBtn = content.getElementById('confirm-delete-btn');
-        if (deleteBtn) {
-            deleteBtn.href = deleteUrl;
-        }
+        const btn = content.getElementById('confirm-delete-btn');
+        if (btn) btn.href = deleteUrl;
     }
 
-    // 4. HANDLE DATA POPULATION (View Details or Edit Forms)
+    // Inject content so we can access elements
+    modalBody.appendChild(content);
+
+    // If data is provided (Edit or View), populate fields
     if (data) {
-        // Loop through every element inside the template that has a "data-key" attribute
-        // Example: <span data-key="driverName"></span> or <input data-key="tripId">
-        const elements = content.querySelectorAll('[data-key]');
-        
-        elements.forEach(element => {
-            const key = element.getAttribute('data-key');
-            
-            // Check if our data object actually has this key
-            if (data[key] !== undefined && data[key] !== null) {
-                
-                // CASE A: It's an Input, Select, or Textarea (For Forms)
-                if (['INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName)) {
-                    element.value = data[key];
+        const elements = modalBody.querySelectorAll('[data-key]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (data[key] !== undefined) {
+                // Inputs/Selects
+                if (['INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName)) {
+                    el.value = data[key];
                 } 
-                // CASE B: It's a standard text element (For View Details)
+                // Text Elements (Spans, Divs)
                 else {
-                    element.textContent = data[key];
-                    
-                    // Optional: Add color styling to Status badges
-                    if (key === 'status') {
-                        setStatusColor(element, data[key]);
+                    el.textContent = data[key];
+                    // Add color to status badge if specific class exists
+                    if(key === 'status' && el.classList.contains('badge')) {
+                        setStatusColor(el, data[key]);
                     }
                 }
             }
         });
+
+        // SPECIAL CASE: Trigger dependent dropdown for "Edit Mode"
+        const typeSelect = modalBody.querySelector('#type-select');
+        const plateSelect = modalBody.querySelector('#plate-select');
+        if (typeSelect && plateSelect && data.vehicleTypeId) {
+            filterPlates(); // Unhide correct options
+            plateSelect.value = data.vehicleId; // Select the correct plate
+        }
     }
 
-    // 5. Inject Content and Show Modal
-    modalBody.innerHTML = ''; // Clear previous content
-    modalBody.appendChild(content); // Add new content
-    modal.classList.remove('hidden'); // Show modal
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
 }
 
-// Function to Close Modal
 function closeModal() {
-    const modal = document.getElementById('universal-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto'; // Restore scrolling
-    }
+    document.getElementById('universal-modal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
 }
 
-// Helper: Colorize Status Badges (Optional)
 function setStatusColor(element, status) {
-    const s = status.toLowerCase().trim();
-    element.className = 'value badge'; // Reset classes
+    status = status.toLowerCase().trim();
+    // Remove old color classes
+    element.classList.remove('badge-success', 'badge-warning', 'badge-danger');
     
-    if (s === 'completed' || s === 'active') {
-        element.classList.add('badge-success');
-    } else if (s === 'pending' || s === 'scheduled') {
-        element.classList.add('badge-warning');
-    } else if (s === 'cancelled' || s === 'inactive') {
-        element.classList.add('badge-danger');
+    if (status === 'completed' || status === 'active') {
+        element.classList.add('badge-success'); // Green
+    } else if (status === 'pending' || status === 'scheduled') {
+        element.classList.add('badge-warning'); // Yellow/Orange
     } else {
-        element.classList.add('badge-secondary');
+        element.classList.add('badge-danger');  // Red
     }
 }
-
-// Close Modal when clicking the dark overlay (outside the box)
-window.addEventListener('click', function(event) {
-    const modal = document.getElementById('universal-modal');
-    if (event.target === modal) {
-        closeModal();
-    }
-});
-
-// Close Modal on 'Escape' key press
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeModal();
-    }
-});
