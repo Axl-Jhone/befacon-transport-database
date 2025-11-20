@@ -1,4 +1,3 @@
-<!-- The Universal Modal Shell -->
 <div id="universal-modal" class="modal-overlay hidden">
     <div class="modal-box">
         <!-- Header -->
@@ -7,7 +6,7 @@
             <button onclick="closeModal()" class="close-btn">&times;</button>
         </div>
         
-        <!-- Body (Content injected here by JS) -->
+        <!-- Body -->
         <div id="modal-body"></div>
 
     </div>

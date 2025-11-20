@@ -2,25 +2,20 @@
     session_start();
     require '../includes/db_connect.php';
 
-    // --- Fix 1: Check-Session Redirection ---
     if (isset($_SESSION['user'])) {
         if ($_SESSION['role'] === 'admin') {
-            // Corrected path for admin dashboard
             header('Location: admin-view/home.php'); 
         } else {
             header('Location: driver_view.php');
         }
         exit;
     }
-    // ----------------------------------------
 
     $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        // NOTE: For security, you should hash and verify the password using password_verify()
-        // instead of storing and comparing plaintext passwords in the database.
         $sql = "SELECT * FROM user_login WHERE email = ? AND passcode = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $password);
@@ -34,9 +29,7 @@
             $_SESSION['user'] = $user['email']; 
             $_SESSION['role'] = $user['role'];  
 
-            // --- Fix 2: Post-Login Redirection ---
             if ($user['role'] === 'admin') {
-                // Corrected path for admin dashboard
                 header('Location: admin-view/home.php'); 
             } else {
                 header('Location: driver_view.php');

@@ -1,24 +1,17 @@
-/* GLOBAL RESETS AND VARIABLES */
 :root {
-    /* Mapped Admin Theme Colors for Landing Page */
-    --primary-color: #183a59; /* Main Dark Blue (from --bg-navbar) */
-    --secondary-color: #ffffff; /* White (from --text-clr) */
-    
-    /* Used for navigation link hover (Cyan) */
-    --accent-color: #54e0f3; 
-    /* NEW: Used for main CTA button hover (Orange) */
-    --cta-accent-color: #e67e22; 
-    
-    --light-bg: #f4f6f8; /* Very Light Background (from --bg-page) */
+    --primary-color: #183a59;
+    --secondary-color: #ffffff;
+    --accent-color: #54e0f3;
+    --cta-accent-color: #e67e22;
+    --light-bg: #f4f6f8;
 
     --font-family: sans-serif;
-    --header-height: 60px; /* Fixed height for header */
+    --header-height: 60px;
 }
 
 body {
     margin: 0;
-    /* Content starts below the fixed header */
-    padding-top: var(--header-height); 
+    padding-top: var(--header-height);
     font-family: var(--font-family);
     line-height: 1.6;
 }
@@ -27,30 +20,23 @@ h1, h2, h3 {
     margin: 0;
 }
 
-/* ----------------------------------- */
-/* --- TOP BAR (HEADER) --- */
+/* HEADER */
 #top-bar {
-    /* Solid Dark Blue Background */
-    background-color: var(--primary-color); 
-
-    /* White text color for contrast against dark background */
-    color: var(--secondary-color); 
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     font-size: 0.9rem;
     font-weight: bold;
-
     padding: 0 2rem;
-    height: var(--header-height); 
+    height: var(--header-height);
     display: flex;
-
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     z-index: 1000;
 }
 
@@ -78,41 +64,33 @@ h1, h2, h3 {
 #top-bar #nav-menu ul li a {
     text-decoration: none;
     display: block;
-    /* Vertically center the link text within the 60px header */
-    padding: calc(var(--header-height) / 2 - 0.9rem); 
+    padding: calc(var(--header-height) / 2 - 0.9rem);
     height: 100%;
-    /* Link text is white */
-    color: var(--secondary-color); 
+    color: var(--secondary-color);
     transition: color 0.2s;
 }
 
 #top-bar #nav-menu ul li a:hover {
-    /* Hover color is Bright Cyan */
     color: var(--accent-color);
 }
 
-/* ----------------------------------- */
-/* --- BUTTON STYLES --- */
+/* BUTTONS */
 .btn-login {
     text-decoration: none;
     display: block;
-    color: var(--secondary-color); /* White text */
-
+    color: var(--secondary-color);
     padding: 0.5rem 1.5rem;
     border-radius: 9999px;
-    background-color: var(--primary-color); /* Dark Blue background */
-
+    background-color: var(--primary-color);
     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .btn-login:hover {
     background-color: transparent;
     color: var(--secondary-color);
-    /* White border on hover since the header is dark */
-    box-shadow: inset 0 0 0 2px var(--secondary-color); 
+    box-shadow: inset 0 0 0 2px var(--secondary-color);
 }
 
-/* Styles for the landing page buttons (.btn) */
 .btn {
     text-decoration: none;
     font-weight: bold;
@@ -124,38 +102,34 @@ h1, h2, h3 {
 }
 
 .btn-primary {
-    background-color: var(--primary-color); /* Dark Blue button */
+    background-color: var(--primary-color);
     color: var(--secondary-color);
 }
 
 .btn-primary:hover {
-    /* Primary CTA hover color is vibrant Orange */
-    background-color: var(--cta-accent-color); 
+    background-color: var(--cta-accent-color);
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--primary-color); /* Dark Blue text */
-    border: 2px solid var(--primary-color); /* Dark Blue border */
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
-    /* On hover, fill the button with Dark Blue */
-    background-color: var(--primary-color); 
-    color: var(--secondary-color); /* White text */
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
-/* ----------------------------------- */
-/* --- LANDING CONTENT (HERO SECTION) --- */
+/* HERO SECTION */
 #landing-content {
-    /* Adjusted min-height to account for the fixed header */
-    min-height: calc(100vh - var(--header-height)); 
+    min-height: calc(100vh - var(--header-height));
     display: flex;
     align-items: center;
     padding: 0 4rem;
     position: relative;
     overflow: hidden;
-    background-color: var(--light-bg); /* New Light Background */
+    background-color: var(--light-bg);
 }
 
 .hero-text {
@@ -165,7 +139,7 @@ h1, h2, h3 {
 
 #landing-content h2 {
     font-size: 1.5rem;
-    color: #666; 
+    color: #666;
     margin-bottom: 0.5rem;
 }
 
@@ -188,13 +162,12 @@ h1, h2, h3 {
     height: auto;
     max-height: 85%;
     width: auto;
-    max-width: 50%; 
+    max-width: 50%;
     object-fit: contain;
     z-index: 5;
 }
 
-/* ----------------------------------- */
-/* --- ABOUT & CONTACT INFO (SECTIONS) --- */
+/* INFO SECTIONS */
 .info {
     padding: 8rem 4rem;
     background-color: var(--secondary-color);
@@ -202,14 +175,14 @@ h1, h2, h3 {
 }
 
 #contact.info {
-    background-color: var(--light-bg); /* New Light Background */
+    background-color: var(--light-bg);
 }
 
 .info h2 {
     font-size: 2.5rem;
     text-align: left;
     margin-bottom: 2rem;
-    border-bottom: 3px solid var(--primary-color); /* Dark Blue line */
+    border-bottom: 3px solid var(--primary-color);
     display: inline-block;
     padding-bottom: 0.5rem;
 }
@@ -229,33 +202,29 @@ h1, h2, h3 {
     font-weight: normal;
 }
 
-/* ----------------------------------- */
-/* --- FOOTER --- */
+/* FOOTER */
 #footer {
-    background-color: var(--primary-color); /* Dark Blue background */
+    background-color: var(--primary-color);
     color: var(--secondary-color);
     text-align: center;
-    /* Shortened vertical padding */
-    padding: 1rem 0; 
+    padding: 1rem 0;
     font-size: 0.9rem;
 }
 
-/* ----------------------------------- */
-/* --- RESPONSIVENESS (Mobile/Tablet adjustments) --- */
+/* RESPONSIVE */
 @media (max-width: 1024px) {
     #landing-content {
         flex-direction: column;
         text-align: center;
-        /* Adjusted padding-top to account for the fixed header */
-        padding-top: calc(var(--header-height) + 2rem); 
-        min-height: auto; 
+        padding-top: calc(var(--header-height) + 2rem);
+        min-height: auto;
     }
-    
+
     .hero-text {
         max-width: 100%;
         margin-bottom: 2rem;
     }
-    
+
     #landing-content h1 {
         font-size: 3rem;
     }
@@ -271,11 +240,10 @@ h1, h2, h3 {
         justify-content: center;
     }
 
-    /* Adjust padding for smaller screens */
     #top-bar, .info {
         padding: 0 1rem;
     }
-    
+
     .info {
         padding: 4rem 1.5rem;
     }
@@ -286,11 +254,10 @@ h1, h2, h3 {
         font-size: 0.8rem;
     }
 
-    /* Hide nav menu on smaller screens to make room */
     #top-bar #nav-menu {
         display: none;
     }
-    
+
     #landing-content h1 {
         font-size: 2.5rem;
     }
@@ -299,7 +266,7 @@ h1, h2, h3 {
         padding: 0.75rem 1.5rem;
         font-size: 0.9rem;
     }
-    
+
     .info h2 {
         font-size: 2rem;
     }

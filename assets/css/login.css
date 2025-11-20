@@ -2,27 +2,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Changed font for a modern feel */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
-
-/* --- Color Palette ---
-   - Background: #f7f7f7 (Light Gray)
-   - Primary Accent (Box/Button): #003366 (Deep Navy Blue)
-   - Secondary Accent (Button/Highlight): #00a88e (Teal)
-   - Text/Links: #4a4a4a (Dark Gray)
-   - Error/Warning: #e74c3c (Red)
-*/
 
 body {
     height: 100vh;
     display: flex;
-    background-color: #f7f7f7; /* Light background for the body */
+    background-color: #f7f7f7;
 }
 
-/* Updated left-side to use a darker overlay for better contrast */
 .left-side {
-    flex: 1.2; /* Slightly more space for the left side */
+    flex: 1.2;
     background: url("../img/login_page/Login-left.jpg") center / cover no-repeat;
     position: relative;
 }
@@ -34,12 +24,12 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 51, 102, 0.75); /* Deep Navy Blue Overlay */
+    background: rgba(0, 51, 102, 0.75);
 }
 
 .right-side {
     flex: 1;
-    background: #ffffff; /* White background for the login side */
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,34 +43,33 @@ body {
     background: url("../img/login_page/Icon.png") center / cover no-repeat;
     border-radius: 50%;
     margin-bottom: 5px;
-    /* Optional: Add a subtle border */
-    border: 3px solid #003366; 
+    border: 3px solid #003366;
 }
 
 .tagline {
     margin-bottom: 30px;
     font-size: 14px;
-    font-weight: 600; /* Medium bold */
-    color: #003366; /* Match the primary color */
+    font-weight: 600;
+    color: #003366;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 .login-box {
-    width: 400px; /* Slightly wider box */
+    width: 400px;
     max-width: 90%;
-    background: #ffffff; /* White login box */
-    border: 1px solid #e0e0e0; /* Subtle border */
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
     padding: 40px;
     border-radius: 10px;
-    color: #4a4a4a; /* Dark gray text */
-    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
+    color: #4a4a4a;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .login-box h2 {
     margin-bottom: 5px;
-    font-size: 32px; /* Larger heading */
-    color: #003366; /* Deep Navy Blue for heading */
+    font-size: 32px;
+    color: #003366;
     text-align: center;
     font-weight: 700;
 }
@@ -88,14 +77,14 @@ body {
 .login-box p {
     font-size: 15px;
     margin-bottom: 30px;
-    color: #777; /* Lighter gray for subtext */
+    color: #777;
     text-align: center;
 }
 
 .login-box label {
     font-size: 14px;
     font-weight: 600;
-    display: block; /* Make label take full width */
+    display: block;
     margin-top: 10px;
     color: #4a4a4a;
 }
@@ -105,18 +94,17 @@ body {
     padding: 12px;
     margin: 6px 0 20px 0;
     border-radius: 6px;
-    border: 1px solid #ccc; /* Subtle border on input */
-    background: #fcfcfc; /* Very light background for input */
+    border: 1px solid #ccc;
+    background: #fcfcfc;
     font-size: 15px;
     transition: border-color 0.3s;
 }
 
 .login-box input:focus {
     outline: none;
-    border-color: #00a88e; /* Teal highlight on focus */
+    border-color: #00a88e;
 }
 
-/* Remember row */
 .remember-row {
     display: flex;
     justify-content: space-between;
@@ -136,24 +124,24 @@ body {
 .remember-row div input[type="checkbox"] {
     margin: 0;
     transform: translateY(-1px);
-    accent-color: #00a88e; /* Use Teal for the checkbox color */
+    accent-color: #00a88e;
 }
 
 .remember-row a {
-    color: #003366; /* Deep Navy Blue link color */
+    color: #003366;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
 }
 
 .remember-row a:hover {
-    color: #00a88e; /* Teal on hover */
+    color: #00a88e;
     text-decoration: underline;
 }
 
 .login-btn {
     width: 100%;
-    background: #00a88e; /* Teal button color */
+    background: #00a88e;
     color: white;
     padding: 14px;
     border: none;
@@ -163,11 +151,11 @@ body {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 10px rgba(0, 168, 142, 0.2); /* Teal shadow for button */
+    box-shadow: 0 4px 10px rgba(0, 168, 142, 0.2);
 }
 
 .login-btn:hover {
-    background: #008f75; /* Slightly darker Teal on hover */
+    background: #008f75;
 }
 
 .login-btn:active {
@@ -182,13 +170,13 @@ body {
 }
 
 .footer-links a {
-    color: #777; /* Neutral gray link color */
+    color: #777;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .footer-links a:hover {
-    color: #00a88e; /* Teal on hover */
+    color: #00a88e;
 }
 
 .password-container {
@@ -197,25 +185,21 @@ body {
 }
 
 .password-container input {
-    /* Reset margin for input inside container */
-    margin: 6px 0 20px 0; 
-    padding-right: 40px; 
+    margin: 6px 0 20px 0;
+    padding-right: 40px;
 }
 
 .password-container .eye-icon {
     position: absolute;
     right: 12px;
     top: 50%;
-    /* Adjusted transform for the new padding/sizing */
-    transform: translateY(-50%); 
-    width: 22px; 
+    transform: translateY(-50%);
+    width: 22px;
     height: 22px;
     cursor: pointer;
-    display: block; 
-    /* Optional: Change icon color if it's an SVG or modern image */
+    display: block;
 }
 
-/* Style for error message */
 .login-box > div[style] {
     border: 1px solid #e74c3c;
     background-color: #fcecec;

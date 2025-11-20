@@ -1,9 +1,4 @@
-<?php 
-// Removed PHP logic for routing and includes (db_connect, modals) 
-// as they are not needed for a static landing page.
-?>
-
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">

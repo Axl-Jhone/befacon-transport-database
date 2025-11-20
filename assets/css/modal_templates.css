@@ -127,9 +127,7 @@
     gap: 1rem;
 }
 
-/* =========================================
-   3. FORM TEMPLATE CSS
-   ========================================= */
+/* Form template */
 .styled-form {
     display: flex;
     flex-direction: column;
@@ -165,7 +163,7 @@
 
 .form-row-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Date takes more space than cost */
+    grid-template-columns: 2fr 1fr; 
     gap: 1rem;
 }
 
@@ -178,9 +176,7 @@
     border-top: 1px solid #e5e7eb;
 }
 
-/* =========================================
-   SHARED BUTTON STYLES
-   ========================================= */
+/* Button Styles */
 .btn-danger, .btn-save, .btn-secondary {
     padding: 0.6rem 1.2rem;
     border-radius: 6px;

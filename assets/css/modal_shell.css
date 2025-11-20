@@ -1,40 +1,33 @@
-/* =========================================
-   1. UNIVERSAL MODAL SHELL
-   ========================================= */
-
-/* The Overlay (Dark Background) */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 50% opacity black */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
-    align-items: center; /* Centers box vertically & horizontally */
-    z-index: 9999; /* Sits on top of everything */
+    align-items: center;
+    z-index: 9999;
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
 }
 
-/* Hidden State */
 .modal-overlay.hidden {
     display: none;
     opacity: 0;
     pointer-events: none;
 }
 
-/* The Modal Box */
 .modal-box {
     background: #ffffff;
     width: 90%;
-    max-width: 550px; /* Limits width on large screens */
+    max-width: 550px;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    max-height: 90vh; /* Prevents box from being taller than screen */
+    max-height: 90vh;
     animation: slideIn 0.3s ease-out;
 }
 
@@ -43,7 +36,6 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Header */
 .modal-header {
     padding: 15px 20px;
     border-bottom: 1px solid #eaeaea;
@@ -75,13 +67,11 @@
     color: #dc3545;
 }
 
-/* Body Content */
 #modal-body {
     padding: 20px;
-    overflow-y: auto; /* Adds scrollbar if content is too long */
+    overflow-y: auto;
 }
 
-/* Footer */
 .modal-footer {
     padding: 15px 20px;
     border-top: 1px solid #eaeaea;
@@ -90,10 +80,10 @@
     border-radius: 0 0 10px 10px;
 }
 
-/* =========================================
-   GLOBAL BUTTON STYLES (Used in Shell & Templates)
-   ========================================= */
-.btn-primary, .btn-secondary, .btn-danger, .btn-save {
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-save {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -104,13 +94,35 @@
     display: inline-block;
 }
 
-.btn-save, .btn-primary { background-color: #007bff; color: white; }
-.btn-save:hover, .btn-primary:hover { background-color: #0056b3; }
+.btn-save,
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
 
-.btn-secondary { background-color: #6c757d; color: white; }
-.btn-secondary:hover { background-color: #545b62; }
+.btn-save:hover,
+.btn-primary:hover {
+    background-color: #0056b3;
+}
 
-.btn-danger { background-color: #dc3545; color: white; }
-.btn-danger:hover { background-color: #c82333; }
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
 
-.btn-cancel { margin-right: 10px; }
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-cancel {
+    margin-right: 10px;
+}
