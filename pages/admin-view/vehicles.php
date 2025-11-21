@@ -188,7 +188,7 @@
         <colgroup></colgroup>
         <thead>
             <tr>
-                <th>No.</th>
+                <th>Vehicle No.</th>
                 <th>Vehicle Type</th>
                 <th>Plate No.</th>
                 <th>Access Type</th>

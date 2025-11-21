@@ -179,7 +179,7 @@
         <thead>
             <tr>
                 <!-- CHANGED: "Trip ID" to "No." -->
-                <th>No.</th>
+                <th>Trip No.</th>
                 <th>Driver</th>
                 <th>Vehicle Type</th>
                 <th>Plate No.</th>
