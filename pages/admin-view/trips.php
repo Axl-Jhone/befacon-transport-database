@@ -1,7 +1,5 @@
 <?php
-    // Assume $conn is included via: require_once '../../includes/db_connect.php'; 
-
-    // PAGINATION LOGIC
+   // PAGINATION LOGIC
     $current_route = isset($_GET['page']) ? $_GET['page'] : '';
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
     $curr_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
@@ -411,72 +409,116 @@
 <template id="trip-form-template">
     <form action="../actions/save_trip.php" method="POST" class="styled-form" onsubmit="return validateDates(event)">
         <input type="hidden" name="trip_id" data-key="tripId">
+
         <div class="form-group">
             <label>Driver</label>
             <select name="driver_id" data-key="driverId" required>
                 <option value="" disabled selected>-- Select Driver --</option>
-                <?php if($drivers_res) $drivers_res->data_seek(0); while($d = $drivers_res->fetch_assoc()): ?>
-                    <option value="<?php echo $d['driver_id']; ?>"><?php echo $d['full_name']; ?></option>
+                <?php if ($drivers_res) $drivers_res->data_seek(0); while ($d = $drivers_res->fetch_assoc()): ?>
+                    <option value="<?php echo $d['driver_id']; ?>">
+                        <?php echo $d['full_name']; ?>
+                    </option>
                 <?php endwhile; ?>
             </select>
         </div>
+
         <div class="form-row-grid">
             <div class="form-group">
                 <label>Vehicle Type</label>
-                <select id="type-select" name="vehicle_type_id" data-key="vehicleTypeId" onchange="filterPlates()" required>
+                <select id="type-select" name="vehicle_type_id" data-key="vehicleTypeId"
+                        onchange="filterPlates()" required>
                     <option value="" disabled selected>-- Select Type --</option>
-                    <?php if($types_res) $types_res->data_seek(0); while($t = $types_res->fetch_assoc()): ?>
-                        <option value="<?php echo $t['vehicle_type_id']; ?>"><?php echo $t['vehicle_type']; ?></option>
+                    <?php if ($types_res) $types_res->data_seek(0); while ($t = $types_res->fetch_assoc()): ?>
+                        <option value="<?php echo $t['vehicle_type_id']; ?>">
+                            <?php echo $t['vehicle_type']; ?>
+                        </option>
                     <?php endwhile; ?>
                 </select>
             </div>
+
             <div class="form-group">
                 <label>Plate Number</label>
                 <select id="plate-select" name="vehicle_id" data-key="vehicleId" disabled required>
                     <option value="" disabled selected>Select Type First</option>
-                    <?php if($vehicles_res) $vehicles_res->data_seek(0); while($v = $vehicles_res->fetch_assoc()): ?>
-                        <option value="<?php echo $v['vehicle_id']; ?>" data-type-id="<?php echo $v['vehicle_type_id']; ?>">
+                    <?php if ($vehicles_res) $vehicles_res->data_seek(0); while ($v = $vehicles_res->fetch_assoc()): ?>
+                        <option value="<?php echo $v['vehicle_id']; ?>"
+                                data-type-id="<?php echo $v['vehicle_type_id']; ?>">
                             <?php echo $v['plate_no']; ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
             </div>
         </div>
+
         <div class="form-row-grid">
-            <div class="form-group"><label>Origin</label><input type="text" name="origin" data-key="origin" required></div>
-            <div class="form-group"><label>Destination</label><input type="text" name="destination" data-key="destination" required></div>
+            <div class="form-group">
+                <label>Origin</label>
+                <input type="text" name="origin" data-key="origin" required>
+            </div>
+            <div class="form-group">
+                <label>Destination</label>
+                <input type="text" name="destination" data-key="destination" required>
+            </div>
         </div>
+
         <div class="form-row-grid">
-            <div class="form-group"><label>Departure</label><input type="datetime-local" name="sched_depart_datetime" data-key="departureRaw" required></div>
-            <div class="form-group"><label>Arrival</label><input type="datetime-local" name="sched_arrival_datetime" data-key="arrivalRaw" required></div>
+            <div class="form-group">
+                <label>Departure</label>
+                <input type="datetime-local" name="sched_depart_datetime" data-key="departureRaw" required>
+            </div>
+            <div class="form-group">
+                <label>Arrival</label>
+                <input type="datetime-local" name="sched_arrival_datetime" data-key="arrivalRaw" required>
+            </div>
         </div>
+
         <div class="form-row-grid">
             <div class="form-group">
                 <label>Purpose</label>
                 <select name="purpose_id" data-key="purposeId" required>
                     <option value="" disabled selected>-- Select Purpose --</option>
-                    <?php if($purposes_res) $purposes_res->data_seek(0); while($p = $purposes_res->fetch_assoc()): ?>
-                        <option value="<?php echo $p['purpose_id']; ?>"><?php echo $p['purpose']; ?></option>
+                    <?php if ($purposes_res) $purposes_res->data_seek(0); while ($p = $purposes_res->fetch_assoc()): ?>
+                        <option value="<?php echo $p['purpose_id']; ?>">
+                            <?php echo $p['purpose']; ?>
+                        </option>
                     <?php endwhile; ?>
                 </select>
             </div>
+
             <div class="form-group">
                 <label>Status</label>
                 <select name="trip_status_id" data-key="statusId" required>
                     <option value="" disabled selected>-- Select Status --</option>
-                    <?php if($status_res) $status_res->data_seek(0); while($s = $status_res->fetch_assoc()): ?>
-                        <option value="<?php echo $s['trip_status_id']; ?>"><?php echo $s['trip_status']; ?></option>
+                    <?php if ($status_res) $status_res->data_seek(0); while ($s = $status_res->fetch_assoc()): ?>
+                        <option value="<?php echo $s['trip_status_id']; ?>">
+                            <?php echo $s['trip_status']; ?>
+                        </option>
                     <?php endwhile; ?>
                 </select>
             </div>
         </div>
-        <div class="form-group"><label>Cost</label><input type="number" name="trip_cost" data-key="tripCostRaw" step="0.01"></div>
+
+        <div class="form-group">
+            <label>Cost</label>
+            <input
+                type="number"
+                name="trip_cost"
+                data-key="tripCostRaw"
+                step="0.01"
+                required
+                title="Value must not exceed ₱99,999.99"
+                min="0"
+                max="99999.99"
+            >
+        </div>
+
         <div class="modal-actions">
             <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
             <button type="submit" class="btn-save">Save Trip</button>
         </div>
     </form>
 </template>
+
 
 <!-- DELETE TEMPLATE -->
 <template id="delete-template">

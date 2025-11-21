@@ -160,7 +160,7 @@
         <thead>
             <tr>
                 <!-- VISUAL ROW NUMBER -->
-                <th>No.</th>
+                <th>Driver No.</th>
                 <th>Driver Name</th>
                 <th>License No.</th>
                 <th>License Type</th>
