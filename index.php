@@ -26,7 +26,7 @@
             </nav>
             
             <div id="login">
-                <a href="pages/login.php" class="btn-login">Admin Login</a>
+                <a href="pages/login.php" class="btn-login">Login</a>
             </div>
         </header>
 

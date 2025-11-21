@@ -23,3 +23,21 @@ function toggleSubMenu(button) {
         sidebar.classList.toggle('close');
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const settingsBtn = document.getElementById("settingsMenuBtn");
+    const settingsDropdown = document.getElementById("settingsDropdown");
+
+    if (settingsBtn) {
+        settingsBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            settingsDropdown.style.display =
+                settingsDropdown.style.display === "block" ? "none" : "block";
+        });
+    }
+
+    document.addEventListener("click", () => {
+        if (settingsDropdown) settingsDropdown.style.display = "none";
+    });
+});

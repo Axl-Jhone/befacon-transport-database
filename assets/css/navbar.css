@@ -98,4 +98,32 @@
     cursor: pointer;
 }
 
+.settings-icon {
+    position: relative;
+    cursor: pointer;
+}
 
+.settings-dropdown {
+    position: absolute;
+    right: 0;
+    top: 35px;
+    background: white;
+    border-radius: 6px;
+    padding: 10px 0;
+    width: 180px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: none; /* hidden by default */
+    z-index: 9999;
+}
+
+.settings-dropdown a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.settings-dropdown a:hover {
+    background: #51ceea;
+}
