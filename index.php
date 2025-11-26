@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -45,16 +45,16 @@
 
             <section id="about" class="info">
                 <h2>About Us</h2>
-                <p>BeFaCon Transport Co. was founded by **Leonardo Benando, Miguel Jr. Factora, and Ax’l Conchada** on December 25, 2005. Based in Baguio City, Philippines, we are committed to providing reliable and safe transportation services across the region.</p>
+                <p>BeFaCon Transport Co. was founded by Leonardo Benando, Miguel Jr. Factora, and Ax'l Conchada on December 25, 2005. Based in Baguio City, Philippines, we are committed to providing reliable and safe transportation services across the region.</p>
                 <p>We pride ourselves on our professionalism and dedication to customer satisfaction.</p>
             </section>
 
             <section id="contact" class="info">
                 <h2>Contact Us</h2>
                 <div class="contact-details">
-                    <p><i class="fa-solid fa-envelope"></i> **Email:** support@befacon.com</p>
-                    <p><i class="fa-solid fa-phone"></i> **Phone:** (000) 123-4567</p>
-                    <p><i class="fa-solid fa-map-marker-alt"></i> **Address:** Baguio City, Philippines</p>
+                    <p><i class="fa-solid fa-envelope"></i> Email: support@befacon.com</p>
+                    <p><i class="fa-solid fa-phone"></i> Phone: (000) 123-4567</p>
+                    <p><i class="fa-solid fa-map-marker-alt"></i> Address: Baguio City, Philippines</p>
                 </div>
             </section>
         </main>

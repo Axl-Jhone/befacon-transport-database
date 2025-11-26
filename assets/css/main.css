@@ -253,14 +253,37 @@ body {
     fill: var(--danger-clr);
 }
 
-/* Add this to your main.css or the bottom of your style block */
+.about-us {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
 
+.about-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.about-top h1 {
+    color: var(--bg-navbar);
+}
+
+.about-bottom {
+    margin-top: auto;
+}
+
+/* Footer Styles */
 .content-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 0;
-    margin-top: 10px;  /* Just a small gap between table and footer */
+    margin-top: 10px;  
 }
 
 .entries-container {
@@ -310,7 +333,7 @@ body {
     background-color: var(--bg-navbar);
     color: var(--text-clr);
     border-color: var(--bg-navbar);
-    pointer-events: none; /* Prevent clicking the current page */
+    pointer-events: none; 
 }
 
 /* Disabled Previous/Next buttons */
@@ -325,7 +348,104 @@ body {
     padding: 0 8px;
     color: #888;
     font-weight: bold;
-    user-select: none; /* Prevents highlighting the dots */
+    user-select: none; 
 }
 
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
+/* Header Section */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: #183a59;
+    font-size: 2rem;
+}
+
+.current-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #666;
+    font-weight: 600;
+    background-color: #f4f6f9;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.current-date svg {
+    fill: #183a59;
+}
+
+/* Headers */
+.section-title {
+    color: #183a59;
+    border-left: 5px solid #183a59;
+    padding-left: 15px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* GRID LAYOUT FOR ROWS */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* CARD DESIGN */
+.stat-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    transition: transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #183a59;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* COLOR MODIFIERS */
+.stat-card.blue .stat-number { color: #17a2b8; }
+.stat-card.green .stat-number { color: #28a745; }
+.stat-card.yellow .stat-number { color: #ffc107; }
+.stat-card.red .stat-number { color: #dc3545; }
+
+.stat-card.blue { border-bottom: 4px solid #17a2b8; }
+.stat-card.green { border-bottom: 4px solid #28a745; }
+.stat-card.yellow { border-bottom: 4px solid #ffc107; }
+.stat-card.red { border-bottom: 4px solid #dc3545; }

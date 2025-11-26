@@ -34,6 +34,8 @@
     $where = "";
     $clauses = [];
 
+    $clauses[] = "t.driver_id = " . (int)$current_driver_id;
+
     if ($q !== '') {
         $qEsc = $conn->real_escape_string($q);
         $clauses[] = "(
@@ -83,6 +85,8 @@
     $vehicles_res = $conn->query("SELECT vehicle_id, vehicle_type_id, plate_no FROM vehicle_info WHERE vehicle_status_id = 1");
     $purposes_res = $conn->query("SELECT purpose_id, purpose FROM purpose_data");
     $status_res   = $conn->query("SELECT trip_status_id, trip_status FROM trip_status_data");
+
+    $current_driver_id = $_SESSION['driver_id'];
 
     // DATA SELECTION QUERY
     $data = "
@@ -167,10 +171,6 @@
     </div>
     
     <div class="page-title">SCHEDULED TRIPS</div>
-    
-    <button class="add-button" onclick="openModal('trip-form-template', 'Add New Trip')">
-        + Add Trip
-    </button>
 </div>
 
 <!-- CONTENT TABLE -->
@@ -254,17 +254,6 @@
                                 onclick="openModal('view-details-template', 'Trip #<?php echo $row['trip_id']; ?> Details', JSON.parse(this.getAttribute('data-trip-info')))" 
                                 title='View Details'>
                             <svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e3e3e3'><path d='M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z'/></svg>
-                        </button>
-                        <button class='action-icon edit-btn' 
-                                data-trip-info='<?php echo $safeJsonAttr; ?>'
-                                onclick="openModal('trip-form-template', 'Edit Trip #<?php echo $row['trip_id']; ?>', JSON.parse(this.getAttribute('data-trip-info')))" 
-                                title='Edit'>
-                            <svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e3e3e3'><path d='M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z'/></svg>
-                        </button>
-                        <button class='action-icon delete-btn' 
-                                onclick="openModal('delete-template', 'Confirm Delete', null, '<?php echo $deleteUrl; ?>')" 
-                                title='Delete'>
-                            <svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='#e3e3e3'><path d='M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z'/></svg>
                         </button>
                     </td>
                 </tr>
@@ -406,140 +395,11 @@
     </div>
 </template>
 
-<!-- ADD/EDIT FORM TEMPLATE -->
-<template id="trip-form-template">
-    <form action="../actions/save_trip.php" method="POST" class="styled-form" onsubmit="return validateDates(event)">
-        <input type="hidden" name="trip_id" data-key="tripId">
-
-        <div class="form-group">
-            <label>Driver</label>
-            <select name="driver_id" data-key="driverId" required>
-                <option value="" disabled selected>-- Select Driver --</option>
-                <?php if ($drivers_res) $drivers_res->data_seek(0); while ($d = $drivers_res->fetch_assoc()): ?>
-                    <option value="<?php echo $d['driver_id']; ?>">
-                        <?php echo $d['full_name']; ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-
-        <div class="form-row-grid">
-            <div class="form-group">
-                <label>Vehicle Type</label>
-                <select id="type-select" name="vehicle_type_id" data-key="vehicleTypeId"
-                        onchange="filterPlates()" required>
-                    <option value="" disabled selected>-- Select Type --</option>
-                    <?php if ($types_res) $types_res->data_seek(0); while ($t = $types_res->fetch_assoc()): ?>
-                        <option value="<?php echo $t['vehicle_type_id']; ?>">
-                            <?php echo $t['vehicle_type']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Plate Number</label>
-                <select id="plate-select" name="vehicle_id" data-key="vehicleId" disabled required>
-                    <option value="" disabled selected>Select Type First</option>
-                    <?php if ($vehicles_res) $vehicles_res->data_seek(0); while ($v = $vehicles_res->fetch_assoc()): ?>
-                        <option value="<?php echo $v['vehicle_id']; ?>"
-                                data-type-id="<?php echo $v['vehicle_type_id']; ?>">
-                            <?php echo $v['plate_no']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row-grid">
-            <div class="form-group">
-                <label>Origin</label>
-                <input type="text" name="origin" data-key="origin" maxlength="50" required>
-            </div>
-            <div class="form-group">
-                <label>Destination</label>
-                <input type="text" name="destination" data-key="destination" maxlength="50" required>
-            </div>
-        </div>
-
-        <div class="form-row-grid">
-            <div class="form-group">
-                <label>Departure</label>
-                <input type="datetime-local" name="sched_depart_datetime" data-key="departureRaw" required>
-            </div>
-            <div class="form-group">
-                <label>Arrival</label>
-                <input type="datetime-local" name="sched_arrival_datetime" data-key="arrivalRaw" required>
-            </div>
-        </div>
-
-        <div class="form-row-grid">
-            <div class="form-group">
-                <label>Purpose</label>
-                <select name="purpose_id" data-key="purposeId" required>
-                    <option value="" disabled selected>-- Select Purpose --</option>
-                    <?php if ($purposes_res) $purposes_res->data_seek(0); while ($p = $purposes_res->fetch_assoc()): ?>
-                        <option value="<?php echo $p['purpose_id']; ?>">
-                            <?php echo $p['purpose']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Status</label>
-                <select name="trip_status_id" data-key="statusId" required>
-                    <option value="" disabled selected>-- Select Status --</option>
-                    <?php if ($status_res) $status_res->data_seek(0); while ($s = $status_res->fetch_assoc()): ?>
-                        <option value="<?php echo $s['trip_status_id']; ?>">
-                            <?php echo $s['trip_status']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Cost</label>
-            <input
-                type="number"
-                name="trip_cost"
-                data-key="tripCostRaw"
-                step="0.01"
-                required
-                title="Value must not exceed ₱99,999.99"
-                min="0"
-                max="99999.99"
-            >
-        </div>
-
-        <div class="modal-actions">
-            <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
-            <button type="submit" class="btn-save">Save Trip</button>
-        </div>
-    </form>
-</template>
-
-
-<!-- DELETE TEMPLATE -->
-<template id="delete-template">
-    <div class="delete-warning-box">
-        <div class="warning-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z"/></svg>
-        </div>
-        <h3>Confirm Delete</h3>
-        <p class="warning-text">Are you sure? This action cannot be undone.</p>
-        <div class="delete-actions">
-            <button onclick="closeModal()" class="btn-secondary">Cancel</button>
-            <a id="confirm-delete-btn" href="#" class="btn-danger">Delete</a>
-        </div>
-    </div>
-</template>
 
 <!-- FILTER SEARCH TEMPLATE (COMPLETE) -->
 <template id="filter-search-template">
     <div class="filter-search-modal styled-form">
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Driver</label>
             <select name="filter_driver_id">
                 <option value="" <?php if(!$filter_driver_id) echo 'selected'; ?>>-- All Drivers --</option>
@@ -547,7 +407,7 @@
                     <option value="<?php echo $d['driver_id']; ?>" <?php if($filter_driver_id == $d['driver_id']) echo 'selected'; ?>><?php echo $d['full_name']; ?></option>
                 <?php endwhile; ?>
             </select>
-        </div>
+        </div> -->
 
         <div class="form-row-grid">
             <div class="form-group">

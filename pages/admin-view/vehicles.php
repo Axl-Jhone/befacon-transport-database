@@ -1,4 +1,5 @@
 <?php
+
     // --- PAGINATION LOGIC ---
     $current_route = isset($_GET['page']) ? $_GET['page'] : '';
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
@@ -172,7 +173,7 @@
             <input type="hidden" name="filter_license_type_id" value="<?php echo htmlspecialchars($filter_license_type_id); ?>">
             <input type="hidden" name="filter_current_location" value="<?php echo htmlspecialchars($filter_current_location); ?>">
             
-            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search vehicles..." value="<?php echo htmlspecialchars($q); ?>">
+            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search vehicles..." value="<?php echo htmlspecialchars($q); ?>" maxlength="30">
         </form>
     </div>
     
@@ -531,7 +532,7 @@
             </div>
             <div class="form-group">
                 <label>Current Location</label>
-                <input type="text" name="filter_current_location" value="<?php echo htmlspecialchars($filter_current_location); ?>" placeholder="e.g. Garage">
+                <input type="text" name="filter_current_location" value="<?php echo htmlspecialchars($filter_current_location); ?>" placeholder="e.g. Garage" maxlength="30">
             </div>
         </div>
 

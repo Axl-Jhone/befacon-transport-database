@@ -1,4 +1,9 @@
 <?php 
+
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
     require_once '../../includes/db_connect.php'; 
     include '../../includes/modals/modal_shell.php'; 
 
@@ -30,6 +35,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/main.css">
+    <link rel="stylesheet" href="/befacon-transport-database/assets/css/driver.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/modal_shell.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/navbar.css">
     <link rel="stylesheet" href="/befacon-transport-database/assets/css/sidebar.css">
@@ -43,10 +49,10 @@
     <script type="text/javascript" defer src="/befacon-transport-database/assets/js/main.js"></script>
 </head>
 <body>
-    <?php include ('../../components/navbar.php') ?>
+    <?php include ('../../components/driver-view/navbar.php') ?>
 
     <div class="main-container">
-        <?php include ('../../components/sidebar.php') ?>
+        <?php include ('../../components/driver-view/sidebar.php') ?>
 
         <div class="content-area">
             <main>

@@ -143,7 +143,7 @@
             <input type="hidden" name="filter_driver_status_id" value="<?php echo htmlspecialchars($filter_driver_status_id); ?>">
             <input type="hidden" name="filter_gender" value="<?php echo htmlspecialchars($filter_gender); ?>">
             
-            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search drivers..." value="<?php echo htmlspecialchars($q); ?>">
+            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search drivers..." value="<?php echo htmlspecialchars($q); ?>" maxlength="30">
         </form>
     </div>
     
@@ -364,12 +364,12 @@
     <div class="form-row-grid" style="grid-template-columns: 2fr 2fr 1fr;">
         <div class="form-group">
             <label>First Name</label>
-            <input type="text" name="driver_fname" data-key="driverFname" required>
+            <input type="text" name="driver_fname" data-key="driverFname" maxlength="50" required>
         </div>
 
         <div class="form-group">
             <label>Last Name</label>
-            <input type="text" name="driver_lname" data-key="driverLname" required>
+            <input type="text" name="driver_lname" data-key="driverLname" maxlength="50" required>
         </div>
 
         <div class="form-group">
@@ -387,6 +387,7 @@
                 data-key="contact"
                 placeholder="09XXXXXXXXX"
                 maxlength="11"
+                inputmode="numeric"
                 pattern="09\d{9}"
                 title="Contact number must be 09 followed by 9 digits (11 digits total)."
                 required>
