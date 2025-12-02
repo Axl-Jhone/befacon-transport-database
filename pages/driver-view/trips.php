@@ -88,6 +88,32 @@
 
     $current_driver_id = $_SESSION['driver_id'];
 
+    // For driver-view: build mappings (vehicle type -> statuses) and (status -> vehicle types)
+    $vehicleTypeToStatuses = [];
+    $statusToVehicleTypes = [];
+    $cap_sql = "SELECT v.vehicle_type_id, t.trip_status_id FROM trip_info t JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id WHERE t.driver_id = ?";
+    $stmtCap = $conn->prepare($cap_sql);
+    if ($stmtCap) {
+        $stmtCap->bind_param('i', $current_driver_id);
+        if ($stmtCap->execute()) {
+            $resCap = $stmtCap->get_result();
+            while ($r = $resCap->fetch_assoc()) {
+                $vt = (int)$r['vehicle_type_id'];
+                $ts = (int)$r['trip_status_id'];
+                if ($vt) {
+                    if (!isset($vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt] = [];
+                    if ($ts && !in_array($ts, $vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt][] = $ts;
+                }
+                if ($ts) {
+                    if (!isset($statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts] = [];
+                    if ($vt && !in_array($vt, $statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts][] = $vt;
+                }
+            }
+            $resCap->free();
+        }
+        $stmtCap->close();
+    }
+
     // DATA SELECTION QUERY
     $data = "
         SELECT
@@ -138,6 +164,64 @@
             }, 500);
         });
     });
+    </script>
+    <script>
+    // Mappings built server-side for this driver
+    var vehicleTypeToStatuses = <?php echo json_encode($vehicleTypeToStatuses); ?>;
+    var statusToVehicleTypes = <?php echo json_encode($statusToVehicleTypes); ?>;
+
+    function intersect(arrA, arrB) {
+        if (!Array.isArray(arrA) || !Array.isArray(arrB)) return [];
+        var setB = new Set(arrB.map(String));
+        return arrA.map(String).filter(function(x){ return setB.has(x); });
+    }
+
+    function updateFilterInterdependencies() {
+        var modal = document.querySelector('.filter-search-modal');
+        if (!modal) return;
+        var typeSel = modal.querySelector("select[name='filter_vehicle_type_id']");
+        var statusSel = modal.querySelector("select[name='filter_trip_status_id']");
+        if (!typeSel || !statusSel) return;
+
+        var typeId = typeSel.value || '';
+        var statusId = statusSel.value || '';
+
+        var allowedTypes = null;
+        var allowedStatuses = null;
+
+        // If BOTH are empty, show only what this driver has historically used
+        if (!typeId && !statusId) {
+            // Collect all vehicle types and statuses this driver has used
+            var allUsedTypes = Object.keys(vehicleTypeToStatuses).map(String);
+            var allUsedStatuses = Object.keys(statusToVehicleTypes).map(String);
+            allowedTypes = allUsedTypes.length > 0 ? allUsedTypes : null;
+            allowedStatuses = allUsedStatuses.length > 0 ? allUsedStatuses : null;
+        } else if (typeId) {
+            var globalStatuses = vehicleTypeToStatuses[typeId] ? vehicleTypeToStatuses[typeId].map(String) : [];
+            allowedStatuses = globalStatuses;
+        } else if (statusId) {
+            var globalTypes = statusToVehicleTypes[statusId] ? statusToVehicleTypes[statusId].map(String) : [];
+            allowedTypes = globalTypes;
+        }
+
+        Array.from(typeSel.options).forEach(function(opt){
+            if (!opt.value) { opt.disabled = false; opt.style.opacity = ''; return; }
+            var val = String(opt.value);
+            if (allowedTypes === null) { opt.disabled = false; opt.style.opacity = ''; }
+            else if (allowedTypes.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else if (allowedTypes.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else { opt.disabled = false; opt.style.opacity = ''; }
+        });
+
+        Array.from(statusSel.options).forEach(function(opt){
+            if (!opt.value) { opt.disabled = false; opt.style.opacity = ''; return; }
+            var val = String(opt.value);
+            if (allowedStatuses === null) { opt.disabled = false; opt.style.opacity = ''; }
+            else if (allowedStatuses.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else if (allowedStatuses.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else { opt.disabled = false; opt.style.opacity = ''; }
+        });
+    }
     </script>
 </head>
 <body>
@@ -399,20 +483,10 @@
 <!-- FILTER SEARCH TEMPLATE (COMPLETE) -->
 <template id="filter-search-template">
     <div class="filter-search-modal styled-form">
-        <!-- <div class="form-group">
-            <label>Driver</label>
-            <select name="filter_driver_id">
-                <option value="" <?php if(!$filter_driver_id) echo 'selected'; ?>>-- All Drivers --</option>
-                <?php if($drivers_res) $drivers_res->data_seek(0); while($d = $drivers_res->fetch_assoc()): ?>
-                    <option value="<?php echo $d['driver_id']; ?>" <?php if($filter_driver_id == $d['driver_id']) echo 'selected'; ?>><?php echo $d['full_name']; ?></option>
-                <?php endwhile; ?>
-            </select>
-        </div> -->
-
         <div class="form-row-grid">
             <div class="form-group">
                 <label>Vehicle Type</label>
-                <select name="filter_vehicle_type_id">
+                <select name="filter_vehicle_type_id" onchange="updateFilterInterdependencies()">
                     <option value="" <?php if(!$filter_vehicle_type_id) echo 'selected'; ?>>-- All Types --</option>
                     <?php if($types_res) $types_res->data_seek(0); while($t = $types_res->fetch_assoc()): ?>
                         <option value="<?php echo $t['vehicle_type_id']; ?>" <?php if($filter_vehicle_type_id == $t['vehicle_type_id']) echo 'selected'; ?>><?php echo $t['vehicle_type']; ?></option>
@@ -422,7 +496,7 @@
 
             <div class="form-group">
                 <label>Status</label>
-                <select name="filter_trip_status_id">
+                <select name="filter_trip_status_id" onchange="updateFilterInterdependencies()">
                     <option value="" <?php if(!$filter_trip_status_id) echo 'selected'; ?>>-- All Statuses --</option>
                     <?php if($status_res) $status_res->data_seek(0); while($s = $status_res->fetch_assoc()): ?>
                         <option value="<?php echo $s['trip_status_id']; ?>" <?php if($filter_trip_status_id == $s['trip_status_id']) echo 'selected'; ?>><?php echo $s['trip_status']; ?></option>
@@ -470,7 +544,15 @@
                 params.set('p', 1);
                 const apply = (name) => {
                     const el = modal.querySelector(`[name='${name}']`);
-                    if(el && el.value.trim()) params.set(name, el.value.trim());
+                    if (!el) { params.delete(name); return; }
+                    // If it's a select, ignore if the selected OPTION is disabled
+                    if (el.tagName.toLowerCase() === 'select') {
+                        const selOpt = el.options[el.selectedIndex];
+                        if (!selOpt || !selOpt.value || selOpt.disabled) { params.delete(name); return; }
+                        params.set(name, el.value);
+                        return;
+                    }
+                    if (el.value && el.value.trim()) params.set(name, el.value.trim());
                     else params.delete(name);
                 };
                 apply('filter_driver_id');
@@ -497,7 +579,65 @@
 
             <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
         </div>
+        <!-- init script removed; a global observer below will initialize the modal reliably -->
     </div>
 </template>
+<script>
+// Robust initializer: watch the modal body for injected filter template and initialize it
+(function(){
+    var modalBody = document.getElementById('modal-body');
+    if (!modalBody) return;
+
+    function initFilterModal(modal) {
+        try {
+            // attach change handlers
+            var typeSel = modal.querySelector("select[name='filter_vehicle_type_id']");
+            var statusSel = modal.querySelector("select[name='filter_trip_status_id']");
+            if (typeSel) typeSel.addEventListener('change', updateFilterInterdependencies);
+            if (statusSel) statusSel.addEventListener('change', updateFilterInterdependencies);
+
+            // Ensure disabled/opacity state is applied immediately
+            if (typeof updateFilterInterdependencies === 'function') updateFilterInterdependencies();
+
+            // Defensive: when Apply is clicked ensure updater ran and disabled options won't be used
+            var applyBtn = modal.querySelector('.modal-actions .btn-primary');
+            if (applyBtn) {
+                applyBtn.addEventListener('click', function(){
+                    if (typeof updateFilterInterdependencies === 'function') updateFilterInterdependencies();
+                });
+            }
+        } catch (e) { console.error('initFilterModal error', e); }
+    }
+
+    var observer = new MutationObserver(function(mutations){
+        mutations.forEach(function(m){
+            m.addedNodes.forEach(function(node){
+                if (node.nodeType !== 1) return;
+                if (node.classList && node.classList.contains('filter-search-modal')) {
+                    initFilterModal(node);
+                } else if (node.querySelector) {
+                    var nested = node.querySelector('.filter-search-modal');
+                    if (nested) {
+                        initFilterModal(nested);
+                    }
+                }
+            });
+        });
+    });
+
+    observer.observe(modalBody, { childList: true, subtree: true });
+})();
+
+// Override openModal to ensure filter updater runs
+var origOpenModal = window.openModal;
+window.openModal = function(templateId, title, data, deleteUrl) {
+    origOpenModal.call(this, templateId, title, data, deleteUrl);
+    if (templateId === 'filter-search-template' && typeof updateFilterInterdependencies === 'function') {
+        setTimeout(function(){
+            updateFilterInterdependencies();
+        }, 100);
+    }
+};
+</script>
 </body>
 </html>
