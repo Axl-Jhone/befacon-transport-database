@@ -107,16 +107,23 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-    $(document).ready(function(){
-        var searchTimer;
-        $('#searchInput').on('input', function(){
-            clearTimeout(searchTimer);
-            $('#pInput').val(1);
-            searchTimer = setTimeout(function(){
-                $('#searchForm').submit();
-            }, 500);
+        $(document).ready(function(){
+            var searchTimer;
+            $('#searchInput').on('input', function(){
+                clearTimeout(searchTimer);
+                $('#pInput').val(1);
+                searchTimer = setTimeout(function(){
+                    $('#searchForm').submit();
+                }, 500);
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'error_trips') {
+                openModal('cannot-delete-template', 'Cannot Delete Driver', {message: 'Driver has trip history.'});
+                const cleanUrl = window.location.pathname + '?' + urlParams.toString().replace('&status=error_trips', '').replace('status=error_trips&', '').replace('status=error_trips', '');
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
         });
-    });
     </script>
 </head>
 <body>
@@ -471,6 +478,17 @@
         <div class="delete-actions">
             <button onclick="closeModal()" class="btn-secondary">Cancel</button>
             <a id="confirm-delete-btn" href="#" class="btn-danger">Delete</a>
+        </div>
+    </div>
+</template>
+
+<!-- CANNOT DELETE INFO TEMPLATE -->
+<template id="cannot-delete-template">
+    <div class="delete-warning-box">
+        <h3  class="warning-text">Cannot be deleted</h3>
+        <p data-key="message" class="warning-text"></p>
+        <div class="delete-actions">
+            <button type="button" class="btn-secondary" onclick="closeModal()">OK</button>
         </div>
     </div>
 </template>
