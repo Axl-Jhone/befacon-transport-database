@@ -5,8 +5,10 @@
         </button>
         
         <div class="brand">
-            <img src="/befacon-transport-database/assets/img/login_page/Icon.png" class="avatar" alt="Logo">
-            <span class="brand-text">GoBeFaCon</span>
+            <a href="home.php">
+                <img src="../../assets/img/navbar/logo-nobg.png" class="avatar" alt="Logo">
+                <span class="brand-text">GoBeFaCon</span>
+            </a>
         </div>
 
         <span class="system-view">Driver View</span>
