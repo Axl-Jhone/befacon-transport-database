@@ -153,6 +153,7 @@ body {
     border-collapse: collapse;
     border: none;
     text-align: center;
+    table-layout: fixed;
 }
 
 .table-display td,
@@ -449,3 +450,10 @@ body {
 .stat-card.green { border-bottom: 4px solid #28a745; }
 .stat-card.yellow { border-bottom: 4px solid #ffc107; }
 .stat-card.red { border-bottom: 4px solid #dc3545; }
+
+/* Chrome, Edge, Safari */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+

@@ -382,14 +382,16 @@
         <div class="form-group">
             <label>Contact No.</label>
             <input
-                type="tel"
+                type="text"
                 name="contact_no"
                 data-key="contact"
+                inputmode="numeric"
                 placeholder="09XXXXXXXXX"
                 maxlength="11"
                 inputmode="numeric"
                 pattern="09\d{9}"
                 title="Contact number must be 09 followed by 9 digits (11 digits total)."
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 required>
         </div>
 
