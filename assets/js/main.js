@@ -41,3 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (settingsDropdown) settingsDropdown.style.display = "none";
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // SELECT ALL CELLS — You can change this selector if needed.
+    document.querySelectorAll('.table-display td').forEach(cell => {
+
+        // Detect if ellipsis is applied
+        if (cell.scrollWidth > cell.clientWidth) {
+            cell.setAttribute('title', cell.textContent.trim());
+        }
+    });
+
+});

@@ -206,7 +206,7 @@
                     $displayNum = $offset + $counter;
 
                     $modalData = [
-                        'tripId'        => $row['trip_id'], // Keep real ID for logic
+                        'tripId'        => $row['trip_id'], 
                         'vehicleTypeId' => $row['vehicle_type_id'],
                         'driverId'      => $row['driver_id'],
                         'vehicleId'     => $row['vehicle_id'],
@@ -454,11 +454,11 @@
         <div class="form-row-grid">
             <div class="form-group">
                 <label>Origin</label>
-                <input type="text" name="origin" data-key="origin" maxlength="50" required>
+                <input type="text" name="origin" data-key="origin" maxlength="30" required>
             </div>
             <div class="form-group">
                 <label>Destination</label>
-                <input type="text" name="destination" data-key="destination" maxlength="50" required>
+                <input type="text" name="destination" data-key="destination" maxlength="30" required>
             </div>
         </div>
 
