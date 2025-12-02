@@ -1,4 +1,14 @@
 <?php 
+    
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['admin_id'])) {
+        header("Location: ../login.php");
+        exit();
+    }
+    
     require_once '../../includes/db_connect.php'; 
     include '../../includes/modals/modal_shell.php'; 
 
@@ -9,7 +19,8 @@
         'trips'     => 'trips.php',
         'drivers'   => 'drivers.php',
         'vehicles'  => 'vehicles.php',
-        'about' => 'about.php'
+        'about' => 'about.php',
+        'acc-settings' => 'acc-settings.php'
     ];
 
     $page_key = $_GET['page'] ?? 'dashboard';

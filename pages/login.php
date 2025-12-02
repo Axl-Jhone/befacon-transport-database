@@ -29,7 +29,7 @@
             $_SESSION['user'] = $user['email']; 
             $_SESSION['role'] = $user['role'];  
             $_SESSION['driver_id'] = $user['driver_id'];  
-
+            $_SESSION['admin_id'] = $user['admin_id'];
 
             if ($user['role'] === 'admin') {
                 header('Location: admin-view/home.php');

@@ -162,7 +162,7 @@
             <input type="hidden" name="filter_destination" value="<?php echo htmlspecialchars($filter_destination); ?>">
             <input type="hidden" name="filter_departure" value="<?php echo htmlspecialchars($filter_departure); ?>">
             <input type="hidden" name="filter_arrival" value="<?php echo htmlspecialchars($filter_arrival); ?>">
-            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search..." value="<?php echo htmlspecialchars($q); ?>" maxlength="30">
+            <input type="search" name="q" id="searchInput" class="search form-control" placeholder="Search trips..." value="<?php echo htmlspecialchars($q); ?>" maxlength="30">
         </form>
     </div>
     
@@ -179,7 +179,6 @@
         <colgroup></colgroup>
         <thead>
             <tr>
-                <!-- CHANGED: "Trip ID" to "No." -->
                 <th>Trip No.</th>
                 <th>Driver</th>
                 <th>Vehicle Type</th>
@@ -196,12 +195,10 @@
         <tbody>
             <?php if ($result->num_rows > 0): ?>
                 <?php 
-                    // 1. INIT COUNTER FOR VISUAL NUMBERING
                     $counter = 0;
                 ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                 <?php 
-                    // 2. CALCULATE DISPLAY NUMBER (Offset + current index)
                     $counter++;
                     $displayNum = $offset + $counter;
 

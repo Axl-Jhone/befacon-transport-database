@@ -117,3 +117,32 @@ function setStatusColor(element, status) {
         element.classList.add('badge-danger');  // Red
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Try to find the hidden data div
+    const msgData = document.getElementById('server-message-data');
+
+    // 2. ONLY run if the div exists AND has a message
+    if (msgData) {
+        const messageText = msgData.getAttribute('data-message');
+        const statusClass = msgData.getAttribute('data-status');
+
+        // Extra safety: Check if text is not empty/null
+        if (messageText && messageText.trim() !== "") {
+            
+            // 3. Open the modal
+            if (typeof openModal === 'function') {
+                openModal('status-message-template', 'System Notification');
+            }
+
+            // 4. Inject the text and color
+            const modalBody = document.getElementById('modal-body');
+            const statusBox = modalBody.querySelector('.status-message-box');
+
+            if (statusBox) {
+                statusBox.classList.add(statusClass);
+                statusBox.textContent = messageText;
+            }
+        }
+    }
+});

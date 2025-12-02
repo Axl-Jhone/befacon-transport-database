@@ -1,3 +1,23 @@
+<?php
+    $currentUser_id = $_SESSION['admin_id'];
+
+    $sql = "SELECT admin_fname
+        FROM admin_info 
+        WHERE admin_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $currentUser_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        $fname = $row['admin_fname'];
+    } else {
+        echo "Admin not found.";
+        exit();
+    }
+?>
+
 <header class="navbar">
     <div class="nav-left">
         <button onclick="toggleSideBar()" id="toggle-btn" class="menu-toggle">
@@ -5,15 +25,10 @@
         </button>
         
         <div class="brand">
-<<<<<<< HEAD
-            <img src="/befacon-transport-database/assets/img/login_page/Icon.png" class="avatar" alt="Logo">
-            <span class="brand-text">GoBeFaCon</span>
-=======
             <a href="home.php">
                 <img src="../../assets/img/navbar/logo-nobg.png" alt="Logo">
                 <span class="brand-text">GoBeFaCon</span>
             </a>
->>>>>>> feat/ui-fix
         </div>
 
         <span class="system-view">Admin View</span>
@@ -21,8 +36,10 @@
     
     <div class="nav-right">
         <div class="user-profile">
-            <svg xmlns="http://www.w3.org/2000/svg" height="2.25rem" width="2.25rem" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>            
-            <span class="user-name">Admin Miguel</span>
+            <a href="home.php?page=acc-settings">
+                <svg xmlns="http://www.w3.org/2000/svg" height="2.25rem" width="2.25rem" viewBox="0 -960 960 960" fill="#e3e3e3"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>            
+                <span class="user-name">Admin <?php echo htmlspecialchars($fname) ?></span>
+            </a>
         </div>
 
         <div class="settings-icon">
@@ -31,7 +48,7 @@
             </svg>
 
             <div class="settings-dropdown" id="settingsDropdown">
-                <!-- <a href="/befacon-transport-database/pages/account_settings.php">Account Settings</a> -->
+                <a href="home.php?page=acc-settings">Account Settings</a>
                 <a href="/befacon-transport-database/pages/logout.php">Logout</a>
             </div>
         </div>
