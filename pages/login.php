@@ -54,17 +54,16 @@
     <script defer src="../assets/js/login.js"></script>
 </head>
 <body>
-    <div class = "left-side"></div>
+    <div class="left-side"></div>
 
     <div class="right-side">
 
-        <div class="avatar"></div>
+        <a href="../index.php" class="logo-link" aria-label="Home">
+            <div class="avatar"></div>
+        </a>
         <div class="tagline">Your Partner in motion</div>
 
         <div class="login-box">
-            <div class="back-btn">
-                <a href="../index.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
-            </div>
 
             <h2>Welcome!</h2>
             <p>Please enter your credentials to continue</p>
@@ -85,20 +84,13 @@
                     <img src="../assets/img/login_page/closed.png" id="eyeIcon" class="eye-icon" alt="Toggle password">
                 </div>
 
-
-                <!-- <div class="remember-row">
-                    <div><input type="checkbox" name="remember">Remember me</div>
-                    <a href="#">Forgot Password</a>
-                </div> -->
-
+                <div class="forgot-pass-wrapper">
+                    <a href="#" id="forgotPasswordLink" class="forgot-link">Forgot Password?</a>
+                </div>
+                
                 <button class="login-btn" type="submit">LOGIN</button>
             </form>
         </div>
-<!-- 
-        <div class="footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-        </div> -->
 
     </div>
 

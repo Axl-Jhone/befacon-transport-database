@@ -197,14 +197,14 @@ body {
 }
 
 .password-container input {
-    margin: 6px 0 20px 0;
+    margin: 6px 0 0 0;
     padding-right: 40px;
 }
 
 .password-container .eye-icon {
     position: absolute;
     right: 12px;
-    top: 50%;
+    top: 75%;
     transform: translateY(-78%);
     width: 22px;
     height: 22px;
@@ -220,4 +220,29 @@ body {
     border-radius: 4px;
     font-size: 14px;
     text-align: left;
+}
+
+.logo-link { display: inline-block; text-decoration: none; color: inherit; }
+.logo-link .avatar { cursor: pointer; }
+.logo-link:focus { outline: 2px solid rgba(0,123,255,0.6); outline-offset: 2px; border-radius: 4px; }
+
+
+.forgot-pass-wrapper {
+    width: 100%;
+    text-align: right;   
+    margin-top: 8px;     
+    margin-bottom: 20px; 
+}
+
+.forgot-link {
+    color: #666;         
+    font-size: 14px;      
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: #000;             
+    text-decoration: underline; 
+    cursor: pointer;
 }
