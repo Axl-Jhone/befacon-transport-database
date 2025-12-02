@@ -5,8 +5,15 @@
         </button>
         
         <div class="brand">
+<<<<<<< HEAD
             <img src="/befacon-transport-database/assets/img/login_page/Icon.png" class="avatar" alt="Logo">
             <span class="brand-text">GoBeFaCon</span>
+=======
+            <a href="home.php">
+                <img src="../../assets/img/navbar/logo-nobg.png" alt="Logo">
+                <span class="brand-text">GoBeFaCon</span>
+            </a>
+>>>>>>> feat/ui-fix
         </div>
 
         <span class="system-view">Admin View</span>
