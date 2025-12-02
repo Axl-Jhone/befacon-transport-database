@@ -84,6 +84,54 @@
     $purposes_res = $conn->query("SELECT purpose_id, purpose FROM purpose_data");
     $status_res   = $conn->query("SELECT trip_status_id, trip_status FROM trip_status_data");
 
+    // Build driver capability map and global mappings (vehicle types <-> trip statuses)
+    $driverCapabilities = [];
+    $vehicleTypeToStatuses = [];
+    $statusToVehicleTypes = [];
+    $cap_sql = "SELECT t.driver_id, v.vehicle_type_id, t.trip_status_id FROM trip_info t JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id";
+    $cap_res = $conn->query($cap_sql);
+    if ($cap_res) {
+        while ($cr = $cap_res->fetch_assoc()) {
+            $did = $cr['driver_id'];
+            $vt = (int)$cr['vehicle_type_id'];
+            $ts = (int)$cr['trip_status_id'];
+
+            // Global mapping: vehicle type -> statuses
+            if ($vt) {
+                if (!isset($vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt] = [];
+                if ($ts && !in_array($ts, $vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt][] = $ts;
+            }
+
+            // Global mapping: status -> vehicle types
+            if ($ts) {
+                if (!isset($statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts] = [];
+                if ($vt && !in_array($vt, $statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts][] = $vt;
+            }
+
+            // Per-driver mappings
+            if (!isset($driverCapabilities[$did])) {
+                $driverCapabilities[$did] = [
+                    'vehicle_types' => [],
+                    'trip_statuses' => [],
+                    'by_type_statuses' => [],
+                    'by_status_types' => []
+                ];
+            }
+            if ($vt && !in_array($vt, $driverCapabilities[$did]['vehicle_types'])) $driverCapabilities[$did]['vehicle_types'][] = $vt;
+            if ($ts && !in_array($ts, $driverCapabilities[$did]['trip_statuses'])) $driverCapabilities[$did]['trip_statuses'][] = $ts;
+
+            if ($vt) {
+                if (!isset($driverCapabilities[$did]['by_type_statuses'][$vt])) $driverCapabilities[$did]['by_type_statuses'][$vt] = [];
+                if ($ts && !in_array($ts, $driverCapabilities[$did]['by_type_statuses'][$vt])) $driverCapabilities[$did]['by_type_statuses'][$vt][] = $ts;
+            }
+            if ($ts) {
+                if (!isset($driverCapabilities[$did]['by_status_types'][$ts])) $driverCapabilities[$did]['by_status_types'][$ts] = [];
+                if ($vt && !in_array($vt, $driverCapabilities[$did]['by_status_types'][$ts])) $driverCapabilities[$did]['by_status_types'][$ts][] = $vt;
+            }
+        }
+        $cap_res->free();
+    }
+
     // DATA SELECTION QUERY
     $data = "
         SELECT
@@ -141,13 +189,88 @@
 <!-- CONTENT HEADER -->
 <div class="content-header">
     <div class="filter-search">
-        <button class="filter" title="Filter" onclick="openModal('filter-search-template', 'Filter Trips')">
+        <button class="filter" title="Filter" onclick="(function(){ openModal('filter-search-template', 'Filter Trips'); setTimeout(function(){ updateFilterInterdependencies(); }, 120); })()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#183a59" width="24" height="24">
                 <path d="M440-160q-17 0-28.5-11.5T400-200v-240L168-736q-15-20-4.5-42t36.5-22h560q26 0 36.5 22t-4.5 42L560-440v240q0 17-11.5 28.5T520-160h-80Zm40-308 198-252H282l198 252Zm0 0Z"/>
             </svg>
             <?php if (!empty($activeFilters)): ?>
                 <span class="filter-indicator"><?php echo $activeFilters; ?></span>
             <?php endif; ?>
+    <script>
+    // Driver & global capability mappings generated server-side
+    var driverCapabilities = <?php echo json_encode($driverCapabilities); ?>;
+    var vehicleTypeToStatuses = <?php echo json_encode($vehicleTypeToStatuses); ?>;
+    var statusToVehicleTypes = <?php echo json_encode($statusToVehicleTypes); ?>;
+
+    function intersect(arrA, arrB) {
+        if (!Array.isArray(arrA) || !Array.isArray(arrB)) return [];
+        var setB = new Set(arrB.map(String));
+        return arrA.map(String).filter(function(x){ return setB.has(x); });
+    }
+
+    // Update vehicle type and status select options based on current driver/type/status selections
+    function updateFilterInterdependencies() {
+        var modal = document.querySelector('.filter-search-modal');
+        if (!modal) return;
+
+        var driverSel = modal.querySelector("select[name='filter_driver_id']");
+        var typeSel = modal.querySelector("select[name='filter_vehicle_type_id']");
+        var statusSel = modal.querySelector("select[name='filter_trip_status_id']");
+        if (!typeSel || !statusSel) return;
+
+        var driverId = driverSel ? driverSel.value : '';
+        var typeId = typeSel.value || '';
+        var statusId = statusSel.value || '';
+
+        var allowedTypes = null; // null means all
+        var allowedStatuses = null;
+
+        // Start from driver-specific allowances if driver selected
+        if (driverId && driverCapabilities[driverId]) {
+            var caps = driverCapabilities[driverId];
+            allowedTypes = (caps.vehicle_types || []).map(String);
+            allowedStatuses = (caps.trip_statuses || []).map(String);
+        }
+
+        // Narrow statuses by vehicle type selection
+        if (typeId) {
+            var globalStatuses = vehicleTypeToStatuses[typeId] ? vehicleTypeToStatuses[typeId].map(String) : [];
+            var driverByType = (driverId && driverCapabilities[driverId] && driverCapabilities[driverId]['by_type_statuses'] && driverCapabilities[driverId]['by_type_statuses'][typeId]) ? driverCapabilities[driverId]['by_type_statuses'][typeId].map(String) : null;
+            var statusesForType = driverByType !== null ? driverByType : globalStatuses;
+            if (allowedStatuses === null) allowedStatuses = statusesForType.slice();
+            else allowedStatuses = intersect(allowedStatuses, statusesForType);
+        }
+
+        // Narrow types by status selection
+        if (statusId) {
+            var globalTypes = statusToVehicleTypes[statusId] ? statusToVehicleTypes[statusId].map(String) : [];
+            var driverByStatus = (driverId && driverCapabilities[driverId] && driverCapabilities[driverId]['by_status_types'] && driverCapabilities[driverId]['by_status_types'][statusId]) ? driverCapabilities[driverId]['by_status_types'][statusId].map(String) : null;
+            var typesForStatus = driverByStatus !== null ? driverByStatus : globalTypes;
+            if (allowedTypes === null) allowedTypes = typesForStatus.slice();
+            else allowedTypes = intersect(allowedTypes, typesForStatus);
+        }
+
+        // If still null, interpret as allow all (don't disable any)
+        // Apply to DOM: disable options not in allowed sets
+        Array.from(typeSel.options).forEach(function(opt){
+            if (!opt.value) { opt.disabled = false; opt.style.opacity = ''; return; }
+            var val = String(opt.value);
+            if (allowedTypes === null) { opt.disabled = false; opt.style.opacity = ''; }
+            else if (allowedTypes.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else if (allowedTypes.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else { opt.disabled = false; opt.style.opacity = ''; }
+        });
+
+        Array.from(statusSel.options).forEach(function(opt){
+            if (!opt.value) { opt.disabled = false; opt.style.opacity = ''; return; }
+            var val = String(opt.value);
+            if (allowedStatuses === null) { opt.disabled = false; opt.style.opacity = ''; }
+            else if (allowedStatuses.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else if (allowedStatuses.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else { opt.disabled = false; opt.style.opacity = ''; }
+        });
+    }
+    </script>
         </button>
 
         <form id="searchForm" method="GET" action="">
@@ -541,7 +664,7 @@
     <div class="filter-search-modal styled-form">
         <div class="form-group">
             <label>Driver</label>
-            <select name="filter_driver_id">
+            <select name="filter_driver_id" onchange="updateFilterInterdependencies()">
                 <option value="" <?php if(!$filter_driver_id) echo 'selected'; ?>>-- All Drivers --</option>
                 <?php if($drivers_res) $drivers_res->data_seek(0); while($d = $drivers_res->fetch_assoc()): ?>
                     <option value="<?php echo $d['driver_id']; ?>" <?php if($filter_driver_id == $d['driver_id']) echo 'selected'; ?>><?php echo $d['full_name']; ?></option>
@@ -552,7 +675,7 @@
         <div class="form-row-grid">
             <div class="form-group">
                 <label>Vehicle Type</label>
-                <select name="filter_vehicle_type_id">
+                <select name="filter_vehicle_type_id" onchange="updateFilterInterdependencies()">
                     <option value="" <?php if(!$filter_vehicle_type_id) echo 'selected'; ?>>-- All Types --</option>
                     <?php if($types_res) $types_res->data_seek(0); while($t = $types_res->fetch_assoc()): ?>
                         <option value="<?php echo $t['vehicle_type_id']; ?>" <?php if($filter_vehicle_type_id == $t['vehicle_type_id']) echo 'selected'; ?>><?php echo $t['vehicle_type']; ?></option>
@@ -562,7 +685,7 @@
 
             <div class="form-group">
                 <label>Status</label>
-                <select name="filter_trip_status_id">
+                <select name="filter_trip_status_id" onchange="updateFilterInterdependencies()">
                     <option value="" <?php if(!$filter_trip_status_id) echo 'selected'; ?>>-- All Statuses --</option>
                     <?php if($status_res) $status_res->data_seek(0); while($s = $status_res->fetch_assoc()): ?>
                         <option value="<?php echo $s['trip_status_id']; ?>" <?php if($filter_trip_status_id == $s['trip_status_id']) echo 'selected'; ?>><?php echo $s['trip_status']; ?></option>
@@ -610,7 +733,10 @@
                 params.set('p', 1);
                 const apply = (name) => {
                     const el = modal.querySelector(`[name='${name}']`);
-                    if(el && el.value.trim()) params.set(name, el.value.trim());
+                    if (!el) { params.delete(name); return; }
+                    // If option was disabled by interdependency logic, do not submit it
+                    if (el.disabled) { params.delete(name); return; }
+                    if (el.value && el.value.toString().trim()) params.set(name, el.value.toString().trim());
                     else params.delete(name);
                 };
                 apply('filter_driver_id');
