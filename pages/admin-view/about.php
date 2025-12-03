@@ -1,6 +1,3 @@
-<?php 
-
-?>
 <div class="about-us">  
     <div class="about-top">
         <h1>ABOUT US</h1>

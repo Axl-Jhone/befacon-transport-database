@@ -27,6 +27,7 @@
     line-height: 1;
     padding: 5px;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .menu-toggle:hover {
@@ -79,15 +80,25 @@
     padding: 3px 8px;
     border-radius: 4px;
     transition: background 0.2s;
+    cursor: pointer;
 }
 
-/* .user-profile:hover {
+.user-profile a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.user-profile:hover {
     background-color: #163047;
-} */
+}
 
 .user-name {
     font-size: 1.25rem;
     line-height: 1;
+    margin-right:4px;
 }
 
 .settings-icon {
@@ -99,14 +110,11 @@
     padding: 3px 0;
     border-radius: 4px;
     transition: background 0.2s;
+    cursor: pointer;
 }
 
 .settings-icon:hover {
     background-color: #163047;
-}
-
-.menu-toggle, .settings-icon {
-    cursor: pointer;
 }
 
 .settings-icon {
@@ -120,7 +128,7 @@
     top: 35px;
     background: white;
     border-radius: 6px;
-    padding: 10px 0;
+    padding: 5px;
     width: 180px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     display: none; /* hidden by default */
@@ -136,5 +144,6 @@
 }
 
 .settings-dropdown a:hover {
-    background: #51ceea;
+    background: #b8b8b8;
+    border-radius: 6px;
 }

@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
     // SELECT ALL CELLS — You can change this selector if needed.
-    document.querySelectorAll('.table-display td').forEach(cell => {
+    document.querySelectorAll('.t-info').forEach(cell => {
 
         // Detect if ellipsis is applied
         if (cell.scrollWidth > cell.clientWidth) {
@@ -54,3 +54,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+function validatePasswordForm(event) {
+    const form = event.target;
+    // Get values
+    const newPass = form.querySelector('[name="new_password"]').value;
+    const confirmPass = form.querySelector('[name="confirm_password"]').value;
+
+    // Check match
+    if (newPass !== confirmPass) {
+        alert("Error: New passwords do not match!");
+        event.preventDefault(); // Stop submission
+        return false;
+    }
+    return true;
+}
+
+// Place this in your main.js file
+function toggleModalPassword(imgElement) {
+    // 1. Find the parent wrapper of the icon we clicked
+    const wrapper = imgElement.parentElement;
+    
+    // 2. Find the input field inside that same wrapper
+    const passwordField = wrapper.querySelector('input');
+
+    // 3. Reuse your logic to swap Type and Image Source
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        // NOTE: Check if you need '../' or '../../' depending on your folder depth
+        imgElement.src = "../../assets/img/login_page/open.png"; 
+    } else {
+        passwordField.type = "password";
+        imgElement.src = "../../assets/img/login_page/closed.png";
+    }
+}
