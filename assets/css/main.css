@@ -166,7 +166,7 @@ body {
     vertical-align: middle;
 }
 
-.table-display td {
+.table-display td{
     white-space: nowrap;       
     overflow: hidden;          
     text-overflow: ellipsis;   
@@ -636,7 +636,7 @@ input {
     position: absolute;
     right: 10px;
     top: 50%;
-    transform: translateY(-150%);
+    transform: translateY(-100%);
     cursor: pointer;
     width: 20px; /* Adjust size as needed */
     height: auto;

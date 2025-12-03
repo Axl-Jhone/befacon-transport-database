@@ -20,9 +20,7 @@ if (!isset($_SESSION['admin_id'])) {
 $current_admin_id = $_SESSION['admin_id']; 
 
 try {
-    // ==========================================
-    // LOGIC 1: UPDATE EMAIL
-    // ==========================================
+    // email
     if (isset($_POST['update_email'])) {
         $new_email = trim($_POST['new_email']);
         $current_password = $_POST['current_password'];
@@ -33,7 +31,7 @@ try {
         $stmt->execute();
         $user = $stmt->get_result()->fetch_assoc();
 
-        if (!$user || $current_password !== $user['passcode']) {
+        if (!$user || $current_password !== $user['current_password']) {
             $_SESSION['status'] = "error";
             $_SESSION['message'] = "Incorrect password. Email was not updated.";
             header("Location: " . $redirect_url);
@@ -65,9 +63,7 @@ try {
         }
     }
 
-    // ==========================================
-    // LOGIC 2: UPDATE PASSWORD
-    // ==========================================
+    // Password
     elseif (isset($_POST['update_pass'])) {
         $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];

@@ -235,9 +235,9 @@
 
                 <tr>
                     <!-- 3. DISPLAY VISUAL NUMBER -->
-                    <td><?php echo $displayNum; ?></td>
-                    <td><?php echo $row['driver_name']; ?></td>
-                    <td><?php echo $row['vehicle_type']; ?></td>
+                    <td class="t-info"><?php echo $displayNum; ?></td>
+                    <td class="t-info"><?php echo $row['driver_name']; ?></td>
+                    <td class="t-info"><?php echo $row['vehicle_type']; ?></td>
                     <td><?php echo $row['plate_no']; ?></td>
                     <td><?php echo $row['origin']; ?></td>
                     <td><?php echo $row['destination']; ?></td>

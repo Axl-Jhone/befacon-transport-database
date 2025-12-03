@@ -137,7 +137,7 @@
             <div class="password-modal">
                 <input type="password" name="confirm_password" required class="modal-input">
                 <img src="../../assets/img/login_page/closed.png" 
-                     class="password-toggle-icon" 
+                     class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"
                      alt="toggle password">
             </div>
@@ -156,7 +156,7 @@
             <div class="password-modal">
                 <input type="password" name="current_password" required class="modal-input">
                 <img src="../../assets/img/login_page/closed.png" 
-                     class="password-toggle-icon" 
+                     class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)" 
                      alt="toggle password">
             </div>
@@ -169,7 +169,7 @@
             <div class="password-modal">
                 <input type="password" name="new_password" required class="modal-input">
                 <img src="../../assets/img/login_page/closed.png" 
-                     class="password-toggle-icon" 
+                     class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"
                      alt="toggle password">
             </div>
@@ -180,7 +180,7 @@
             <div class="password-modal">
                 <input type="password" name="confirm_password" required class="modal-input">
                 <img src="../../assets/img/login_page/closed.png" 
-                     class="password-toggle-icon" 
+                     class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"
                      alt="toggle password">
             </div>
