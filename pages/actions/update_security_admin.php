@@ -84,7 +84,7 @@ try {
 
         if (!$user || $current_password !== $user['passcode']) {
             $_SESSION['status'] = "error";
-            $_SESSION['message'] = "The Current Password you entered is incorrect.";
+            $_SESSION['message'] = "The current password you entered is incorrect.";
             header("Location: " . $redirect_url);
             exit();
         }

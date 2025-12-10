@@ -1,9 +1,12 @@
 <?php
     $currentUser_id = $_SESSION['driver_id'];
+    $triggerModal = false;
+    $msgContent = '';
+    $statusClass = '';
 
     $sql = "SELECT d.*, u.email, u.passcode 
         FROM driver_info d 
-        JOIN user_login u ON d.driver_id = u.admin_id 
+        JOIN user_login u ON d.driver_id = u.driver_id 
         WHERE d.driver_id = ?";
 
     $stmt = $conn->prepare($sql);
@@ -12,16 +15,31 @@
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        $lname = $row['driver_fname'];
+        $lname = $row['driver_lname'];
         $fname = $row['driver_fname'];
         $mi    = $row['driver_mi'];
         $bday  = $row['birthdate'];
         $sex   = $row['driver_sex'];
         $email = $row['email'];
         $pass = $row['passcode'];
+        $contact = $row['contact_no'];
     } else {
         echo "Driver not found.";
         exit();
+    }
+
+    if (isset($_SESSION['message'])) {
+        $triggerModal = true;
+        $msgContent = $_SESSION['message'];
+        
+        if ($_SESSION['status'] == 'success') {
+            $statusClass = 'status-success';
+        } else {
+            $statusClass = 'status-error';
+        }
+        
+        // Clear session so it doesn't pop up again on refresh
+        unset($_SESSION['status'], $_SESSION['message']);
     }
 ?>
 
@@ -52,6 +70,10 @@
                     <label>Sex</label>
                     <input type="text" value=<?php echo htmlspecialchars($sex) ?> readonly>
                 </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" value=<?php echo htmlspecialchars($contact) ?> readonly>
+                </div>
             </div>
 
             <hr>
@@ -62,27 +84,32 @@
                 <label>Email Address</label>
                 <div class="input-group">
                     <input type="email" value="<?php echo htmlspecialchars($email); ?>" readonly>
-                    
+<!--                     
                     <button type="button" 
                             class="btn-edit" 
                             onclick="openModal('email-security-template', 'Change Email Address')">
                         Change Email
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
             <div class="form-group full-width">
                 <label>Password</label>
                 <div class="input-group">
-                    <input type="password" value="********" readonly> 
-                    
+                    <div class="password-wrapper">
+                        <input type="password" value="<?php echo htmlspecialchars($pass); ?>" readonly>       
+                        <img src="../../assets/img/login_page/closed.png" 
+                            class="password-toggle-icon" 
+                            onclick="toggleModalPassword(this)" 
+                            alt="toggle password">
+                    </div>
                     <button type="button" 
                             class="btn-edit" 
                             onclick="openModal('password-security-template', 'Change Password')">
                         Change Password
                     </button>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -104,7 +131,7 @@
     </div>
 </div>
 
-<template id="email-security-template">
+<!-- <template id="email-security-template">
     <form action="../actions/update_security.php" method="POST" onsubmit="validatePasswordForm(event)">
         <div class="form-group modal-input">
             <label>New Email Address</label>
@@ -118,46 +145,64 @@
             <button type="submit" name="update_email" class="btn-primary">Update Email</button>
         </div>
     </form>
-</template>
+</template> -->
 
 <template id="password-security-template">
-    <form action="../actions/update_security.php" method="POST" >
+    <form action="../actions/update_security_driver.php" method="POST">
+        
         <div class="form-group modal-input">
             <label>Current Password</label>
-            <input type="password" name="current_password" required placeholder="Enter old password" class="modal-input">
+            <div class="password-modal">
+                <input type="password" name="current_password" required class="modal-input" maxlength="30">
+                <img src="../../assets/img/login_page/closed.png" 
+                     class="password-modal-toggle-icon" 
+                     onclick="toggleModalPassword(this)" 
+                     alt="toggle password">
+            </div>
         </div>
+
         <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+
         <div class="form-group modal-input">
             <label>New Password</label>
-            <input type="password" name="new_password" required placeholder="Enter new password" class="modal-input">
+            <div class="password-modal">
+                <input type="password" name="new_password" required class="modal-input" maxlength="30">
+                <img src="../../assets/img/login_page/closed.png" 
+                     class="password-modal-toggle-icon" 
+                     onclick="toggleModalPassword(this)"
+                     alt="toggle password">
+            </div>
         </div>
+
         <div class="form-group modal-input">
             <label>Confirm New Password</label>
-            <input type="password" name="confirm_password" required placeholder="Retype new password" class="modal-input">
+            <div class="password-modal">
+                <input type="password" name="confirm_password" required class="modal-input" maxlength="30">
+                <img src="../../assets/img/login_page/closed.png" 
+                     class="password-modal-toggle-icon" 
+                     onclick="toggleModalPassword(this)"
+                     alt="toggle password">
+            </div>
         </div>
+
         <div class="modal-actions">
             <button type="submit" name="update_pass" class="btn-primary">Change Password</button>
         </div>
     </form>
 </template>
 
-<?php if (isset($_SESSION['message'])): ?>
-    <div style="
-        padding: 15px; 
-        margin: 20px auto; 
-        width: 90%;
-        max-width: 800px;
-        border-radius: 5px; 
-        font-family: sans-serif;
-        font-weight: bold;
-        text-align: center;
-        background-color: <?php echo $_SESSION['status'] == 'success' ? '#d4edda' : '#f8d7da'; ?>; 
-        color: <?php echo $_SESSION['status'] == 'success' ? '#155724' : '#721c24'; ?>; 
-        border: 1px solid <?php echo $_SESSION['status'] == 'success' ? '#c3e6cb' : '#f5c6cb'; ?>;">
-        
-        <?php echo $_SESSION['message']; ?>
-        
+<template id="status-message-template">
+    <div class="status-modal-content">
+        <div class="status-message-box <?php echo $triggerModal ? $statusClass : ''; ?>">
+            <?php echo $triggerModal ? $msgContent : ''; ?>
+        </div>
     </div>
-    
-    <?php unset($_SESSION['status'], $_SESSION['message']); ?>
+</template>
+
+<?php if ($triggerModal): ?>
+    <div id="server-message-data" 
+         style="display:none;" 
+         data-status="<?php echo $statusClass; ?>" 
+         data-message="<?php echo htmlspecialchars($msgContent); ?>">
+    </div>
 <?php endif; ?>

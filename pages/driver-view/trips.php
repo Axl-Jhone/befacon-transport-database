@@ -1,6 +1,9 @@
 <?php
 
-   // PAGINATION LOGIC
+    // Get current driver ID from session first
+    $current_driver_id = $_SESSION['driver_id'];
+
+    // PAGINATION LOGIC
     $current_route = isset($_GET['page']) ? $_GET['page'] : '';
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
     $curr_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
@@ -86,12 +89,14 @@
     $purposes_res = $conn->query("SELECT purpose_id, purpose FROM purpose_data");
     $status_res   = $conn->query("SELECT trip_status_id, trip_status FROM trip_status_data");
 
-    $current_driver_id = $_SESSION['driver_id'];
-
-    // For driver-view: build mappings (vehicle type -> statuses) and (status -> vehicle types)
+    // For driver-view: build mappings (vehicle type <-> statuses <-> purposes)
     $vehicleTypeToStatuses = [];
     $statusToVehicleTypes = [];
-    $cap_sql = "SELECT v.vehicle_type_id, t.trip_status_id FROM trip_info t JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id WHERE t.driver_id = ?";
+    $vehicleTypeToPurposes = [];
+    $purposeToVehicleTypes = [];
+    $statusToPurposes = [];
+    $purposeToStatuses = [];
+    $cap_sql = "SELECT v.vehicle_type_id, t.trip_status_id, t.purpose_id FROM trip_info t JOIN vehicle_info v ON t.vehicle_id = v.vehicle_id WHERE t.driver_id = ?";
     $stmtCap = $conn->prepare($cap_sql);
     if ($stmtCap) {
         $stmtCap->bind_param('i', $current_driver_id);
@@ -100,6 +105,8 @@
             while ($r = $resCap->fetch_assoc()) {
                 $vt = (int)$r['vehicle_type_id'];
                 $ts = (int)$r['trip_status_id'];
+                $p = (int)$r['purpose_id'];
+                
                 if ($vt) {
                     if (!isset($vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt] = [];
                     if ($ts && !in_array($ts, $vehicleTypeToStatuses[$vt])) $vehicleTypeToStatuses[$vt][] = $ts;
@@ -107,6 +114,24 @@
                 if ($ts) {
                     if (!isset($statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts] = [];
                     if ($vt && !in_array($vt, $statusToVehicleTypes[$ts])) $statusToVehicleTypes[$ts][] = $vt;
+                }
+                
+                if ($vt) {
+                    if (!isset($vehicleTypeToPurposes[$vt])) $vehicleTypeToPurposes[$vt] = [];
+                    if ($p && !in_array($p, $vehicleTypeToPurposes[$vt])) $vehicleTypeToPurposes[$vt][] = $p;
+                }
+                if ($p) {
+                    if (!isset($purposeToVehicleTypes[$p])) $purposeToVehicleTypes[$p] = [];
+                    if ($vt && !in_array($vt, $purposeToVehicleTypes[$p])) $purposeToVehicleTypes[$p][] = $vt;
+                }
+                
+                if ($ts) {
+                    if (!isset($statusToPurposes[$ts])) $statusToPurposes[$ts] = [];
+                    if ($p && !in_array($p, $statusToPurposes[$ts])) $statusToPurposes[$ts][] = $p;
+                }
+                if ($p) {
+                    if (!isset($purposeToStatuses[$p])) $purposeToStatuses[$p] = [];
+                    if ($ts && !in_array($ts, $purposeToStatuses[$p])) $purposeToStatuses[$p][] = $ts;
                 }
             }
             $resCap->free();
@@ -169,6 +194,10 @@
     // Mappings built server-side for this driver
     var vehicleTypeToStatuses = <?php echo json_encode($vehicleTypeToStatuses); ?>;
     var statusToVehicleTypes = <?php echo json_encode($statusToVehicleTypes); ?>;
+    var vehicleTypeToPurposes = <?php echo json_encode($vehicleTypeToPurposes); ?>;
+    var purposeToVehicleTypes = <?php echo json_encode($purposeToVehicleTypes); ?>;
+    var statusToPurposes = <?php echo json_encode($statusToPurposes); ?>;
+    var purposeToStatuses = <?php echo json_encode($purposeToStatuses); ?>;
 
     function intersect(arrA, arrB) {
         if (!Array.isArray(arrA) || !Array.isArray(arrB)) return [];
@@ -181,27 +210,49 @@
         if (!modal) return;
         var typeSel = modal.querySelector("select[name='filter_vehicle_type_id']");
         var statusSel = modal.querySelector("select[name='filter_trip_status_id']");
-        if (!typeSel || !statusSel) return;
+        var purposeSel = modal.querySelector("select[name='filter_purpose_id']");
+        if (!typeSel || !statusSel || !purposeSel) return;
 
         var typeId = typeSel.value || '';
         var statusId = statusSel.value || '';
+        var purposeId = purposeSel.value || '';
 
         var allowedTypes = null;
         var allowedStatuses = null;
+        var allowedPurposes = null;
 
-        // If BOTH are empty, show only what this driver has historically used
-        if (!typeId && !statusId) {
-            // Collect all vehicle types and statuses this driver has used
+        // If ALL are empty, show only what this driver has historically used
+        if (!typeId && !statusId && !purposeId) {
+            // Collect all vehicle types, statuses, and purposes this driver has used
             var allUsedTypes = Object.keys(vehicleTypeToStatuses).map(String);
             var allUsedStatuses = Object.keys(statusToVehicleTypes).map(String);
+            var allUsedPurposes = Object.keys(purposeToStatuses).map(String);
             allowedTypes = allUsedTypes.length > 0 ? allUsedTypes : null;
             allowedStatuses = allUsedStatuses.length > 0 ? allUsedStatuses : null;
-        } else if (typeId) {
-            var globalStatuses = vehicleTypeToStatuses[typeId] ? vehicleTypeToStatuses[typeId].map(String) : [];
-            allowedStatuses = globalStatuses;
-        } else if (statusId) {
-            var globalTypes = statusToVehicleTypes[statusId] ? statusToVehicleTypes[statusId].map(String) : [];
-            allowedTypes = globalTypes;
+            allowedPurposes = allUsedPurposes.length > 0 ? allUsedPurposes : null;
+        } else {
+            if (typeId) {
+                var globalStatuses = vehicleTypeToStatuses[typeId] ? vehicleTypeToStatuses[typeId].map(String) : [];
+                allowedStatuses = globalStatuses;
+                var globalPurposes = vehicleTypeToPurposes[typeId] ? vehicleTypeToPurposes[typeId].map(String) : [];
+                allowedPurposes = globalPurposes;
+            }
+            if (statusId) {
+                var globalTypes = statusToVehicleTypes[statusId] ? statusToVehicleTypes[statusId].map(String) : [];
+                if (allowedTypes === null) allowedTypes = globalTypes;
+                else allowedTypes = intersect(allowedTypes, globalTypes);
+                var globalPurposes = statusToPurposes[statusId] ? statusToPurposes[statusId].map(String) : [];
+                if (allowedPurposes === null) allowedPurposes = globalPurposes;
+                else allowedPurposes = intersect(allowedPurposes, globalPurposes);
+            }
+            if (purposeId) {
+                var globalTypes = purposeToVehicleTypes[purposeId] ? purposeToVehicleTypes[purposeId].map(String) : [];
+                if (allowedTypes === null) allowedTypes = globalTypes;
+                else allowedTypes = intersect(allowedTypes, globalTypes);
+                var globalStatuses = purposeToStatuses[purposeId] ? purposeToStatuses[purposeId].map(String) : [];
+                if (allowedStatuses === null) allowedStatuses = globalStatuses;
+                else allowedStatuses = intersect(allowedStatuses, globalStatuses);
+            }
         }
 
         Array.from(typeSel.options).forEach(function(opt){
@@ -219,6 +270,15 @@
             if (allowedStatuses === null) { opt.disabled = false; opt.style.opacity = ''; }
             else if (allowedStatuses.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
             else if (allowedStatuses.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else { opt.disabled = false; opt.style.opacity = ''; }
+        });
+
+        Array.from(purposeSel.options).forEach(function(opt){
+            if (!opt.value) { opt.disabled = false; opt.style.opacity = ''; return; }
+            var val = String(opt.value);
+            if (allowedPurposes === null) { opt.disabled = false; opt.style.opacity = ''; }
+            else if (allowedPurposes.length === 0) { opt.disabled = true; opt.style.opacity = '0.5'; }
+            else if (allowedPurposes.indexOf(val) === -1) { opt.disabled = true; opt.style.opacity = '0.5'; }
             else { opt.disabled = false; opt.style.opacity = ''; }
         });
     }
@@ -507,7 +567,7 @@
 
         <div class="form-group">
             <label>Purpose</label>
-            <select name="filter_purpose_id">
+            <select name="filter_purpose_id" onchange="updateFilterInterdependencies()">
                 <option value="" <?php if(!$filter_purpose_id) echo 'selected'; ?>>-- All Purposes --</option>
                 <?php if($purposes_res) $purposes_res->data_seek(0); while($p = $purposes_res->fetch_assoc()): ?>
                     <option value="<?php echo $p['purpose_id']; ?>" <?php if($filter_purpose_id == $p['purpose_id']) echo 'selected'; ?>><?php echo $p['purpose']; ?></option>

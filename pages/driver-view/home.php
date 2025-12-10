@@ -12,9 +12,8 @@
         // NOT this main layout file (which should be named home.php or index.php)
         'dashboard' => 'dashboard.php', 
         'trips'     => 'trips.php',
-        'drivers'   => 'drivers.php',
-        'vehicles'  => 'vehicles.php',
-        'about' => 'about.php'
+        'about' => 'about.php',
+        'acc-settings' => 'acc-settings.php'
     ];
 
     $page_key = $_GET['page'] ?? 'dashboard';

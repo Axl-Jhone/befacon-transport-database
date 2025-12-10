@@ -127,15 +127,15 @@
 </div>
 
 <template id="email-security-template">
-    <form action="../actions/update_security.php" method="POST" onsubmit="validatePasswordForm(event)">
+    <form action="../actions/update_security_admin.php" method="POST" onsubmit="validatePasswordForm(event)">
         <div class="form-group modal-input">
             <label>New Email Address</label>
-            <input type="email" name="new_email" required placeholder="Enter new email" class="modal-input">
+            <input type="email" name="new_email" required placeholder="Enter new email" class="modal-input" maxlength="50">
         </div>
         <div class="form-group modal-input">
             <label>Current Password</label>
             <div class="password-modal">
-                <input type="password" name="confirm_password" required class="modal-input">
+                <input type="password" name="confirm_password" required class="modal-input" maxlength="30">
                 <img src="../../assets/img/login_page/closed.png" 
                      class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"
@@ -149,12 +149,12 @@
 </template>
 
 <template id="password-security-template">
-    <form action="../actions/update_security.php" method="POST">
+    <form action="../actions/update_security_admin.php" method="POST">
         
         <div class="form-group modal-input">
             <label>Current Password</label>
             <div class="password-modal">
-                <input type="password" name="current_password" required class="modal-input">
+                <input type="password" name="current_password" required class="modal-input" maxlength="30">
                 <img src="../../assets/img/login_page/closed.png" 
                      class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)" 
@@ -167,7 +167,7 @@
         <div class="form-group modal-input">
             <label>New Password</label>
             <div class="password-modal">
-                <input type="password" name="new_password" required class="modal-input">
+                <input type="password" name="new_password" required class="modal-input" maxlength="30">
                 <img src="../../assets/img/login_page/closed.png" 
                      class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"
@@ -178,7 +178,7 @@
         <div class="form-group modal-input">
             <label>Confirm New Password</label>
             <div class="password-modal">
-                <input type="password" name="confirm_password" required class="modal-input">
+                <input type="password" name="confirm_password" required class="modal-input" maxlength="30">
                 <img src="../../assets/img/login_page/closed.png" 
                      class="password-modal-toggle-icon" 
                      onclick="toggleModalPassword(this)"

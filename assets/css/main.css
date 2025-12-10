@@ -259,7 +259,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
+    height: 100%;
+    border: 1px solid black;
 }
 
 .about-top {
@@ -269,6 +270,12 @@ body {
     align-items: center;
     gap: 20px;
 }
+
+.about-top img {
+    width: 700px;
+    height: auto;
+}
+
 
 .about-top h1 {
     color: var(--bg-navbar);

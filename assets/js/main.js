@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
     // SELECT ALL CELLS — You can change this selector if needed.
-    document.querySelectorAll('.t-info').forEach(cell => {
+    document.querySelectorAll('.table-display td').forEach(cell => {
 
         // Detect if ellipsis is applied
         if (cell.scrollWidth > cell.clientWidth) {
